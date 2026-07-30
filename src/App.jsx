@@ -4,6 +4,8 @@ import Header from "./components/Header.jsx"
 import Body from "./components/Body.jsx"
 import Footer from "./components/Footer.jsx"
 
+import SnakeGame from "./games/snakeGame/snakeGame.jsx"
+
 function App() {
 
   return (
@@ -11,8 +13,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/home" element={<Body />}/>
+        <Route path="/game" element={<SnakeGame />} />
       </Routes>
-      <Footer />
     </>
   );
   
