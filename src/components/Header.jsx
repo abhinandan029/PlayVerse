@@ -5,7 +5,7 @@ function Header() {
 
   return (
     <div 
-    className="flex gap-2 border-none rounded-xl py-2 px-4 justify-between items-center bg-white/10 m-2 backdrop-filter-xs sticky top-2 left-0 right-0">
+    className="flex gap-2 border-none rounded-xl py-2 px-4 justify-between items-center bg-white/20 m-2 backdrop-blur-xs sticky top-2 left-0 right-0">
       
       <span className="text-[30px] font-mono font-bold text-white">PlayVerse</span>
       
