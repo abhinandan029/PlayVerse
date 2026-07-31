@@ -3,11 +3,13 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import GameBoard from "../UI/GameBoard.jsx"
 import ScoreBoard from "../UI/scoreBoard.jsx"
 import Buttons from "../UI/buttons.jsx"
+// import LeaderBoard from "../UI/leaderBoard.jsx"
 
-const GRID_WIDTH = 45;
+const GAME_NAME = "Snake Game"
+const GRID_WIDTH = 45
 const GRID_HEIGHT = 34
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
-const INITIAL_HEAD = [700]
+const INITIAL_HEAD = [Math.floor(Math.random() * GRID_SIZE)]
 const INITIAL_FOOD = randomEmptyCell(INITIAL_HEAD)
 
 function randomEmptyCell(occupied){
@@ -81,6 +83,7 @@ function SnakeGame(){
 
         if(prevSnake.includes(newHead)){
           setGameOver(true);
+          setPlaying(false);
           return prevSnake;
         }
         
@@ -122,7 +125,7 @@ function SnakeGame(){
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
               let color = "bg-black"
               if(snake.includes(index)) color = "bg-green-700";
-              else if(index === food) color = "bg-orange-500";
+              else if(index === food) color = "bg-orange-500 rounded-xl";
 
               return <div className={`h-5 w-5 rounded-md ${color}`} key={index}></div>
             })
@@ -130,10 +133,10 @@ function SnakeGame(){
         </div>
       </GameBoard>
 
-      <div className="flex flex-col basis-1/3 m-2 items-center">
+      <div className="flex flex-col basis-1/3 m-2 items-center border border-white rounded-md">
         
-        <ScoreBoard score={score}/>
-        <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}/>
+        <ScoreBoard score={score} name={GAME_NAME} />
+        <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} />
 
       </div>
 
