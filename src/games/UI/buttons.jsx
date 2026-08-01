@@ -10,7 +10,6 @@ function Buttons({setPlaying, playing, gameOver, restart}){
         
         <button 
         className="text-black text-[20px] px-4 rounded-md bg-blue-500 cursor-pointer hover:scale-[1.05] transition-all duration-300 ease-in-out focus:outline-none"
-        disable={gameOver === true}
         onClick={() => setPlaying(false)}>
           Pause
         </button> :

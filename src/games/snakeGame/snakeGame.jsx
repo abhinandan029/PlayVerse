@@ -119,12 +119,13 @@ function SnakeGame(){
     <div className="flex">
       <GameBoard >
         <div 
-          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black"
+          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-white/10 rounded-md"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
-              let color = "bg-black"
-              if(snake.includes(index)) color = "bg-green-700";
+              let color = "bg-black/20"
+              if( index === snake[0]) color = "bg-green-300 border"
+              else if(snake.includes(index)) color = "bg-green-700";
               else if(index === food) color = "bg-orange-500 rounded-xl";
 
               return <div className={`h-5 w-5 rounded-md ${color}`} key={index}></div>
@@ -133,7 +134,7 @@ function SnakeGame(){
         </div>
       </GameBoard>
 
-      <div className="flex flex-col basis-1/3 m-2 items-center border border-white rounded-md">
+      <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
         
         <ScoreBoard score={score} name={GAME_NAME} />
         <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} />
