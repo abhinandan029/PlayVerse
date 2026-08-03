@@ -1,6 +1,8 @@
 import{ useState, useEffect, useRef } from 'react'
 
 import GameBoard from "../UI/GameBoard.jsx"
+import ScoreBoard from "../UI/scoreBoard.jsx"
+import Buttons from "../UI/buttons.jsx"
 
 const GAME_NAME = "Snake Game"
 const GRID_WIDTH = 45
@@ -14,22 +16,34 @@ function PacMan(){
   const mazeCols = Math.floor((GRID_WIDTH - 1)/ 2)
   const mazeRows = Math.floor((GRID_HEIGHT - 1)/2)
 
-  const [walls] = useState(() => braidMaze(buildMaze(), 0.3))
-
   const toRenderedIndex = (row, col) => {return (row*2 +1) * GRID_WIDTH + (col*2 + 1)}
 
-  const playerStart = toRenderedIndex(0, 0)
-  const ghostStart = toRenderedIndex(mazeRows - 1, mazeCols - 1)
+  const [walls] = useState(() => braidMaze(buildMaze(), 0.3))
 
-  const [player, setPlayer] = useState(playerStart)
-  const [ghost, setGhost] = useState(ghostStart)
+  const playerStart = 788
+  const ghostsStart = [
+    toRenderedIndex(0, 0),
+    toRenderedIndex(mazeRows - 1, mazeCols - 1), 
+    toRenderedIndex(0, mazeCols- 1),
+    toRenderedIndex(mazeRows - 1, 0)
+  ]
+  
+  const [ghosts, setGhosts] = useState(ghostsStart)
+  const ghostsRef = useRef(ghostsStart)
   const ghostSpeedRef = useRef(0)
 
-  const [playing, setPlaying] = useState(true)
-  const [gameOver, setGameOver] = useState(false)
-
+  const [player, setPlayer] = useState(playerStart)
   const playerRef = useRef(playerStart)
-  const ghostRef = useRef(ghostStart)
+
+  const [pellets, setPellets] = useState(() =>
+    buildPellets(walls, [playerStart, ...ghostsStart])
+  )
+
+  const [score, setScore] = useState(0)
+
+  const [playing, setPlaying] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
+  const [gameWon, setGameWon] = useState(false)
 
   const queuedDirRef = useRef(1)
   const currentDirRef = useRef(1)
@@ -47,19 +61,13 @@ function PacMan(){
       return row*mazeCols + col
     }
 
-    function toRenderedGrid(row, col){
-      const renderedRow = row*2 + 1
-      const renderedCol = col*2 + 1
-      return renderedRow*GRID_WIDTH + renderedCol
-    }
-
     const startRow = 0 
     const startCol = 0
 
     const stack = [{row: startRow, col: startCol}]
 
     visited.add(logicalKey(startRow, startCol))
-    walls.delete(toRenderedGrid(startRow, startCol))
+    walls.delete(toRenderedIndex(startRow, startCol))
 
     while(stack.length > 0){
       const {row, col} = stack[stack.length - 1]
@@ -85,9 +93,11 @@ function PacMan(){
       const wallIndex = wallRow * GRID_WIDTH + wallCol
       walls.delete(wallIndex)
 
-      walls.delete(toRenderedGrid(next.row, next.col))
-      visited.add(logicalKey(next.row, next.col))
-      stack.push(next)
+
+      walls.delete(toRenderedIndex(next.row, next.col))   
+      visited.add(logicalKey(next.row, next.col))          
+      stack.push(next)  
+
     }
 
     return walls
@@ -117,6 +127,16 @@ function PacMan(){
     }
 
     return walls
+  }
+
+
+  function buildPellets(walls, excludeCells){
+    const pellets = new Set()
+    for(let i = 0 ; i < GRID_SIZE ; i++){
+      if(!walls.has(i) && !excludeCells.includes(i)) pellets.add(i)
+    }
+
+    return pellets
   }
 
   function canMove(pos, dir, walls){
@@ -181,27 +201,57 @@ function PacMan(){
       if(canMove(playerRef.current, dir, walls)){
         currentDirRef.current = dir
         playerRef.current = playerRef.current + dir
+
+        if(pellets.has(playerRef.current)){
+          setPellets((prev) => {
+            const next = new Set(prev)
+            next.delete(playerRef.current)
+            if(next.size === 0){
+              setGameWon(true)
+              setPlaying(false)
+            }
+            return next
+          })
+
+          setScore((s) => s + 1)
+        }
       } 
       setPlayer(playerRef.current)
 
+      const occupiedTick = new Set() 
+
       ghostSpeedRef.current++
-      if(ghostSpeedRef.current % 2 === 0) {
-        const step = ghostChaseAlgo(ghostRef.current, playerRef.current, walls)
-        if(step !== null) ghostRef.current = step
-        setGhost(ghostRef.current)
+
+      if(ghostSpeedRef.current % 2 === 0){
+        
+        const ghostsPosition = ghostsRef.current.map((gPos) => {
+          const step = ghostChaseAlgo(gPos, playerRef.current, walls)
+          const proposed = step !== null ? step : gPos
+
+          if(occupiedTick.has(proposed)){
+            occupiedTick.add(gPos)
+            return gPos
+          }
+
+          occupiedTick.add(proposed)
+          return proposed
+
+        })
+        ghostsRef.current = ghostsPosition
+        setGhosts(ghostsPosition)
+
+        if(ghostsPosition.some((g) => g === playerRef.current)){
+          setGameOver(true)
+          setPlaying(false)
+        }
       }
       
-
-      if(playerRef.current === ghostRef.current){
-        setGameOver(true)
-        setPlaying(false)
-      }
 
     }, 200)
 
     return () => clearInterval(id)
 
-  }, [playing, gameOver, walls])
+  }, [playing, gameOver, gameWon, walls, pellets])
 
   useEffect(() => {
     const handleKey = (e) => {
@@ -217,6 +267,20 @@ function PacMan(){
     return () => window.removeEventListener("keydown", handleKey)
   }, [playing, gameOver])
 
+  function restartGame(){
+    playerRef.current = playerStart
+    ghostsRef.current = ghostsStart
+    queuedDirRef.cureent = 1
+    currentDirRef.current = 1
+
+    setPlayer(playerStart)
+    setGhosts(ghostsStart)
+    setPellets(buildPellets(walls, [playerStart, ...ghostsStart]))
+    setScore(0)
+    setGameOver(false)
+    setGameWon(false)
+  }
+
   return (
     <div className="flex">
       <GameBoard >
@@ -225,17 +289,27 @@ function PacMan(){
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
-              let color = "bg-yellow-200 rounded-xl h-2 w-2 self-center justify-self-center"
+              let color = "bg-black/20"
 
-              if(walls.has(index)) color = "bg-red-700 h-5 w-5"
-              else if(index === player) color = "bg-green-500 h-5 w-5 rounded-xl"
-              else if(index === ghost) color = "bg-orange-500 h-5 w-5 rounded-t-xl rounded-b-none"
+              const ghostIndex = ghosts.indexOf(index)
+
+              if(walls.has(index)) color = "bg-black h-5 w-5"
+              else if(index === player) color = `bg-green-500 h-5 w-5 rounded-xl`
+              else if(ghostIndex !== -1) color = `bg-white h-5 w-5 rounded-t-xl rounded-b-none`
+              else if(pellets.has(index)) color = "bg-yellow-700 rounded-xl h-2 w-2 self-center justify-self-center"
 
               return <div className={`rounded-md ${color}`} key={index}></div>
             })
           }
         </div>
       </GameBoard>
+
+      <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
+        
+        <ScoreBoard score={score} name={GAME_NAME} />
+        <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}  />
+
+      </div>
     </div>
   )
 } 
