@@ -6,6 +6,7 @@ import Footer from "./components/Footer.jsx"
 
 import SnakeGame from "./games/snakeGame/snakeGame.jsx"
 import FloatingBlock from "./games/floatingBlock/floatingBlock.jsx"
+import PacMan from "./games/pacMan/pacMan.jsx"
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<Body />}/>
         <Route path="/snake-game" element={<SnakeGame />} />
         <Route path="/floating-block" element={<FloatingBlock />} />
+        <Route path="/pac-man" element={<PacMan />} />
 
       </Routes>
 

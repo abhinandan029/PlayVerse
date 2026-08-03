@@ -5,7 +5,7 @@ const images = import.meta.glob("../assets/*.png", { eager: true, import: "defau
 function Body() {
   const navigate = useNavigate();
 
-  const games = ["Snake Game", "Floating Block"]
+  const games = ["Snake Game", "Floating Block", "Pac Man"]
 
   function getImage(game){
     const filename = `../assets/${game.replace(" ", "-")}.png`
