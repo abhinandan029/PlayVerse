@@ -14,7 +14,7 @@ function PacMan(){
   const mazeCols = Math.floor((GRID_WIDTH - 1)/ 2)
   const mazeRows = Math.floor((GRID_HEIGHT - 1)/2)
 
-  const [walls] = useState(() => buildMaze())
+  const [walls] = useState(() => braidMaze(buildMaze(), 0.3))
 
   const toRenderedIndex = (row, col) => {return (row*2 +1) * GRID_WIDTH + (col*2 + 1)}
 
@@ -23,6 +23,7 @@ function PacMan(){
 
   const [player, setPlayer] = useState(playerStart)
   const [ghost, setGhost] = useState(ghostStart)
+  const ghostSpeedRef = useRef(0)
 
   const [playing, setPlaying] = useState(true)
   const [gameOver, setGameOver] = useState(false)
@@ -32,8 +33,6 @@ function PacMan(){
 
   const queuedDirRef = useRef(1)
   const currentDirRef = useRef(1)
-
-
 
   function buildMaze(){
     const walls = new Set()
@@ -89,6 +88,32 @@ function PacMan(){
       walls.delete(toRenderedGrid(next.row, next.col))
       visited.add(logicalKey(next.row, next.col))
       stack.push(next)
+    }
+
+    return walls
+  }
+
+  function braidMaze(walls, braidChance = 0.3){
+    for(let row = 0; row < mazeRows; row++){
+      for(let col = 0; col < mazeCols; col++){
+
+        const rightWallRow = row * 2 + 1
+        const rightWallCol = col * 2 + 2
+        const rightWallIndex = rightWallRow * GRID_WIDTH + rightWallCol
+
+        const downWallRow = row * 2 + 2
+        const downWallCol = col * 2 + 1
+        const downWallIndex = downWallRow * GRID_WIDTH + downWallCol
+
+        if(col < mazeCols - 1 && walls.has(rightWallIndex) && Math.random() < braidChance){
+          walls.delete(rightWallIndex)
+        }
+
+        if(row < mazeRows - 1 && walls.has(downWallIndex) && Math.random() < braidChance){
+          walls.delete(downWallIndex)
+        }
+
+      }
     }
 
     return walls
@@ -159,9 +184,13 @@ function PacMan(){
       } 
       setPlayer(playerRef.current)
 
-      const step = ghostChaseAlgo(ghostRef.current, playerRef.current, walls)
-      if(step !== null) ghostRef.current = step
-      setGhost(ghostRef.current)
+      ghostSpeedRef.current++
+      if(ghostSpeedRef.current % 2 === 0) {
+        const step = ghostChaseAlgo(ghostRef.current, playerRef.current, walls)
+        if(step !== null) ghostRef.current = step
+        setGhost(ghostRef.current)
+      }
+      
 
       if(playerRef.current === ghostRef.current){
         setGameOver(true)
