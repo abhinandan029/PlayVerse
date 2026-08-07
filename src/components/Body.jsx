@@ -8,7 +8,7 @@ function Body() {
   const games = ["Snake Game", "Floating Block", "Pac Man"]
 
   function getImage(game){
-    const filename = `../assets/${game.replace(" ", "-")}.png`
+    const filename = `../assets/${game.replaceAll(" ", "-")}.png`
     return images[filename] 
   }
 
