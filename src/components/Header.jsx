@@ -29,13 +29,9 @@ function Header() {
         </button>
 
         <button 
-        className={`px-2 hover:bg-black/40 rounded-md cursor-pointer transition-all duration-300 ease-in-out`}>
-          Notifications
-        </button>
-
-        <button 
-        className="px-2 hover:bg-black/80 rounded-md cursor-pointer transition-all duration-300 ease-in-out bg-black py-1">
-          Login/Register
+        className="px-3 hover:bg-black/80 rounded-md cursor-pointer transition-all duration-300 ease-in-out bg-black py-1"
+        onClick={() => navigate("/login")}>
+          Login
         </button>
 
 

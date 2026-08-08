@@ -13,8 +13,32 @@ function Body() {
   }
 
   return (
-    <div className="grid grid-cols-5 gap-2 text-white m-5 mt-4">
-      {
+    <div className="flex flex-col">
+
+      <div className=" text-white m-5 mt-4 p-2 border flex">
+        <div className="flex flex-col">
+          <h1 className="text-[50px]">What is PlayVerse ?</h1>
+          
+        </div>
+        
+        {/* <div
+          className="grid grid-cols-21 gap-0.5 p-1 py-2 bg-white/10 rounded-md ml-auto"
+          style={{ gridTemplateColumns: `repeat(21, minmax(0, 1fr))` }}>
+          {
+            Array.from({ length : 210}).map((cell, index) => {
+              let color = "bg-black"
+
+              if(index % 2 === 0 ) color = "bg-white"
+
+              return <div className={`h-5 w-5 rounded-md ${color}`} key={index}></div>
+            })
+          }
+        </div> */}
+       
+      </div>
+
+      <div className="grid grid-cols-5 gap-2 text-white m-5 mt-4">
+        {
         games && 
         games.map((game, index) =>
         {
@@ -28,6 +52,8 @@ function Body() {
           );
         })
       }
+      </div>
+      
     </div>
   );
 }
