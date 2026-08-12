@@ -1,11 +1,23 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 
+import GameDesc from '../UI/gameDesc.jsx'
 import GameBoard from "../UI/GameBoard.jsx"
 import ScoreBoard from "../UI/scoreBoard.jsx"
 import Buttons from "../UI/buttons.jsx"
 // import LeaderBoard from "../UI/leaderBoard.jsx"
 
 const GAME_NAME = "Snake Game"
+const GAME_TYPE = "classic"
+const DESC = "It's the same game that's been stealing lunch breaks since the '90s — rebuilt here with buttery controls and a scoreboard that remembers your best runs. Just Guide your snake to eat the yellow balls and grow it and dont forget not to run into yourself🐍."
+
+
+const TILE_BG = {
+  backgroundImage:
+    "radial-gradient(circle, hsla(0, 100%, 100%, 0.2) 1px, transparent 1px)",
+  backgroundSize: "22px 22px",
+};
+
+
 const GRID_WIDTH = 45
 const GRID_HEIGHT = 34
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
@@ -117,17 +129,14 @@ function SnakeGame(){
 
 
   return ( 
-    <div className="flex flex-col">
+    <div className="flex flex-col" style={TILE_BG}>
 
-      <div>
-        <h1>{GAME_NAME}</h1>
-        <p></p>
-      </div>
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
       
       
       <div className="flex m-5">
         
-        <GameBoard >
+        <GameBoard id="gameBoard" >
           <div 
             className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black rounded-md"
             style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>

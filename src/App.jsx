@@ -1,5 +1,6 @@
-import {Routes, Route} from 'react-router-dom'
+import { Routes, Route} from 'react-router-dom'
 
+import ScrollToTop from './components/ScrollToTop.jsx'
 import Header from "./components/Header.jsx"
 import Body from "./components/Body.jsx"
 import Footer from "./components/Footer.jsx"
@@ -15,6 +16,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop />
       <Header />
       
       <Routes>
@@ -29,7 +31,7 @@ function App() {
         <Route path="/pac-man" element={<PacMan />} />
 
       </Routes>
-
+      
       <Footer />
 
     </>
