@@ -31,6 +31,7 @@ function SnakeGame(){
 
   useEffect( () => {
     const handleKeyDown = (e) =>{
+      e.preventDefault()
       switch(e.key) {
         case "ArrowRight":
           if(directionRef.current !== -1) directionRef.current = 1
@@ -116,30 +117,42 @@ function SnakeGame(){
 
 
   return ( 
-    <div className="flex">
-      <GameBoard >
-        <div 
-          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-white/10 rounded-md"
-          style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
-          {
-            Array.from({ length : GRID_SIZE}).map((cell, index) => {
-              let color = "bg-black/20"
-              if( index === snake[0]) color = "bg-green-300 border"
-              else if(snake.includes(index)) color = "bg-green-700";
-              else if(index === food) color = "bg-orange-500 rounded-xl";
+    <div className="flex flex-col">
 
-              return <div className={`h-5 w-5 rounded-md ${color}`} key={index}></div>
-            })
-          }
-        </div>
-      </GameBoard>
-
-      <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
+      <div>
+        <h1>{GAME_NAME}</h1>
+        <p></p>
+      </div>
+      
+      
+      <div className="flex m-5">
         
-        <ScoreBoard score={score} name={GAME_NAME} />
-        <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} />
+        <GameBoard >
+          <div 
+            className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black rounded-md"
+            style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>
+            {
+              Array.from({ length : GRID_SIZE}).map((cell, index) => {
+                let color = "bg-black"
+                if( index === snake[0]) color = "bg-green-300 border"
+                else if(snake.includes(index)) color = "bg-green-700";
+                else if(index === food) color = "bg-orange-500 rounded-xl";
+
+                return <div className={`h-6 w-6 rounded-md ${color}`} key={index}></div>
+              })
+            }
+          </div>
+        </GameBoard>
+
+        <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
+          
+          <ScoreBoard score={score} name={GAME_NAME} />
+          <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} />
+
+        </div>
 
       </div>
+      
 
       
       
