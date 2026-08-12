@@ -12,8 +12,7 @@ function Header() {
 
   return (
     <div 
-    className="flex gap-2 py-5 px-5 justify-between items-center bg-black border border-y-white/40 sticky top-0 left-0 right-0"
-    style={TILE_BG}>
+    className="flex gap-2 py-5 px-5 justify-between items-center bg-black border border-y-white/40 sticky top-0 left-0 right-0">
       
       <span className="text-5xl md:text-5xl ml-5 font-bold text-green-400">Play<span className="text-red-500">Verse</span></span>
       
@@ -31,7 +30,7 @@ function Header() {
         </button>
 
         <button 
-        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer transition-all duration-300 ease-in-out ${location.pathname === "/wishlist" ? "border border-red-500/60" : ""}`}>
+        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer transition-all duration-300 ease-in-out ${location.pathname === "/about-us" ? "border border-red-500/60" : ""}`}>
           About Us
         </button>
 

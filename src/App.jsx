@@ -30,6 +30,8 @@ function App() {
 
       </Routes>
 
+      <Footer />
+
     </>
   );
   
