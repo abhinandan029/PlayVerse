@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 
 import GameDesc from '../UI/gameDesc.jsx'
+import HowToPlay from '../UI/howToPlay.jsx'
+
 import GameBoard from "../UI/GameBoard.jsx"
 import ScoreBoard from "../UI/scoreBoard.jsx"
 import Buttons from "../UI/buttons.jsx"
@@ -9,6 +11,15 @@ import Buttons from "../UI/buttons.jsx"
 const GAME_NAME = "Snake Game"
 const GAME_TYPE = "classic"
 const DESC = "It's the same game that's been stealing lunch breaks since the '90s — rebuilt here with buttery controls and a scoreboard that remembers your best runs. Just Guide your snake to eat the yellow balls and grow it and dont forget not to run into yourself🐍."
+
+const HTP = [
+  "Once you click play button the snake starts moving.",
+  "To control the direction of motion of snake use arrow keys. ⬅️⬆️⬇️➡️",
+  "Score is calculated on the number of yellow balls eaten.",
+  "On hitting the wall the snake comes from the other side, So there is no game over.",
+  "Game is over when snake's head touches itself."
+]
+
 
 
 const TILE_BG = {
@@ -132,35 +143,25 @@ function SnakeGame(){
     <div className="flex flex-col" style={TILE_BG}>
 
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
-      
-      
-      <div className="flex m-5">
+      <HowToPlay htp={HTP}/>
         
-        <GameBoard id="gameBoard" >
+        <GameBoard  score={score} >
           <div 
-            className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black rounded-md"
+            className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
             style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>
             {
               Array.from({ length : GRID_SIZE}).map((cell, index) => {
-                let color = "bg-black"
-                if( index === snake[0]) color = "bg-green-300 border"
-                else if(snake.includes(index)) color = "bg-green-700";
-                else if(index === food) color = "bg-orange-500 rounded-xl";
+                let color = "bg-black h-6 w-6 "
+                if( index === snake[0]) color = "bg-green-300 border h-6 w-6 "
+                else if(snake.includes(index)) color = "bg-green-700 h-6 w-6";
+                else if(index === food) color = "bg-yellow-200 rounded-xl h-4 w-4";
 
-                return <div className={`h-6 w-6 rounded-md ${color}`} key={index}></div>
+                return <div className={`rounded-md ${color}`} key={index}></div>
               })
             }
           </div>
         </GameBoard>
 
-        <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
-          
-          <ScoreBoard score={score} name={GAME_NAME} />
-          <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} />
-
-        </div>
-
-      </div>
       
 
       

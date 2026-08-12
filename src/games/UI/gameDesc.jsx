@@ -12,7 +12,7 @@ export default function GameDesc({gameName, gameType, description}){
   return (
     <div className="flex justify-center m-15 p-15 gap-10">
 
-      <img src={getImage(gameName)} className="size-100 rounded-xl"></img>
+      <img src={getImage(gameName)} className="size-100 rounded-xl border border-white/20"></img>
 
       <div className="flex flex-col text-white">
         
