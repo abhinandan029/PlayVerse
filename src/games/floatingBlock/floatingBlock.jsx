@@ -16,6 +16,11 @@ const HTP = [
   "On hitting the wall and pillars the game will over",
 ]
 
+const TILE_BG = {
+  backgroundImage:
+    "radial-gradient(circle, hsla(0, 100%, 100%, 0.2) 1px, transparent 1px)",
+  backgroundSize: "22px 22px",
+};
 
 const GRID_WIDTH = 50
 const GRID_HEIGHT = 35
@@ -142,7 +147,7 @@ function FloatingBlock(){
   }
 
   return(
-    <div className="flex flex-col py-15">
+    <div className="flex flex-col py-15" style={TILE_BG}>
 
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
       <HowToPlay htp={HTP}/>

@@ -1,8 +1,28 @@
 import{ useState, useEffect, useRef } from 'react'
 
+import GameDesc from '../UI/gameDesc.jsx'
 import GameBoard from "../UI/GameBoard.jsx"
+import HowToPlay from '../UI/howToPlay.jsx'
+import LeaderBoard from "../UI/leaderBoard.jsx"
 
-const GAME_NAME = "Snake Game"
+const GAME_NAME = "Pac Man"
+const GAME_TYPE = "Action Maze Chase"
+const DESC = "Pac-Man is an action maze chase game, the player controls the circular green character called Pack-Man through an enclosed maze. The objective of the game is to eat all of the dots placed in the maze while avoiding four white ghosts. When Pac-Man eats all of the dots you win, If Pac-Man is caught by a ghost you lose. Inspired by Pac-Man 1980"
+
+const HTP = [
+  "Once you click play button the Pac-Man starts moving.",
+  "To control the direction of motion of Pac-Man use arrow keys. ⬅️⬆️⬇️➡️",
+  "Score is calculated on the number of yellow dots eaten.",
+  "You should avoid colliding with the white ghosts, if you do then game is over",
+  "If you eat all the yellow dots then you win the game"
+]
+
+const TILE_BG = {
+  backgroundImage:
+    "radial-gradient(circle, hsla(0, 100%, 100%, 0.2) 1px, transparent 1px)",
+  backgroundSize: "22px 22px",
+};
+
 const GRID_WIDTH = 45
 const GRID_HEIGHT = 35
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
@@ -280,8 +300,12 @@ function PacMan(){
   }
 
   return (
-    <div className="flex py-15">
-      <GameBoard >
+    <div className="flex flex-col py-15" style={TILE_BG}>
+      
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
+      <HowToPlay htp={HTP}/>
+
+      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}>
         <div 
           className="grid grid-cols-45 gap-1 p-1 py-2 bg-black rounded-md border border-white/40"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
@@ -292,8 +316,8 @@ function PacMan(){
               const ghostIndex = ghosts.indexOf(index)
 
               if(walls.has(index)) color = "bg-red-900 h-5 w-5"
-              else if(index === player) color = `bg-green-500 h-5 w-5 rounded-xl`
               else if(ghostIndex !== -1) color = `bg-white h-5 w-5 rounded-t-xl rounded-b-none`
+              else if(index === player) color = `bg-green-500 h-5 w-5 rounded-xl`
               else if(pellets.has(index)) color = "bg-yellow-400 rounded-xl h-2 w-2 self-center justify-self-center"
 
               return <div className={`rounded-md ${color}`} key={index}></div>
@@ -301,6 +325,8 @@ function PacMan(){
           }
         </div>
       </GameBoard>
+
+      <LeaderBoard />
 
     </div>
   )
