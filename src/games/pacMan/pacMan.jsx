@@ -1,8 +1,6 @@
 import{ useState, useEffect, useRef } from 'react'
 
 import GameBoard from "../UI/GameBoard.jsx"
-import ScoreBoard from "../UI/scoreBoard.jsx"
-import Buttons from "../UI/buttons.jsx"
 
 const GAME_NAME = "Snake Game"
 const GRID_WIDTH = 45
@@ -282,21 +280,21 @@ function PacMan(){
   }
 
   return (
-    <div className="flex">
+    <div className="flex py-15">
       <GameBoard >
         <div 
-          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-white/10 rounded-md"
+          className="grid grid-cols-45 gap-1 p-1 py-2 bg-black rounded-md border border-white/40"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
-              let color = "bg-black/20"
+              let color = "bg-black"
 
               const ghostIndex = ghosts.indexOf(index)
 
-              if(walls.has(index)) color = "bg-black h-5 w-5"
+              if(walls.has(index)) color = "bg-red-900 h-5 w-5"
               else if(index === player) color = `bg-green-500 h-5 w-5 rounded-xl`
               else if(ghostIndex !== -1) color = `bg-white h-5 w-5 rounded-t-xl rounded-b-none`
-              else if(pellets.has(index)) color = "bg-yellow-700 rounded-xl h-2 w-2 self-center justify-self-center"
+              else if(pellets.has(index)) color = "bg-yellow-400 rounded-xl h-2 w-2 self-center justify-self-center"
 
               return <div className={`rounded-md ${color}`} key={index}></div>
             })
@@ -304,12 +302,6 @@ function PacMan(){
         </div>
       </GameBoard>
 
-      <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
-        
-        <ScoreBoard score={score} name={GAME_NAME} />
-        <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}  />
-
-      </div>
     </div>
   )
 } 

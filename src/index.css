@@ -14,6 +14,7 @@ html, body {
 
 
 #root {
+  min-height : 100dvh;
   margin : none;
   overflow-x : hidden;
   background-color : hsl(0, 0%, 0%);

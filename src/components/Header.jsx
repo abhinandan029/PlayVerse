@@ -12,7 +12,7 @@ function Header() {
 
   return (
     <div 
-    className="flex gap-2 py-5 px-5 justify-between items-center bg-black border border-y-white/40 sticky top-0 left-0 right-0">
+    className="flex gap-2 py-5 px-5 justify-between items-center bg-black border border-y-white/40 fixed top-0 left-0 right-0">
       
       <span className="text-5xl md:text-5xl ml-5 font-bold text-green-400">Play<span className="text-red-500">Verse</span></span>
       

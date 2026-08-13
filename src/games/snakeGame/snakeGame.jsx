@@ -2,11 +2,8 @@ import { useState, useEffect, useRef, useCallback } from "react"
 
 import GameDesc from '../UI/gameDesc.jsx'
 import HowToPlay from '../UI/howToPlay.jsx'
-
 import GameBoard from "../UI/GameBoard.jsx"
-import ScoreBoard from "../UI/scoreBoard.jsx"
-import Buttons from "../UI/buttons.jsx"
-// import LeaderBoard from "../UI/leaderBoard.jsx"
+import LeaderBoard from "../UI/leaderBoard.jsx"
 
 const GAME_NAME = "Snake Game"
 const GAME_TYPE = "classic"
@@ -29,8 +26,8 @@ const TILE_BG = {
 };
 
 
-const GRID_WIDTH = 45
-const GRID_HEIGHT = 34
+const GRID_WIDTH = 50
+const GRID_HEIGHT = 35
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
 const INITIAL_HEAD = [Math.floor(Math.random() * GRID_SIZE)]
 const INITIAL_FOOD = randomEmptyCell(INITIAL_HEAD)
@@ -130,42 +127,39 @@ function SnakeGame(){
 
 
   function restartGame(){
-    if(gameOver) {
-      setSnake(INITIAL_HEAD)
-      setFood(INITIAL_FOOD)
-      setGameOver(false)
-      setScore(0)
-    }
+    setPlaying(false)
+    setSnake(INITIAL_HEAD)
+    setFood(INITIAL_FOOD)
+    setGameOver(false)
+    setScore(0)
   }
 
 
   return ( 
-    <div className="flex flex-col" style={TILE_BG}>
+    <div className="flex flex-col py-15" style={TILE_BG}>
 
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
       <HowToPlay htp={HTP}/>
         
-        <GameBoard  score={score} >
-          <div 
-            className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
-            style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>
-            {
-              Array.from({ length : GRID_SIZE}).map((cell, index) => {
-                let color = "bg-black h-6 w-6 "
-                if( index === snake[0]) color = "bg-green-300 border h-6 w-6 "
-                else if(snake.includes(index)) color = "bg-green-700 h-6 w-6";
-                else if(index === food) color = "bg-yellow-200 rounded-xl h-4 w-4";
+      <GameBoard  score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}>
+        <div 
+          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
+          style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>
+          {
+            Array.from({ length : GRID_SIZE}).map((cell, index) => {
+              let color = "bg-black h-5 w-5 "
+              if( index === snake[0]) color = "bg-green-300 border h-5 w-5 "
+              else if(snake.includes(index)) color = "bg-green-700 h-5 w-5";
+              else if(index === food) color = "bg-yellow-200 rounded-xl h-4 w-4";
 
-                return <div className={`rounded-md ${color}`} key={index}></div>
-              })
-            }
-          </div>
-        </GameBoard>
+              return <div className={`rounded-md ${color}`} key={index}></div>
+            })
+          }
+        </div>
+      </GameBoard>
 
-      
+      <LeaderBoard />
 
-      
-      
     </div>
     
   )

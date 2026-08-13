@@ -44,7 +44,7 @@ function Body() {
   ]
 
   return (
-    <div className="flex flex-col pb-20" style={TILE_BG}>
+    <div className="flex flex-col py-20" style={TILE_BG}>
 
       <div className="text-white m-15 p-20 border border-white/40 rounded-xl flex bg-black" style={TILE_BG}>
         

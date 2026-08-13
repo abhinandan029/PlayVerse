@@ -1,12 +1,10 @@
 import {useEffect, useState, useRef} from "react"
 
 import GameBoard from "../UI/GameBoard.jsx"
-import ScoreBoard from "../UI/scoreBoard.jsx"
-import Buttons from "../UI/buttons.jsx"
 
 const GAME_NAME = "Floating Block"
-const GRID_WIDTH = 45
-const GRID_HEIGHT = 34
+const GRID_WIDTH = 50
+const GRID_HEIGHT = 35
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
 
 function FloatingBlock(){
@@ -133,7 +131,7 @@ function FloatingBlock(){
 
 
   return(
-    <div className="flex ">
+    <div className="flex py-15">
       <GameBoard >
         <div 
           className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-white/10 rounded-md"
@@ -161,13 +159,6 @@ function FloatingBlock(){
         </div>
         
       </GameBoard>
-      
-      <div className="flex flex-col basis-1/3 m-2 items-center rounded-md">
-        
-        <ScoreBoard score={score} name={GAME_NAME} />
-        <Buttons setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} />
-
-      </div>
       
     </div>
   )
