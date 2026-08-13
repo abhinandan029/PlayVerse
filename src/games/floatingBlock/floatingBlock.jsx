@@ -1,8 +1,22 @@
 import {useEffect, useState, useRef} from "react"
 
+import GameDesc from '../UI/gameDesc.jsx'
 import GameBoard from "../UI/GameBoard.jsx"
+import HowToPlay from '../UI/howToPlay.jsx'
+import LeaderBoard from "../UI/leaderBoard.jsx"
 
 const GAME_NAME = "Floating Block"
+const GAME_TYPE = "Arcade"
+const DESC = "Floating Block is an arcade-style game inspired from Flappy Bird in which the player controls the block, which moves persistently to the right. They are tasked with navigating block through pillars with gaps that have equally sized gaps placed at random heights. Colliding with a pipe or the ground ends the gameplay. "
+
+const HTP = [
+  "Once you click play button the block starts falling downwards.",
+  "Due to gravity factor the block starts falling to keep it floating press 'SPACE BAR' repeatedly to make the block float",
+  "Score is calculated on the number of pillars crossed by the block.",
+  "On hitting the wall and pillars the game will over",
+]
+
+
 const GRID_WIDTH = 50
 const GRID_HEIGHT = 35
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
@@ -127,18 +141,19 @@ function FloatingBlock(){
     setPlaying(false)
   }
 
-
-
-
   return(
-    <div className="flex py-15">
-      <GameBoard >
+    <div className="flex flex-col py-15">
+
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
+      <HowToPlay htp={HTP}/>
+
+      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} >
         <div 
-          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-white/10 rounded-md"
+          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
-              let color = "bg-black/20"
+              let color = "bg-black"
 
               const cellRow = Math.floor(index / GRID_WIDTH)
               const cellCol = index % GRID_WIDTH
@@ -159,6 +174,9 @@ function FloatingBlock(){
         </div>
         
       </GameBoard>
+
+      <LeaderBoard />
+      
       
     </div>
   )

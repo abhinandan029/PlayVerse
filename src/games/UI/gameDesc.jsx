@@ -16,9 +16,9 @@ export default function GameDesc({gameName, gameType, description}){
 
       <div className="flex flex-col text-white">
         
-        <p className="text-7xl">{gameName}</p>
-        <p className="text-2xl text-white/50">{gameType}</p>
-        <p className="text-2xl max-w-5xl mt-10">{description}</p>
+        <p className="text-7xl border-l-5 border-green-400  px-2">{gameName}</p>
+        <p className="text-2xl px-4 text-white/40">{gameType}</p>
+        <p className="text-2xl max-w-5xl mt-8 p-4 text-white/60 border border-white/20 rounded-xl">{description}</p>
 
         <div className="flex gap-10 text-white text-2xl py-4 mt-auto">
           
