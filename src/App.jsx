@@ -27,6 +27,15 @@ function App() {
         </> :
         <>
           <ScrollToTop />
+
+          <div 
+            className="fixed top-0 left-0 w-full h-2 bg-red-500 origin-left z-50"
+            style={{ 
+              animation: 'grow-progress auto linear',
+              animationTimeline: 'scroll(root block)' 
+              } }
+          />
+
           <Header />
       
           <Routes>

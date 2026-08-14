@@ -8,8 +8,8 @@ html, body {
   margin : none;
   font-family : monospace;
   overflow-x : hidden;
-  scrollbar-width : thin;
-  scrollbar-color : hsl(0, 0%, 20%) hsl(0, 0%, 0%) ;
+  scrollbar-width : none;
+  scrollbar-color : hsl(0, 0%, 0%) hsl(0, 0%, 0%) ;
 }
 
 
@@ -20,10 +20,22 @@ html, body {
   background-color : hsl(0, 0%, 0%);
 }
 
-@theme{
-  --animate-travel : travel 1s linear infinite;
-
-  @keyframes travel {
-    100%{ transform :  translateX(100px)}
-  }
+@keyframes grow-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: red; /* or any color */
+  transform-origin: left;
+  z-index : 50;
+
+  animation: grow-progress auto linear;
+  animation-timeline: scroll(root block);
+}
+
