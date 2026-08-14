@@ -1,4 +1,4 @@
-import { Routes, Route} from 'react-router-dom'
+import { useLocation, Routes, Route} from 'react-router-dom'
 
 import ScrollToTop from './components/ScrollToTop.jsx'
 import Header from "./components/Header.jsx"
@@ -14,26 +14,36 @@ import PacMan from "./games/pacMan/pacMan.jsx"
 
 function App() {
 
+  const location = useLocation()
+
   return (
     <>
-      <ScrollToTop />
-      <Header />
+      { location.pathname === "/login" || location.pathname === "/register" ?
+        <> 
+          <Routes >
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </> :
+        <>
+          <ScrollToTop />
+          <Header />
       
-      <Routes>
+          <Routes>
         
-        <Route path="/" element={<Body />} />
-        <Route path="/home" element={<Body />}/>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Body />} />
+            <Route path="/home" element={<Body />}/>
 
+            <Route path="/snake-game" element={<SnakeGame />} />
+            <Route path="/floating-block" element={<FloatingBlock />} />
+            <Route path="/pac-man" element={<PacMan />} />
 
-        <Route path="/snake-game" element={<SnakeGame />} />
-        <Route path="/floating-block" element={<FloatingBlock />} />
-        <Route path="/pac-man" element={<PacMan />} />
-
-      </Routes>
+          </Routes>
       
-      <Footer />
+          <Footer />
+      
+        </>
+      }
 
     </>
   );

@@ -23,7 +23,7 @@ function Header() {
       <div className="flex gap-10 text-white text-[18px] mr-5">
         
         <button 
-        className={`px-4 rounded-md cursor-pointer ${location.pathname === "/home" ? "border border-red-500/60" : ""}`}
+        className={`px-4 rounded-md cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60" : ""}`}
         onClick={() => navigate("/home")}>
           Home
         </button>
