@@ -23,23 +23,23 @@ function Header() {
       <div className="flex gap-10 text-white text-[18px] mr-5">
         
         <button 
-        className={`px-4 rounded-md cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60" : ""}`}
+        className={`px-4 rounded-md cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60 bg-red-500/10" : ""}`}
         onClick={() => navigate("/home")}>
           Home
         </button>
 
         <button 
-        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer transition-all duration-300 ease-in-out ${location.pathname === "/wishlist" ? "border border-red-500/60" : ""}`}>
+        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}>
           Wishlist
         </button>
 
         <button 
-        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer transition-all duration-300 ease-in-out ${location.pathname === "/about-us" ? "border border-red-500/60" : ""}`}>
+        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer ${location.pathname === "/about-us" ? "border border-red-500/60 bg-red-500/20" : ""}`}>
           About Us
         </button>
 
         <button 
-        className="px-4 py-1 rounded-md cursor-pointer transition-all duration-300 ease-in-out border border-green-400/60 text-green-400"
+        className="px-4 py-1 rounded-md cursor-pointer border border-green-400/60 text-white bg-green-400/20"
         onClick={() => navigate("/login")}>
           Login
         </button>
