@@ -1,12 +1,13 @@
 import {useNavigate} from 'react-router-dom'
+import {forwardRef} from 'react'
 import {Play, Pause, RotateCcw, LogOut} from 'lucide-react'
 
-function GameBoard({score,setPlaying, playing, gameOver, restart, children}){
+const GameBoard = forwardRef(function GameBoard({score,setPlaying, playing, gameOver, restart, focus, children}, ref){
 
   const navigate = useNavigate()
 
   return (
-    <div className=" m-auto my-25">
+    <div ref={ref} className="m-auto scroll-mt-24 my-25">
       <div className="flex justify-between">
 
         <p className="text-red-500 text-5xl px-4 py-2">Play Ground</p>
@@ -29,7 +30,10 @@ function GameBoard({score,setPlaying, playing, gameOver, restart, children}){
           
           <button 
           className="text-white border m-2 p-2 rounded-md bg-green-400/40 cursor-pointer" 
-          onClick={() => setPlaying(true)}>
+          onClick={() => {
+              setPlaying(true) 
+              focus()
+            }}>
             <Play className="text-white"/>
           </button>
         }
@@ -38,8 +42,7 @@ function GameBoard({score,setPlaying, playing, gameOver, restart, children}){
       
         <button 
         className="text-white border m-2 p-2 rounded-md bg-red-400/40 cursor-pointer"
-        onClick={() => restart()} 
-        popOverTarget="confirm">
+        onClick={() => restart()} >
           <RotateCcw className="text-white"/>
         </button>
         
@@ -52,6 +55,5 @@ function GameBoard({score,setPlaying, playing, gameOver, restart, children}){
       </div>
     </div>
   ) 
-}
-
+})
 export default GameBoard

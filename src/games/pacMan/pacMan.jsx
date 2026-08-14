@@ -31,6 +31,8 @@ const DIRS = {ArrowRight : 1, ArrowLeft : -1, ArrowUp: -GRID_WIDTH , ArrowDown :
 
 function PacMan(){
 
+  const gameRef = useRef(null)
+
   const mazeCols = Math.floor((GRID_WIDTH - 1)/ 2)
   const mazeRows = Math.floor((GRID_HEIGHT - 1)/2)
 
@@ -299,13 +301,17 @@ function PacMan(){
     setGameWon(false)
   }
 
+  function focus(){
+    gameRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "center" })
+  }
+
   return (
     <div className="flex flex-col py-15" style={TILE_BG}>
       
-      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus}/>
       <HowToPlay htp={HTP}/>
 
-      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}>
+      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} ref={gameRef} focus={focus}>
         <div 
           className="grid grid-cols-45 gap-1 p-1 py-2 bg-black rounded-md border border-white/40"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>

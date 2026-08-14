@@ -49,6 +49,8 @@ function SnakeGame(){
   const [playing, setPlaying] = useState(false)
   const [score, setScore] = useState(0)
 
+  const gameRef = useRef(null)
+
   useEffect( () => {
     const handleKeyDown = (e) =>{
       e.preventDefault()
@@ -76,11 +78,11 @@ function SnakeGame(){
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+  }, []) 
 
 
   useEffect(() => {
-    if(!playing || gameOver) return ;
+    if(!playing || gameOver) return
 
     const id = setInterval(() => {
       setSnake((prevSnake) => {
@@ -134,15 +136,19 @@ function SnakeGame(){
     setScore(0)
   }
 
+  function focus(){
+    gameRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "center" })
+  }
+
 
   return ( 
     <div className="flex flex-col py-15" style={TILE_BG}>
 
-      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC}/>
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus}/>
       <HowToPlay htp={HTP}/>
         
-      <GameBoard  score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}>
-        <div 
+      <GameBoard  score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}  ref={gameRef} focus={focus}>
+        <div
           className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>
           {
