@@ -76,13 +76,12 @@ export async function logout(req, res){
 } 
 
 export async function verifyToken(req, res){
-  console.log(req.userId)
-  const user = await findUserById(req.userId)
 
-  console.log(user)
+  const user = await findUserById(req.userId)
 
   if(!user) return res.status(404).json({ msg : "User Not Found!"})
 
   res.status(200).json({ user : {id : user.id, email : user.email}}) 
+
 }
 
