@@ -5,18 +5,9 @@ const DB = mysql.createPool({
   user : "root",
   password : "Abhi@2903",
   database : "playverse",
-  waitForConnection : true,
+  waitForConnections : true,
   connectionLimit : 10,
   queueLimit : 0
 })
-
-DB.getConnection((err, connection) => {
-  if (err) {
-    console.error('Database connection failed: ' + err.stack);
-    return;
-  }
-  console.log('Connected to MySQL database.');
-  connection.release();
-});
 
 export default DB

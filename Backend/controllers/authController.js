@@ -27,7 +27,6 @@ export async function register(req, res){
     setTokenCookie(res, token)
 
     res.status(201).json({ msg : "Email registered successfully.", user : { id : result.inserId, email : email }})
-
   }
   catch(error){
     console.log(error)
@@ -77,10 +76,13 @@ export async function logout(req, res){
 } 
 
 export async function verifyToken(req, res){
+  console.log(req.userId)
   const user = await findUserById(req.userId)
+
+  console.log(user)
 
   if(!user) return res.status(404).json({ msg : "User Not Found!"})
 
-  res.status(200).json({ user : {user : user.id, email : user.email}}) 
+  res.status(200).json({ user : {id : user.id, email : user.email}}) 
 }
 

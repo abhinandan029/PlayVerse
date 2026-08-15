@@ -1,3 +1,7 @@
+import {useState} from 'react'
+import {useNavigate} from 'react-router-dom'
+
+
 import {Gamepad2} from 'lucide-react'
 
 const TILE_BG = {
@@ -7,6 +11,51 @@ const TILE_BG = {
 };
 
 export default function Register() {
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [cnfPassword, setCnfPassword] = useState("")
+  const [status, setStatus] = useState("idle")
+  const [msg, setMsg] = useState("")
+
+  const navigate = useNavigate()
+
+  async function handleSubmit(e){
+
+    e.preventDefault()
+    setMsg("")
+
+    if(password !== cnfPassword){
+      setStatus("Error")
+      setMsg("Password doesn't match!!")
+      return 
+    }
+
+    setStatus("Registering")
+
+    try{
+      const res = await fetch('/api/auth/register', {
+        method : "POST",
+        headers : {"Content-Type" : "application/json"},
+        credentials : "include",
+        body : JSON.stringify({email, password})
+      })
+
+      const data = await res.json()
+
+      if(!res.ok){
+        throw new Error(data.error || `Server Responded with ${res.status}`)
+      }
+
+      setStatus("Registerd")
+      navigate("/home")
+
+    }
+    catch(error){
+      setStatus("Error")
+      setMsg(error.message)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4" style={TILE_BG}>
@@ -21,7 +70,7 @@ export default function Register() {
       {/* Card */}
       <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-8">
         
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           
           {/* Email */}
           <div>
@@ -33,6 +82,9 @@ export default function Register() {
               autoComplete="new-email"
               className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
               placeholder="exmaple@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -46,6 +98,9 @@ export default function Register() {
               autoComplete="new-password"
               className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
               placeholder="*********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -58,6 +113,9 @@ export default function Register() {
               autoComplete="new-password"
               className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
               placeholder="*********"
+              value={cnfPassword}
+              onChange={(e) => setCnfPassword(e.target.value)}
+              required
             />
           </div>
 
@@ -66,6 +124,7 @@ export default function Register() {
               <input 
                 type="checkbox"
                 className="w-4 h-4 rounded bg-white/20 accent-green-400 cursor-pointer"
+                required
               />
               Accept the TERMS & CONDITIONS.
             </label>
@@ -74,12 +133,16 @@ export default function Register() {
           {/* Sign in button */}
           <button 
             type="submit"
+            value={ status === "Registering" ? "Registering" : "Register"}
+            disabled={status === "Registering"}
             className="w-full bg-white/20 hover:bg-white/30 transition-colors text-2xl text-white font-semibold rounded-lg py-3 mt-2 cursor-pointer"
           >
             Register
           </button>
 
         </form>
+
+        <p className="text-red-500 text-md self-center justify-self-center mt-2">{msg}</p>
 
         {/* Divider */}
         <div className="flex items-center gap-4 my-6">

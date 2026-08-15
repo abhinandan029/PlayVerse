@@ -4,7 +4,7 @@ export function generateToken(userId){
 
   return jwt.sign(
 
-    { id : userId},
+    { id : userId },
     process.env.JWT_SECRET,
     { expiresIn : '7d' } 
   
@@ -14,12 +14,13 @@ export function generateToken(userId){
 
 export async function authenticate(req, res, next){
 
-  const token = req.cookie?.token 
+  const token = req.cookies?.token 
   
   if(!token) return res.status(401).json({msg : "Not Authenticated."})
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    console.log(decoded.id)
     
     req.userId = decoded.id
     next()

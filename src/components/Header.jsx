@@ -1,5 +1,7 @@
 import {useNavigate, useLocation} from 'react-router-dom'
 
+import {useAuth} from '../AuthPages/authContext.jsx'
+
 const TILE_BG = {
   backgroundImage:
     "radial-gradient(circle, hsla(0, 100%, 100%, 0.2) 1px, transparent 1px)",
@@ -9,6 +11,8 @@ const TILE_BG = {
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const {user, loading, logout} = useAuth()
 
   return (
     <div 
@@ -28,21 +32,35 @@ function Header() {
           Home
         </button>
 
-        <button 
-        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}>
-          Wishlist
-        </button>
+        {
+          <button 
+          className={`px-4 hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}>
+            Wishlist
+          </button> 
+        }
 
         <button 
         className={`px-4 hover:bg-black/40 rounded-md cursor-pointer ${location.pathname === "/about-us" ? "border border-red-500/60 bg-red-500/20" : ""}`}>
           About Us
         </button>
 
-        <button 
-        className="px-4 py-1 rounded-md cursor-pointer border border-green-400/60 text-white bg-green-400/20"
-        onClick={() => navigate("/login")}>
-          Login
-        </button>
+        {
+          user && !loading ? 
+
+          <button 
+          className="px-4 py-1 rounded-md cursor-pointer border border-green-400/60 text-white bg-green-400/20"
+          onClick={async () => await logout()}>
+            Logout
+          </button> :
+
+          <button 
+          className="px-4 py-1 rounded-md cursor-pointer border border-green-400/60 text-white bg-green-400/20"
+          onClick={() => navigate("/login")}>
+            Login
+          </button>
+
+        }
+        
 
 
       </div>

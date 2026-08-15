@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
 
 import {Gamepad2} from 'lucide-react'
+
+import {useAuth} from '../AuthPages/authContext.jsx'
 
 const TILE_BG = {
   backgroundImage:
@@ -9,7 +12,47 @@ const TILE_BG = {
 };
 
 export default function Login() {
-  const [rememberMe, setRememberMe] = useState(false)
+
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+  const [status, setStatus] = useState('idle')
+  const [msg, setMsg] = useState("") 
+
+  const navigate = useNavigate()
+
+  const {refetch} = useAuth()
+
+  async function handleSubmit(e){
+
+    e.preventDefault()
+    setMsg("")
+
+    setStatus("loggingIn")
+
+    try{
+      const res = await fetch('/api/auth/login', {
+        method : "POST", 
+        headers : {"Content-Type" : "application/json"},
+        credentials : "include",                           
+        body : JSON.stringify({email, password})
+      })
+
+      if(res.ok){
+        setStatus("loggedin")
+        await refetch()
+        navigate("/home")
+      }  
+      else{
+        const data = await res.json()
+        throw new Error(data.msg || `Server responded with ${res.status}`)
+      }
+      
+    }
+    catch(error){
+      setStatus("Error")
+      setMsg(error.message)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4" style={TILE_BG}>
@@ -24,7 +67,7 @@ export default function Login() {
       {/* Card */}
       <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-8">
         
-        <form className="flex flex-col gap-5">
+        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           
           {/* Email */}
           <div>
@@ -36,6 +79,9 @@ export default function Login() {
               autoComplete="new-email"
               className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
               placeholder="exmaple@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -49,20 +95,14 @@ export default function Login() {
               autoComplete="new-password"
               className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
               placeholder="*********"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
-          {/* Remember me / Forgot password */}
-          <div className="flex items-center justify-between text-xl">
-            <label className="flex items-center gap-2 text-white cursor-pointer select-none">
-              <input 
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded bg-white/20 accent-green-400 cursor-pointer"
-              />
-              Remember me
-            </label>
+          {/*Forgot password */}
+          <div className="flex items-center justify-end text-xl">
             <a href="#" className="text-red-500 hover:text-green-400">
               Forgot password?
             </a>
@@ -71,10 +111,14 @@ export default function Login() {
           {/* Sign in button */}
           <button 
             type="submit"
+            value={status === "loggingIn" ? "Logging In" : "Login"}
+            disabled={status === "loggingIn"}
             className="w-full bg-white/20 hover:bg-white/30 transition-colors text-2xl text-white font-semibold rounded-lg py-3 mt-2 cursor-pointer"
           >
             Login
           </button>
+
+          <p className="text-red-500 text-md self-center justify-self-center mt-2">{msg}</p>
 
         </form>
 

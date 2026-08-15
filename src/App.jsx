@@ -4,9 +4,11 @@ import ScrollToTop from './components/ScrollToTop.jsx'
 import Header from "./components/Header.jsx"
 import Body from "./components/Body.jsx"
 import Footer from "./components/Footer.jsx"
+import ProtectedRoute from "./components/protectedRoutes.jsx"
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
+import {AuthProvider} from './AuthPages/authContext.jsx'
 
 import SnakeGame from "./games/snakeGame/snakeGame.jsx"
 import FloatingBlock from "./games/floatingBlock/floatingBlock.jsx"
@@ -17,7 +19,7 @@ function App() {
   const location = useLocation()
 
   return (
-    <>
+    <AuthProvider>
       { location.pathname === "/login" || location.pathname === "/register" ?
         <> 
           <Routes >
@@ -29,7 +31,7 @@ function App() {
           <ScrollToTop />
 
           <div 
-            className="fixed top-0 left-0 w-full h-2 bg-red-500 origin-left z-50"
+            className="fixed top-0 left-0 w-full h-1 bg-red-500 origin-left z-50"
             style={{ 
               animation: 'grow-progress auto linear',
               animationTimeline: 'scroll(root block)' 
@@ -54,7 +56,7 @@ function App() {
         </>
       }
 
-    </>
+    </AuthProvider>
   );
   
 }
