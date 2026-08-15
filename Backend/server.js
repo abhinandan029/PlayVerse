@@ -6,9 +6,7 @@ import cors from 'cors'
 import passport from 'passport'
 import cookieParser from 'cookie-parser'
 
-import jwt from 'jsonwebtoken'
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
-
 
 import authRouter from './routes/authRouter.js'
 
@@ -20,8 +18,9 @@ app.use(cors({
 }))
 
 app.use(express.json())
+app.use(cookieParser())
 
-app.use(authRouter)
+app.use("/api/auth", authRouter)
 
 
 const PORT = 3000

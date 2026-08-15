@@ -1,10 +1,14 @@
 import express from 'express'
 
-import {register, login} from '../controllers/authController.js'
+import {register, login, logout, verifyToken} from '../controllers/authController.js'
+import { authenticate } from '../utils/jwt.js'
 
 const authRouter = express.Router()
 
-authRouter.use("/api/auth/register", register)
-authRouter.use("/api/auth/login", login)
+authRouter.post("/register", register)
+authRouter.post("/login", login)
+authRouter.post("/logout", logout)
+
+authRouter.get("/verify-token", authenticate, verifyToken )
 
 export default authRouter

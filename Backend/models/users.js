@@ -9,3 +9,8 @@ export async function findUserByEmail(email){
   const [result] = await DB.query('SELECT email, password FROM users WHERE email = ?', [email])
   return result[0]
 }
+
+export async function findUserById(id){
+  const [result] = await DB.query('SELECT * FROM users WHERE id = ?', [id])
+  return result[0]
+}

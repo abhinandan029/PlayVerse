@@ -1,7 +1,15 @@
 import bcrypt from 'bcrypt'
 
-import {createUser, findUserByEmail} from '../models/users.js'
+import {createUser, findUserByEmail, findUserById} from '../models/users.js'
+import {generateToken} from '../utils/jwt.js'
 
+function setTokenCookie(res, token){
+  res.cookie('token', token, {
+    httpOnly : true,
+    sameSite: 'lax',
+    maxAge : 7*24*60*60*1000 
+  })
+}
 
 // Controller for user registration
 export async function register(req, res){
@@ -13,9 +21,13 @@ export async function register(req, res){
 
   try{
     const hashedPassword = await bcrypt.hash(password, 10)
-    await createUser(email, hashedPassword)
+    const result = await createUser(email, hashedPassword)
 
-    res.status(201).json({ msg : "Email registered successfully."})
+    const token = generateToken(result.insertId)
+    setTokenCookie(res, token)
+
+    res.status(201).json({ msg : "Email registered successfully.", user : { id : result.inserId, email : email }})
+
   }
   catch(error){
     console.log(error)
@@ -40,14 +52,35 @@ export async function login(req, res){
     }
 
     const passwordCheck = await bcrypt.compare(password, user.password)
-    if(!password){
+    if(!passwordCheck){
       return res.status(401).json({msg : "Invalid Email or Password"})
     }
+
+    const token = generateToken(user.id)
+    setTokenCookie(res, token)
     
-    res.status(201).json({msg : "You have loggedin to your account"})
+    res.status(200).json({msg : "You have loggedin to your account", user : { id : user.id, email : user.email }})
   }
   catch(error){
     console.error(error)
     res.status(500).json({msg : "Login failed."})
   }
 }
+
+export async function logout(req, res){
+  res.clearCookie('token', {
+    httpOnly : true,
+    sameSite : 'lax'
+  })
+
+  res.status(200).json({ msg : "Logged out successfully."})
+} 
+
+export async function verifyToken(req, res){
+  const user = await findUserById(req.userId)
+
+  if(!user) return res.status(404).json({ msg : "User Not Found!"})
+
+  res.status(200).json({ user : {user : user.id, email : user.email}}) 
+}
+
