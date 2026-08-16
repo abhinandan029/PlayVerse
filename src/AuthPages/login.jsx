@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import {Gamepad2} from 'lucide-react'
 
 import {useAuth} from '../AuthPages/authContext.jsx'
+import {useNotification} from '../components/notification.jsx'
 
 const TILE_BG = {
   backgroundImage:
@@ -21,6 +22,7 @@ export default function Login() {
   const navigate = useNavigate()
 
   const {refetch} = useAuth()
+  const {notify} = useNotification()
 
   async function handleSubmit(e){
 
@@ -37,21 +39,27 @@ export default function Login() {
         body : JSON.stringify({email, password})
       })
 
+      const data = await res.json()
+
       if(res.ok){
         setStatus("loggedin")
+        setMsg(data.msg)
+        notify(data.msg)
         await refetch()
         navigate("/home")
       }  
       else{
-        const data = await res.json()
+        setMsg(data.msg)
+        notify(data.msg)
         throw new Error(data.msg || `Server responded with ${res.status}`)
       }
-      
     }
     catch(error){
       setStatus("Error")
       setMsg(error.message)
+      notify(error.message)
     }
+
   }
 
   return (
@@ -122,8 +130,6 @@ export default function Login() {
           >
             Login
           </button>
-
-          <p className="text-red-500 text-md self-center justify-self-center mt-2">{msg}</p>
 
         </form>
 
