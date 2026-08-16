@@ -1,6 +1,9 @@
 import {useNavigate, useLocation} from 'react-router-dom'
+import{ useState, useRef, useEffect} from 'react'
+import {SquareUserRound} from 'lucide-react'
 
 import {useAuth} from '../AuthPages/authContext.jsx'
+import {ProfileMenu} from './profile.jsx'
 
 const TILE_BG = {
   backgroundImage:
@@ -13,6 +16,23 @@ function Header() {
   const location = useLocation();
 
   const {user, loading, logout} = useAuth()
+
+  const [profile, setProfile] = useState(false)
+  const profileRef = useRef(null)
+
+  useEffect(() => {
+    function handleOutsideClick(e){
+      if(profileRef.current && !profileRef.current.contains(e.target)){
+        setProfile(false)
+      }
+    }
+
+    if(profile){
+      document.addEventListener('click', handleOutsideClick)
+    }
+
+    return () => document.removeEventListener('click', handleOutsideClick)
+  }, [profile])
 
   return (
     <div 
@@ -32,7 +52,7 @@ function Header() {
           Home
         </button>
 
-        {
+        { user && 
           <button 
           className={`px-4 hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}>
             Wishlist
@@ -46,12 +66,14 @@ function Header() {
 
         {
           user && !loading ? 
-
-          <button 
-          className="px-4 py-1 rounded-md cursor-pointer border border-green-400/60 text-white bg-green-400/20"
-          onClick={async () => await logout()}>
-            Logout
-          </button> :
+          
+          <div ref={profileRef}>
+            <button className="flex items-center text-green-400 cursor-pointer" 
+            onClick={() => setProfile(prev => !prev)}>
+              <SquareUserRound className="size-10" />
+            </button>
+            {profile && <ProfileMenu closeMenu={() => setProfile(false)} />}
+          </div> : 
 
           <button 
           className="px-4 py-1 rounded-md cursor-pointer border border-green-400/60 text-white bg-green-400/20"

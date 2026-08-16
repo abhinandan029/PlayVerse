@@ -5,6 +5,7 @@ import Header from "./components/Header.jsx"
 import Body from "./components/Body.jsx"
 import Footer from "./components/Footer.jsx"
 import ProtectedRoute from "./components/protectedRoutes.jsx"
+import {ProfilePage} from "./components/profile.jsx"
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
@@ -44,6 +45,8 @@ function App() {
         
             <Route path="/" element={<Body />} />
             <Route path="/home" element={<Body />}/>
+
+            <Route path="/profile" element={<ProfilePage />} />
 
             <Route path="/snake-game" element={<SnakeGame />} />
             <Route path="/floating-block" element={<FloatingBlock />} />
