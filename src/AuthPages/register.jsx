@@ -60,6 +60,11 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4" style={TILE_BG}>
 
+      <button className="fixed top-5 left-5 p-1 rounded-md border border-red-500 cursor-pointer"
+      onClick={() => navigate("/home")}>
+        <Gamepad2 className="text-red-500/70 size-10"/>
+      </button>
+
       <Gamepad2 className="text-red-500 size-30 mb-5"/>
 
       {/* Heading */}
@@ -78,7 +83,7 @@ export default function Register() {
               Email address
             </label>
             <input 
-              type="text"
+              type="email"
               autoComplete="new-email"
               className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
               placeholder="exmaple@email.com"
