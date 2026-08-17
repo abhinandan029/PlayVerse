@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {BrowserRouter} from 'react-router-dom'
-import {NotificationProvider} from './components/notification.jsx'
+import {NotificationProvider} from './contexts/notificationContext.jsx'
 import './index.css'
 import App from './App.jsx'
 

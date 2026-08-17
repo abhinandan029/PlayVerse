@@ -40,12 +40,12 @@ export function NotificationProvider({ children }){
       
       {children}
       
-      <div className="fixed top-25 right-5 flex flex-col gap-2 z-999">
+      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 flex flex-col gap-2 z-999">
         
         {
           message &&
           <div 
-          className="flex gap-5 items-center px-4 py-3 text-2xl rounded-lg text-white shadow-lg shadow-white/25 bg-black border border-white/70">
+          className="flex gap-5 items-center px-4 py-3 text-2xl rounded-lg text-white shadow-lg/20 shadow-white/80 bg-black border border-white/70">
             <BellRing className="text-green-400"/>
             <p className="mr-10">{message.body}</p>
             <button 

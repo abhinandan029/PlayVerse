@@ -142,7 +142,7 @@ function SnakeGame(){
 
 
   return ( 
-    <div className="flex flex-col py-15" style={TILE_BG}>
+    <div className="flex flex-col" style={TILE_BG}>
 
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus}/>
       <HowToPlay htp={HTP}/>

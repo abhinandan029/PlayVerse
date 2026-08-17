@@ -44,7 +44,7 @@ function Body() {
   ]
 
   return (
-    <div className="flex flex-col py-20" style={TILE_BG}>
+    <div className="flex flex-col" style={TILE_BG}>
 
       <div className="text-white m-15 p-20 border border-white/40 rounded-xl flex bg-black" style={TILE_BG}>
         
@@ -69,7 +69,7 @@ function Body() {
        
       </div>
 
-      <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black mt-15">
+      <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black">
         <Gamepad2 className="text-red-500 size-15" />
         <h1 className="text-white text-5xl">Games</h1>
       </div>

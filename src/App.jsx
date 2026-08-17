@@ -9,7 +9,7 @@ import {ProfilePage} from "./components/profile.jsx"
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
-import {AuthProvider} from './AuthPages/authContext.jsx'
+import {AuthProvider} from './contexts/authContext.jsx'
 
 import SnakeGame from "./games/snakeGame/snakeGame.jsx"
 import FloatingBlock from "./games/floatingBlock/floatingBlock.jsx"

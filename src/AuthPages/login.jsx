@@ -3,8 +3,8 @@ import {useNavigate} from 'react-router-dom'
 
 import {Gamepad2} from 'lucide-react'
 
-import {useAuth} from '../AuthPages/authContext.jsx'
-import {useNotification} from '../components/notification.jsx'
+import {useAuth} from '../contexts/authContext.jsx'
+import {useNotification} from '../contexts/notificationContext.jsx'
 
 const TILE_BG = {
   backgroundImage:

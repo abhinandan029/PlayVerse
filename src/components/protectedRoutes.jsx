@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom"
 
-import { useAuth } from '../AuthPages/authContext.jsx'
+import { useAuth } from '../contexts/authContext.jsx'
 
 export default function ProtectedRoute({ children }){
 

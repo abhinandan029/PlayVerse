@@ -1,7 +1,10 @@
 import {ArrowRightLeft, User, Users, Gamepad2, Heart, Activity, Settings, LogOut} from 'lucide-react'
 import {useNavigate} from 'react-router-dom'
 
-import {useAuth} from '../AuthPages/authContext.jsx'
+import {useAuth} from '../contexts/authContext.jsx'
+
+
+import image from '../assets/Pac-Man.png'
 
 
 export function ProfileMenu({ closeMenu }){
@@ -10,7 +13,7 @@ export function ProfileMenu({ closeMenu }){
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col fixed top-18 right-10 p-2 bg-black border border-white/60 rounded-xl z-100">
+    <div className="flex flex-col fixed top-18 right-10 bg-black border border-white/60 rounded-xl z-100">
       <div className="flex gap-4 p-5 items-center">
         
         <div className="flex h-10 w-10 rounded-[50%] border items-center justify-center">T</div>
@@ -96,9 +99,46 @@ export function ProfileMenu({ closeMenu }){
 }
 
 export function ProfilePage(){
+
+  const {user, logout} = useAuth()
+
+  const games = ["game1", "game2", "game3", "game4", "game5"]
+
   return (
-    <div>
+    <div className="flex gap-10 border justify-center p-10 border-white text-white"> 
       
+      <div className="flex flex-col basis-1/4">
+
+        <img src={image} className="rounded-[50%] h-auto w-full border " height="260px" width="260px"/>
+
+        <div className="flex flex-col flex-1 justify-center p-4">
+          <p className="text-4xl font-bold">Abhinandan Manakapure</p>
+          <p className="text-2xl text-white/70">Abhinanda2903</p>
+          <p className="py-5 text-xl text-wrap">hello guys my name is abhiandan this my web page </p>
+          <p className="text-xl">{user.email}</p>
+          <p className="text-xl">location</p>
+        </div>
+
+      </div>
+      
+      <div className="basis-1/4 border border-white">
+      
+        <div className="grid grid-cols-2 p-2 gap-2">
+          {
+            games.map((game) => {
+              return (
+                <div className="text-center border">{game}</div>
+              )
+            })
+          }
+        </div>
+
+        <div>
+          activity
+        </div>
+
+      </div>
+    
     </div>
   )
 }

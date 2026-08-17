@@ -2,7 +2,7 @@ import {useNavigate, useLocation} from 'react-router-dom'
 import{ useState, useRef, useEffect} from 'react'
 import {SquareUserRound} from 'lucide-react'
 
-import {useAuth} from '../AuthPages/authContext.jsx'
+import {useAuth} from '../contexts/authContext.jsx'
 import {ProfileMenu} from './profile.jsx'
 
 const TILE_BG = {
@@ -36,7 +36,7 @@ function Header() {
 
   return (
     <div 
-    className="flex gap-2 py-5 px-5 justify-between items-center bg-black border border-b-white/40 fixed top-0 left-0 right-0">
+    className="flex gap-2 py-5 px-5 justify-between items-center bg-black border border-b-white/40 sticky top-0 left-0 right-0">
       
       <span 
       className="text-5xl md:text-5xl ml-5 font-bold text-green-400 cursor-pointer"
@@ -47,14 +47,15 @@ function Header() {
       <div className="flex gap-10 text-white text-[18px] mr-5">
         
         <button 
-        className={`px-4 rounded-md cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60 bg-red-500/10" : ""}`}
+        className={`px-4 rounded-md hover:bg-black/40 cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60 bg-red-500/10" : ""}`}
         onClick={() => navigate("/home")}>
           Home
         </button>
 
         { user && 
           <button 
-          className={`px-4 hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}>
+          className={`px-4 hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}
+          onClick={() => navigate("/wishlist")}>
             Wishlist
           </button> 
         }
