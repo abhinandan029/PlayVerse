@@ -2,18 +2,19 @@ import {ArrowRightLeft, User, Users, Gamepad2, Heart, Activity, Settings, LogOut
 import {useNavigate} from 'react-router-dom'
 
 import {useAuth} from '../contexts/authContext.jsx'
-
+import {useDialog} from '../contexts/dialogContext.jsx'
 
 import image from '../assets/Pac-Man.png'
 
 
 export function ProfileMenu({ closeMenu }){
   const {user, logout} = useAuth()
+  const {openDialog} = useDialog()
 
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col fixed top-18 right-10 bg-black border border-white/60 rounded-xl z-100">
+    <div className="flex flex-col fixed top-18 right-10 bg-black border border-white/60 rounded-xl z-100" onClick={(e) => e.stopPropagation()}>
       <div className="flex gap-4 p-5 items-center">
         
         <div className="flex h-10 w-10 rounded-[50%] border items-center justify-center">T</div>
@@ -87,7 +88,7 @@ export function ProfileMenu({ closeMenu }){
         
         <button 
         className="flex w-full gap-2 items-center hover:bg-red-500/20 rounded-md px-2 cursor-pointer"
-        onClick={() => logout()}>
+        onClick={() => { openDialog("Confirm", "Do you want to Logout?", logout); closeMenu() }}>
           <LogOut className="text-red-500 size-6"/>
           Logout
         </button>

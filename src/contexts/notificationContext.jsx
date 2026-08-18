@@ -1,4 +1,5 @@
 import {createContext, useContext, useState, useCallback, useMemo, useRef} from 'react'
+import {createPortal} from 'react-dom'
 import {BellRing, X} from 'lucide-react'
 
 const NotificationContext = createContext(null)
@@ -39,25 +40,26 @@ export function NotificationProvider({ children }){
     <NotificationContext.Provider value={ value }>
       
       {children}
-      
-      <div className="fixed bottom-10 left-1/2 -translate-x-1/2 flex flex-col gap-2 z-999">
         
-        {
-          message &&
-          <div 
-          className="flex gap-5 items-center px-4 py-3 text-2xl rounded-lg text-white shadow-lg/20 shadow-white/80 bg-black border border-white/70">
+      { 
+        message &&
+          createPortal(<div 
+          className="fixed bottom-10 left-1/2 -translate-x-1/2 flex gap-5 items-center px-4 py-3 text-2xl rounded-lg text-white shadow-lg/20 shadow-white/80 bg-black border border-white/70"
+           onClick={(e) => e.stopPropagation()}>
+              
             <BellRing className="text-green-400"/>
             <p className="mr-10">{message.body}</p>
+              
             <button 
             className="text-red-500 cursor-pointer"
             onClick={() => setMessage(null)}>
               <X className="size-7"/>
             </button>
-          </div>
+            
+          </div>, document.body
+        )
 
-        }
-
-      </div>
+      }
 
     </NotificationContext.Provider>
   )
