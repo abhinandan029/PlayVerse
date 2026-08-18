@@ -20,6 +20,12 @@ export async function register(req, res){
   }
 
   try{
+    
+    const existing =  await findUserByEmail(email)
+    if(existing) {
+      return res.status(409).json({msg : "email already registered."})
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10)
     const result = await createUser(email, hashedPassword)
 

@@ -1,8 +1,10 @@
 import {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-
 import {Gamepad2} from 'lucide-react'
+
+import {useAuth} from '../contexts/authContext.jsx'
+import {useNotification} from '../contexts/notificationContext.jsx'
 
 const TILE_BG = {
   backgroundImage:
@@ -20,6 +22,9 @@ export default function Register() {
 
   const navigate = useNavigate()
 
+  const {refetch} = useAuth()
+  const {notify} = useNotification()
+
   async function handleSubmit(e){
 
     e.preventDefault()
@@ -28,6 +33,7 @@ export default function Register() {
     if(password !== cnfPassword){
       setStatus("Error")
       setMsg("Password doesn't match!!")
+      notify("Password doesn't match!!")
       return 
     }
 
@@ -43,17 +49,24 @@ export default function Register() {
 
       const data = await res.json()
 
-      if(!res.ok){
-        throw new Error(data.error || `Server Responded with ${res.status}`)
+      if(res.ok){
+        setStatus("Registerd")
+        setMsg(data.msg)
+        notify(data.msg)
+        await refetch()
+        navigate("/profile")
+      }  
+      else{
+        setMsg(data.msg)
+        notify(data.msg)
+        throw new Error(data.msg || `Server responded with ${res.status}`)
       }
-
-      setStatus("Registerd")
-      navigate("/home")
 
     }
     catch(error){
       setStatus("Error")
       setMsg(error.message)
+      notify(error.message)
     }
   }
 
@@ -65,7 +78,7 @@ export default function Register() {
         <Gamepad2 className="text-red-500/70 size-10"/>
       </button>
 
-      <Gamepad2 className="text-red-500 size-30 mb-5"/>
+      <Gamepad2 className="text-red-500 size-30"/>
 
       {/* Heading */}
       <h1 className="text-white text-4xl font-bold mb-8 text-center">
@@ -147,7 +160,6 @@ export default function Register() {
 
         </form>
 
-        <p className="text-red-500 text-md self-center justify-self-center mt-2">{msg}</p>
 
         {/* Divider */}
         <div className="flex items-center gap-4 my-6">
