@@ -46,11 +46,11 @@ function App() {
             <Route path="/" element={<Body />} />
             <Route path="/home" element={<Body />}/>
 
-            <Route path="/profile" element={<ProfilePage />} />
-
             <Route path="/snake-game" element={<SnakeGame />} />
             <Route path="/floating-block" element={<FloatingBlock />} />
             <Route path="/pac-man" element={<PacMan />} />
+
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
 
           </Routes>
       

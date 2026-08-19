@@ -17,7 +17,7 @@ export function ProfileMenu({ closeMenu }){
     <div className="flex flex-col fixed top-18 right-10 bg-black border border-white/60 rounded-xl z-100" onClick={(e) => e.stopPropagation()}>
       <div className="flex gap-4 p-5 items-center">
         
-        <div className="flex h-10 w-10 rounded-[50%] border items-center justify-center">T</div>
+        <div className="flex px-3 py-1 rounded-md border items-center justify-center">{user.email[0]}</div>
         
         <div className="flex flex-col">
           <p className="">testName</p>
@@ -35,28 +35,28 @@ export function ProfileMenu({ closeMenu }){
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() =>{navigate("/profile"); closeMenu()}}>
-          <User className="size-6"/>
+          <User className="size-6 text-green-400"/>
           Profile
         </button>
 
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/friends"); closeMenu()}}>
-          <Users className="size-6"/>
+          <Users className="size-6 text-green-400"/>
           Friends
         </button>
 
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/games"); closeMenu()}}>
-          <Gamepad2 className="size-6"/>
+          <Gamepad2 className="size-6 text-green-400"/>
           Games
         </button>
       
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/wishlist"); closeMenu()}}>
-          <Heart className="size-6"/>
+          <Heart className="size-6 text-green-400"/>
           Wishlist
         </button>
 
@@ -69,14 +69,14 @@ export function ProfileMenu({ closeMenu }){
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/activity"); closeMenu()}}>
-          <Activity className="size-6"/>
+          <Activity className="size-6 text-green-400"/>
           Activity
         </button>
 
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/settings"); closeMenu()}}>
-          <Settings className="size-6"/>
+          <Settings className="size-6 text-green-400"/>
           Settings
         </button>
       
@@ -126,9 +126,9 @@ export function ProfilePage(){
       
         <div className="grid grid-cols-2 p-2 gap-2">
           {
-            games.map((game) => {
+            games.map((game, i) => {
               return (
-                <div className="text-center border">{game}</div>
+                <div key={i} className="text-center border">{game}</div>
               )
             })
           }

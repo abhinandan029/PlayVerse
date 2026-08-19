@@ -69,9 +69,9 @@ function Header() {
           user && !loading ? 
           
           <div ref={profileRef}>
-            <button className="flex items-center text-green-400 cursor-pointer" 
+            <button className="flex items-center text-white bg-green-400/15 cursor-pointer border px-3 py-1 rounded-md" 
             onClick={() => setProfile(prev => !prev)}>
-              <SquareUserRound className="size-10" />
+              {user.email[0]}
             </button>
             {profile && <ProfileMenu closeMenu={() => setProfile(false)} />}
           </div> : 

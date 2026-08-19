@@ -1,4 +1,5 @@
 import {useNavigate} from "react-router-dom"
+import {useState, useEffect} from 'react'
 
 import {Zap, Code2, Gamepad2} from 'lucide-react'
 
@@ -13,17 +14,40 @@ const images = import.meta.glob("../assets/*.png", { eager: true, import: "defau
 function Body() {
   const navigate = useNavigate();
 
-  const games = [
-    {
-     name : "Snake Game", type : "classic" 
-    },
-    {
-      name : "Floating Block", type : "puzzle"
-    },
-    {
-      name : "Pac Man", type : "arcade"
-    } 
-  ]
+  const [games, setGames] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchGames(){
+      
+      try{
+        const res = await fetch('/api/games/fetch-games', {
+          method : 'GET',
+          credentials : 'include'
+        })
+
+        if(res.ok){
+          const data = await res.json()
+          setGames(data.games)
+        }
+        else{
+          console.log('failed to fetch')
+        }
+
+      }
+      catch(error){
+        console.error(error)
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    
+    fetchGames()
+  }, [])
+  
+
+ 
 
   function getImage(game){
     const filename = `../assets/${game.replaceAll(" ", "-")}.png`
@@ -89,7 +113,7 @@ function Body() {
 
                 <div className="flex flex-col items-left">
                   <p className="text-2xl">{game.name}</p>
-                  <p className="text-xl text-white/30">{game.type}</p>
+                  <p className="text-xl text-white/30">classic</p>
                 </div>
                 
                 <button 

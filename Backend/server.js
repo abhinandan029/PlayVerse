@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser'
 import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
 
 import authRouter from './routes/authRouter.js'
+import gamesRouter from './routes/gamesRouter.js'
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use("/api/auth", authRouter)
+app.use("/api/games", gamesRouter)
 
 
 const PORT = 3000
