@@ -293,6 +293,7 @@ function PacMan(){
     queuedDirRef.cureent = 1
     currentDirRef.current = 1
 
+    setPlaying(false)
     setPlayer(playerStart)
     setGhosts(ghostsStart)
     setPellets(buildPellets(walls, [playerStart, ...ghostsStart]))

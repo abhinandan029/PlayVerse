@@ -1,9 +1,14 @@
 import {useNavigate} from 'react-router-dom'
 import {forwardRef} from 'react'
+
 import {Play, Pause, RotateCcw, LogOut} from 'lucide-react'
+
+import {useDialog} from '../../contexts/dialogContext.jsx'
 
 const GameBoard = forwardRef(function GameBoard({score,setPlaying, playing, gameOver, restart, focus, children}, ref){
 
+  const {openDialog} = useDialog()
+  
   const navigate = useNavigate()
 
   return (
@@ -42,13 +47,13 @@ const GameBoard = forwardRef(function GameBoard({score,setPlaying, playing, game
       
         <button 
         className="text-white border m-2 p-2 rounded-md bg-red-400/40 cursor-pointer"
-        onClick={() => restart()} >
+        onClick={() => {setPlaying(false); openDialog("confirm", "Do you want to restart the game?", restart)}} >
           <RotateCcw className="text-white"/>
         </button>
         
         <button 
         className="text-white border ml-auto m-2 p-2 rounded-md bg-red-500/40 cursor-pointer"
-        onClick={() => navigate("/home")}>
+        onClick={() => openDialog("confirm", "do want to exit the game?", () => navigate("/home"))}>
           <LogOut className="text-white"/>
         </button>
 
