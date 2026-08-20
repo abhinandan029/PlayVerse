@@ -35,14 +35,14 @@ export function ProfileMenu({ closeMenu }){
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() =>{navigate("/profile"); closeMenu()}}>
-          <User className="size-6 text-green-400"/>
+          <User className="size-6 text-green-400 fill-green-400"/>
           Profile
         </button>
 
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/friends"); closeMenu()}}>
-          <Users className="size-6 text-green-400"/>
+          <Users className="size-6 text-green-400 fill-green-400"/>
           Friends
         </button>
 
@@ -56,7 +56,7 @@ export function ProfileMenu({ closeMenu }){
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
         onClick={() => {navigate("/wishlist"); closeMenu()}}>
-          <Heart className="size-6 text-green-400"/>
+          <Heart className="size-6 text-green-400 fill-green-400"/>
           Wishlist
         </button>
 

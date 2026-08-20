@@ -1,7 +1,9 @@
 import {useNavigate} from "react-router-dom"
 import {useState, useEffect} from 'react'
 
-import {Zap, Code2, Gamepad2} from 'lucide-react'
+import {useAuth} from '../contexts/authContext.jsx'
+
+import {Zap, Code2, Gamepad2, Heart} from 'lucide-react'
 
 const TILE_BG = {
   backgroundImage:
@@ -14,8 +16,11 @@ const images = import.meta.glob("../assets/*.png", { eager: true, import: "defau
 function Body() {
   const navigate = useNavigate();
 
+  const {user} = useAuth()
+
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
+  const [wishlistId, setWishlistId] = useState(new Set())
 
   useEffect(() => {
     async function fetchGames(){
@@ -45,8 +50,71 @@ function Body() {
     
     fetchGames()
   }, [])
+
+
+  useEffect(() => {
+    if(!user){
+      setWishlistId(new Set())
+      return 
+    }
+
+    async function fetchWishlist(){
+      try{
+        const res = await fetch('/api/wishlist/fetch', {
+          method : "GET",
+          credentials : "include"
+        })
+
+        if(res.ok){
+          const data = await res.json()
+          setWishlistId(new Set(data.gameIds))
+        }
+      }
+      catch(error){
+        console.error(error)
+      }
+    }
+
+    fetchWishlist()
+  }, [user])
   
 
+
+  async function handleWishlisttoggle(gameId){
+    if(!user){
+      navigate("/login")
+      return
+    }
+
+    setWishlistId(prev => {
+      const next = new Set(prev)
+      next.has(gameId) ? next.delete(gameId) : next.add(gameId)
+      return next
+    })
+
+    try{
+      const res = await fetch("/api/wishlist/toggle", {
+        method : 'POST',
+        credentials : 'include',
+        headers : {'Content-Type' : 'application/json'},
+        body : JSON.stringify({ gameId }) 
+      })
+
+      if(!res.ok){
+        setWishlistId(prev => {
+          const next = new Set(prev)
+          next.has(gameId) ? next.delete(gameId) : next.add(gameId)
+          return next
+        })
+      }
+
+      const data = await res.json()
+      console.log(data)
+    }
+    catch(error){
+      console.error(error)
+    }
+  } 
  
 
   function getImage(game){
@@ -106,8 +174,15 @@ function Body() {
         games.map((game, index) =>
         {
           return(
-            <div key={index} className="m-4 mt-10 border border-white/30 rounded-xl bg-black">
-              <img src={getImage(game.name)} className="rounded-t-xl"></img>
+            <div key={index} className="group m-4 mt-10 border border-white/30 rounded-xl bg-black">
+              <div className="relative">
+                <img src={getImage(game.name)} className="rounded-t-xl group-hover:opacity-30" alt={game.name} />
+                <button
+                  className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100"
+                  onClick={() => handleWishlisttoggle(game.id)}>
+                  <Heart className={`size-10 ${wishlistId.has(game.id) ? "text-red-500 fill-red-500" : "text-white fill-white"}`} />
+                </button>
+              </div>
               
               <div className="flex items-center justify-between px-5 py-3 border-t border-white/30">
 

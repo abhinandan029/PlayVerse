@@ -4,3 +4,4 @@ export async function fetchGames(){
   const [result] = await DB.query('SELECT * FROM games')
   return result
 }
+
