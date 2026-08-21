@@ -6,6 +6,7 @@ import Body from "./components/Body.jsx"
 import Footer from "./components/Footer.jsx"
 import ProtectedRoute from "./components/protectedRoutes.jsx"
 import {ProfilePage} from "./components/profile.jsx"
+import Wishlist from './components/wishlist.jsx'
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
@@ -53,6 +54,7 @@ function App() {
               <Route path="/pac-man" element={<PacMan />} />
 
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
 
             </Routes>
         

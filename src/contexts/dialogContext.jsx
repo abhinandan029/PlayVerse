@@ -30,7 +30,7 @@ return (
     { dialog && 
       createPortal(
         <div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 test-xl"
+        className="fixed inset-0 z-999 flex items-center justify-center bg-black/70 test-xl"
         onClick={closeDialog}>
 
           <div 
