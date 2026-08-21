@@ -2,6 +2,7 @@ import {useNavigate} from "react-router-dom"
 import {useState, useEffect} from 'react'
 
 import {useAuth} from '../contexts/authContext.jsx'
+import {useWishlist} from '../contexts/wishlistContext.jsx'
 
 import {Zap, Code2, Gamepad2, Heart} from 'lucide-react'
 
@@ -17,10 +18,10 @@ function Body() {
   const navigate = useNavigate();
 
   const {user} = useAuth()
+  const {wishlistId, toggleWishlist} = useWishlist()
 
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
-  const [wishlistId, setWishlistId] = useState(new Set())
 
   useEffect(() => {
     async function fetchGames(){
@@ -51,69 +52,13 @@ function Body() {
     fetchGames()
   }, [])
 
-
-  useEffect(() => {
-    if(!user){
-      setWishlistId(new Set())
-      return 
-    }
-
-    async function fetchWishlist(){
-      try{
-        const res = await fetch('/api/wishlist/fetch', {
-          method : "GET",
-          credentials : "include"
-        })
-
-        if(res.ok){
-          const data = await res.json()
-          setWishlistId(new Set(data.gameIds))
-        }
-      }
-      catch(error){
-        console.error(error)
-      }
-    }
-
-    fetchWishlist()
-  }, [user])
-  
-
-
   async function handleWishlisttoggle(gameId){
     if(!user){
       navigate("/login")
       return
     }
 
-    setWishlistId(prev => {
-      const next = new Set(prev)
-      next.has(gameId) ? next.delete(gameId) : next.add(gameId)
-      return next
-    })
-
-    try{
-      const res = await fetch("/api/wishlist/toggle", {
-        method : 'POST',
-        credentials : 'include',
-        headers : {'Content-Type' : 'application/json'},
-        body : JSON.stringify({ gameId }) 
-      })
-
-      if(!res.ok){
-        setWishlistId(prev => {
-          const next = new Set(prev)
-          next.has(gameId) ? next.delete(gameId) : next.add(gameId)
-          return next
-        })
-      }
-
-      const data = await res.json()
-      console.log(data)
-    }
-    catch(error){
-      console.error(error)
-    }
+    await toggleWishlist(gameId)
   } 
  
 

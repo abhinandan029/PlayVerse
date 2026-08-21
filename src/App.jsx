@@ -10,6 +10,7 @@ import {ProfilePage} from "./components/profile.jsx"
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
 import {AuthProvider} from './contexts/authContext.jsx'
+import {WishlistProvider} from './contexts/wishlistContext.jsx'
 
 import SnakeGame from "./games/snakeGame/snakeGame.jsx"
 import FloatingBlock from "./games/floatingBlock/floatingBlock.jsx"
@@ -21,44 +22,45 @@ function App() {
 
   return (
     <AuthProvider>
-      { location.pathname === "/login" || location.pathname === "/register" ?
-        <> 
-          <Routes >
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </> :
-        <>
-          <ScrollToTop />
+      <WishlistProvider>
+        { location.pathname === "/login" || location.pathname === "/register" ?
+          <> 
+            <Routes >
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </> :
+          <>
+            <ScrollToTop />
 
-          <div 
-            className="fixed top-0 left-0 w-full h-1 bg-red-500 origin-left z-50"
-            style={{ 
-              animation: 'grow-progress auto linear',
-              animationTimeline: 'scroll(root block)' 
-              } }
-          />
+            <div 
+              className="fixed top-0 left-0 w-full h-1 bg-red-500 origin-left z-50"
+              style={{ 
+                animation: 'grow-progress auto linear',
+                animationTimeline: 'scroll(root block)' 
+                } }
+            />
 
-          <Header />
-      
-          <Routes>
+            <Header />
         
-            <Route path="/" element={<Body />} />
-            <Route path="/home" element={<Body />}/>
+            <Routes>
+          
+              <Route path="/" element={<Body />} />
+              <Route path="/home" element={<Body />}/>
 
-            <Route path="/snake-game" element={<SnakeGame />} />
-            <Route path="/floating-block" element={<FloatingBlock />} />
-            <Route path="/pac-man" element={<PacMan />} />
+              <Route path="/snake-game" element={<SnakeGame />} />
+              <Route path="/floating-block" element={<FloatingBlock />} />
+              <Route path="/pac-man" element={<PacMan />} />
 
-            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+              <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
 
-          </Routes>
-      
-          <Footer />
-      
-        </>
-      }
-
+            </Routes>
+        
+            <Footer />
+        
+          </>
+        }
+      </WishlistProvider>
     </AuthProvider>
   );
   
