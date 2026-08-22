@@ -1,11 +1,23 @@
 import {ArrowRightLeft, User, Users, Gamepad2, Heart, Activity, Settings, LogOut} from 'lucide-react'
+import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {useDialog} from '../contexts/dialogContext.jsx'
+import {useWishlist} from "../contexts/wishlistContext.jsx"
 
-import image from '../assets/Pac-Man.png'
+const images = import.meta.glob("../assets/*.png", { eager: true, import: "default" })
 
+const TILE_BG = {
+  backgroundImage:
+    "radial-gradient(circle, hsla(0, 100%, 100%, 0.2) 1px, transparent 1px)",
+  backgroundSize: "22px 22px",
+};
+
+function getImage(game) {
+  const filename = `../assets/${game.replaceAll(" ", "-")}.png`
+  return images[filename]
+}
 
 export function ProfileMenu({ closeMenu }){
   const {user, logout} = useAuth()
@@ -102,15 +114,41 @@ export function ProfileMenu({ closeMenu }){
 export function ProfilePage(){
 
   const {user, logout} = useAuth()
+  const [allGames, setAllGames] = useState([])
+  const [loadingGames, setLoadingGames] = useState(true)
+  const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
 
-  const games = ["game1", "game2", "game3", "game4", "game5"]
+  useEffect(() => {
+    async function fetchGames() {
+      try {
+        const res = await fetch('/api/games/fetch-games', {
+          method: 'GET',
+          credentials: 'include'
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setAllGames(data.games)
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoadingGames(false)
+      }
+    }
+
+    fetchGames()
+
+  }, [])
+
+  const loading = wishlistLoading || loadingGames
+  const wishlistedGames = allGames.filter(game => wishlistId.has(game.id))
 
   return (
-    <div className="flex gap-10 border justify-center p-10 border-white text-white"> 
+    <div className="flex gap-10 justify-center p-10 text-white" style={TILE_BG}> 
       
       <div className="flex flex-col basis-1/4">
 
-        <img src={image} className="rounded-[50%] h-auto w-full border " height="260px" width="260px"/>
+        <img src={getImage("Snake Game")} className="rounded-[50%] h-auto w-full border " height="260px" width="260px"/>
 
         <div className="flex flex-col flex-1 justify-center p-4">
           <p className="text-4xl font-bold">Abhinandan Manakapure</p>
@@ -122,17 +160,55 @@ export function ProfilePage(){
 
       </div>
       
-      <div className="basis-1/4 border border-white">
-      
-        <div className="grid grid-cols-2 p-2 gap-2">
-          {
-            games.map((game, i) => {
-              return (
-                <div key={i} className="text-center border">{game}</div>
-              )
-            })
-          }
+      <div className="p-5">
+
+        <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black">
+          <Heart className="text-red-500 size-10 fill-red-500" />
+          <h1 className="text-3xl">Your Wishlist</h1>
         </div>
+      
+        {loading ? (
+          <p className="text-center mt-20 text-white/50 text-xl">Loading your wishlist...</p>
+          ) : wishlistedGames.length === 0 ? (
+          <div className="flex flex-col items-center justify-center mt-20 gap-4">
+            <Gamepad2 className="size-16 text-white/30" />
+              <p className="text-white/50 text-xl">Your wishlist is empty.</p>
+              <button
+              className="px-4 py-2 rounded-md border border-green-400/60 bg-green-400/20 cursor-pointer"
+              onClick={() => navigate('/home')}>
+                Browse Games
+              </button>
+          </div>
+          ) : (
+          <div className="grid grid-cols-1 m-5">
+            {wishlistedGames.map((game) => (
+              <div key={game.id} className="flex group m-4 border border-white/30 rounded-xl bg-black">
+                <div className="relative">
+                  <img src={getImage(game.name)} height="300px" width="300px" className="rounded-l-xl group-hover:opacity-40" alt={game.name} />
+                  <button
+                  className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100"
+                  onClick={() => toggleWishlist(game.id)}>
+                    <Heart className="size-10 text-red-500 fill-red-500" />
+                  </button>
+                </div>
+          
+                <div className="flex flex-col w-full justify-start p-4 border border-white/30">
+              
+                  <p className="text-2xl">{game.name}</p>
+                  <p className="text-xl text-white/30 self-start">classic</p>
+
+                  <button
+                  className="px-2 text-xl bg-white/10 rounded-md border border-white/40 cursor-pointer m-2 mt-auto"
+                  onClick={() => navigate(`/${game.name.toLowerCase().replaceAll(" ", "-")}`)}>
+                    Play
+                  </button>
+               
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+    
 
         <div>
           activity
