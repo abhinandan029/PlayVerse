@@ -57,13 +57,6 @@ export function ProfileMenu({ closeMenu }){
           <Users className="size-6 text-green-400 fill-green-400"/>
           Friends
         </button>
-
-        <button 
-        className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
-        onClick={() => {navigate("/games"); closeMenu()}}>
-          <Gamepad2 className="size-6 text-green-400"/>
-          Games
-        </button>
       
         <button 
         className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
@@ -118,6 +111,8 @@ export function ProfilePage(){
   const [loadingGames, setLoadingGames] = useState(true)
   const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     async function fetchGames() {
       try {
@@ -143,77 +138,88 @@ export function ProfilePage(){
   const loading = wishlistLoading || loadingGames
   const wishlistedGames = allGames.filter(game => wishlistId.has(game.id))
 
+  const days =  ["MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN"]
   return (
-    <div className="flex gap-10 justify-center p-10 text-white" style={TILE_BG}> 
+    <div className="flex flex-col gap-10 items-center justify-center p-10 text-white" style={TILE_BG}> 
+
+      <div className="flex justify-center">
       
-      <div className="flex flex-col basis-1/4">
+        <div className="flex flex-col basis-1/3 mt-20">
 
-        <img src={getImage("Snake Game")} className="rounded-[50%] h-auto w-full border " height="260px" width="260px"/>
+          <img src={getImage("Snake Game")} className="rounded-[50%] h-auto w-full border " height="260px" width="260px"/>
 
-        <div className="flex flex-col flex-1 justify-center p-4">
-          <p className="text-4xl font-bold">Abhinandan Manakapure</p>
-          <p className="text-2xl text-white/70">Abhinanda2903</p>
-          <p className="py-5 text-xl text-wrap">hello guys my name is abhiandan this my web page </p>
-          <p className="text-xl">{user.email}</p>
-          <p className="text-xl">location</p>
+          <div className="flex flex-col flex-1 items-start justify-start p-4">
+            <p className="text-4xl font-bold text-nowrap">Abhinandan Manakapure</p>
+            <p className="text-2xl text-white/70">Abhinanda2903</p>
+            <p className="py-5 text-xl text-wrap max">hello guys my name is abhiandan this my w asdasdsdasdasdas</p>
+            <p className="text-xl">{user.email}</p>
+            <p className="text-xl">location</p>
+          </div>
+
+        </div>
+        
+        <div className="p-5 basis-2/3">
+
+          <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black">
+            <Heart className="text-red-500 size-10 fill-red-500" />
+            <h1 className="text-3xl">Your Wishlist</h1>
+          </div>
+        
+          {loading ? (
+            <p className="text-center mt-20 text-white/50 text-xl">Loading your wishlist...</p>
+            ) : wishlistedGames.length === 0 ? (
+            <div className="flex flex-col items-center justify-center mt-20 gap-4">
+              <Gamepad2 className="size-16 text-white/30" />
+                <p className="text-white/50 text-xl">Your wishlist is empty.</p>
+                <button
+                className="px-4 py-2 rounded-md border border-green-400/60 bg-green-400/20 cursor-pointer"
+                onClick={() => navigate('/home')}>
+                  Browse Games
+                </button>
+            </div>
+            ) : (
+            <div className="grid grid-cols-1 m-5">
+              {wishlistedGames.map((game) => (
+                <div key={game.id} className=" flex group m-4 border border-white/30 rounded-xl bg-black">
+                  <div className="relative">
+                    <img src={getImage(game.name)} height="300px" width="300px" className="rounded-l-xl group-hover:opacity-40" alt={game.name} />
+                    <button
+                    className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100"
+                    onClick={() => toggleWishlist(game.id)}>
+                      <Heart className="size-10 text-red-500 fill-red-500" />
+                    </button>
+                  </div>
+            
+                  <div className="flex flex-col w-full justify-start p-4 border border-white/30">
+                
+                    <p className="text-2xl">{game.name}</p>
+                    <p className="text-xl text-white/30 self-start">classic</p>
+
+                    <button
+                    className="px-2 text-xl bg-white/10 rounded-md border border-white/40 cursor-pointer m-2 mt-auto ml-auto w-30"
+                    onClick={() => navigate(`/${game.name.toLowerCase().replaceAll(" ", "-")}`)}>
+                      Play
+                    </button>
+                
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
         </div>
 
       </div>
-      
-      <div className="p-5">
 
-        <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black">
-          <Heart className="text-red-500 size-10 fill-red-500" />
-          <h1 className="text-3xl">Your Wishlist</h1>
-        </div>
-      
-        {loading ? (
-          <p className="text-center mt-20 text-white/50 text-xl">Loading your wishlist...</p>
-          ) : wishlistedGames.length === 0 ? (
-          <div className="flex flex-col items-center justify-center mt-20 gap-4">
-            <Gamepad2 className="size-16 text-white/30" />
-              <p className="text-white/50 text-xl">Your wishlist is empty.</p>
-              <button
-              className="px-4 py-2 rounded-md border border-green-400/60 bg-green-400/20 cursor-pointer"
-              onClick={() => navigate('/home')}>
-                Browse Games
-              </button>
-          </div>
-          ) : (
-          <div className="grid grid-cols-1 m-5">
-            {wishlistedGames.map((game) => (
-              <div key={game.id} className="flex group m-4 border border-white/30 rounded-xl bg-black">
-                <div className="relative">
-                  <img src={getImage(game.name)} height="300px" width="300px" className="rounded-l-xl group-hover:opacity-40" alt={game.name} />
-                  <button
-                  className="absolute top-2 right-2 cursor-pointer opacity-0 group-hover:opacity-100"
-                  onClick={() => toggleWishlist(game.id)}>
-                    <Heart className="size-10 text-red-500 fill-red-500" />
-                  </button>
-                </div>
-          
-                <div className="flex flex-col w-full justify-start p-4 border border-white/30">
-              
-                  <p className="text-2xl">{game.name}</p>
-                  <p className="text-xl text-white/30 self-start">classic</p>
+      <p className="text-xl">Activity Graph</p>
 
-                  <button
-                  className="px-2 text-xl bg-white/10 rounded-md border border-white/40 cursor-pointer m-2 mt-auto"
-                  onClick={() => navigate(`/${game.name.toLowerCase().replaceAll(" ", "-")}`)}>
-                    Play
-                  </button>
-               
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-    
-
-        <div>
-          activity
-        </div>
-
+      <div className="grid grid-cols-7 gap-5 p-5 border border-white/20 bg-black rounded-xl">
+        {
+          days.map((day, i) => {
+            
+            return <div className={`rounded-[50%] h-20 w-20 bg-white/10 flex flex-col text-center justify-center`} key={i}>{day}</div>
+          }) 
+        }
       </div>
     
     </div>
