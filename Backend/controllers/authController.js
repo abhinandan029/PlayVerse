@@ -87,7 +87,7 @@ export async function verifyToken(req, res){
 
   if(!user) return res.status(404).json({ msg : "User Not Found!"})
 
-  res.status(200).json({ user : {id : user.id, email : user.email}}) 
+  res.status(200).json({ user }) 
 
 }
 

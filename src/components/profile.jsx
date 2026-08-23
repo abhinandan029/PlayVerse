@@ -38,44 +38,39 @@ export function ProfileMenu({ closeMenu }){
     <div className="flex flex-col fixed top-18 right-10 bg-black border border-white/60 rounded-xl z-100" onClick={(e) => e.stopPropagation()}>
       <div className="flex gap-4 p-5 items-center">
         <img
-          src={getAvatar(user.avatar || 'fox')}
-          className="size-10 rounded-full border border-green-400/40"
+          src={getAvatar(user.avatar || 'cat')}
+          className="size-15 rounded-full border border-green-400/50"
           alt="avatar"
         />
         <div className="flex flex-col">
           <p className="font-semibold">{user.username || user.email.split('@')[0]}</p>
           <p className="text-sm text-white/50">{user.email}</p>
         </div>
-        <button className="ml-10 cursor-pointer"><ArrowRightLeft className="text-green-400 size-5"/></button>
+        {/* <button className="ml-10 cursor-pointer"><ArrowRightLeft className="text-green-400 size-5"/></button> */}
       </div>
 
       <div className="flex-1 h-px border-white/30 border" />
 
       <div className="flex flex-col p-2 items-start gap-1">
+
         <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() =>{navigate("/profile"); closeMenu()}}>
           <User className="size-6 text-green-400"/>Profile
         </button>
+
         <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/friends"); closeMenu()}}>
           <Users className="size-6 text-green-400"/>Friends
         </button>
+
         <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/wishlist"); closeMenu()}}>
           <Heart className="size-6 text-green-400"/>Wishlist
         </button>
-      </div>
-
-      <div className="flex-1 h-px border-white/30 border" />
-
-      <div className="flex flex-col p-2 items-start gap-1">
+      
         <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/activity"); closeMenu()}}>
           <Activity className="size-6 text-green-400"/>Activity
-        </button>
-        <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
-          onClick={() => {navigate("/settings"); closeMenu()}}>
-          <Settings className="size-6 text-green-400"/>Settings
         </button>
       </div>
 
@@ -99,6 +94,8 @@ export function ProfilePage(){
   const [loadingGames, setLoadingGames] = useState(true)
   const [activityData, setActivityData] = useState([])
   const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
+
+  const [editing, setEditing] = useState(false)
 
   const navigate = useNavigate()
 
@@ -191,7 +188,7 @@ export function ProfilePage(){
       <div className="flex flex-col min-w-6xl md:flex-row gap-8 border border-white/20 rounded-xl bg-black p-8">
 
         <img
-          src={getAvatar(user.avatar || 'fox')}
+          src={getAvatar(user.avatar || 'cat')}
           className="size-32 md:size-40 rounded-full border-2 border-green-400/50 shrink-0"
           alt="avatar"
         />
@@ -202,15 +199,15 @@ export function ProfilePage(){
           </h1>
           <p className="text-white/40 text-lg">{user.email}</p>
 
-          {user.bio && <p className="text-white/70 text-lg mt-2 max-w-xl">{user.bio}</p>}
+          <p className="text-white/70 text-lg mt-2 max-w-xl">{user.bio || "bio"}</p>
 
           <div className="flex items-center gap-6 mt-4 text-white/50">
-            {user.location && (
-              <span className="flex items-center gap-1">
-                <MapPin className="size-4" />{user.location}
-              </span>
-            )}
+            <button className="px-2 rounded-md border border-white/30 cursor-pointer"
+            onClick={() => setEditing(true)}>
+              Edit Profile
+            </button>
           </div>
+
         </div>
 
         {/* Quick stats */}
@@ -329,4 +326,8 @@ export function ProfilePage(){
 
     </div>
   )
+}
+
+export async function EditProfileModal({ onClose }){
+
 }
