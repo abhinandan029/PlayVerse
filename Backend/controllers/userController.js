@@ -1,4 +1,4 @@
-import {updateProfile} from '../models/users.js'
+import {updateProfile, findUserByUsernameNormalized} from '../models/users.js'
 
 const VALID_AVATARS = ['fox', 'robot', 'cat', 'alien', 'ghost', 'ninja', 'astronaut', 'dragon', 'wizard', 'pixel-guy']
 
@@ -39,4 +39,34 @@ export async function editProfile(req, res){
     console.error(error)
     res.status(500).json({ msg : "Failed to updated profile." })
   }
+}
+
+export async function checkUsernameAvailable(req, res){
+  const {username} = req.query
+
+  if(!username){
+    return res.status(400).json({ msg : "username is required"})
+  }
+
+  if( username.length < 3 || username.length > 20 ){
+    return res.status(200).json({ available : false})
+  }
+
+  if( !/^[a-zA-Z0-9_]+$/.test(username) ){
+    return res.status(200).json({ available : false})
+  }
+
+  try{
+    const usernameNormalized = username.trim().toLowerCase()
+    const existing = await findUserByUsernameNormalized(usernameNormalized)
+
+    const isOwnUsername = existing && existing.id === req.userId
+
+    res.status(200).json({ available : !existing || isOwnUsername })
+  }
+  catch(error){
+    console.error(error)
+    res.status(500).json({ msg : "Failed to check username"})
+  }
+
 }

@@ -20,3 +20,8 @@ export async function updateProfile(userId, {username, usernameNormalized, bio, 
     [username, usernameNormalized, bio, avatar, userId]
   )
 }
+
+export async function findUserByUsernameNormalized(usernameNormalized){
+  const [result] = await DB.query('SELECT id FROM users WHERE username_normalized = ?', [usernameNormalized])
+  return result[0]
+}

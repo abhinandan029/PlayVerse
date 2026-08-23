@@ -23,7 +23,6 @@ function Header() {
   const location = useLocation();
 
   const {user, loading, logout} = useAuth()
-  console.log(user)
 
   const [profile, setProfile] = useState(false)
   const profileRef = useRef(null)

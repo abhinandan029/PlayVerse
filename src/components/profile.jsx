@@ -1,6 +1,6 @@
 import {ArrowRightLeft, User, Users, Gamepad2, Heart, Activity, LogOut, Trophy, X, UserPen} from 'lucide-react'
 import {useState, useEffect} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useLocation} from 'react-router-dom'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {useDialog} from '../contexts/dialogContext.jsx'
@@ -91,15 +91,18 @@ export function ProfileMenu({ closeMenu }){
 // ---------------- ProfilePage (redesigned) ----------------
 
 export function ProfilePage(){
+
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const {user} = useAuth()
   const [allGames, setAllGames] = useState([])
   const [loadingGames, setLoadingGames] = useState(true)
   const [activityData, setActivityData] = useState([])
   const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
 
-  const [editing, setEditing] = useState(false)
-
-  const navigate = useNavigate()
+  const [editing, setEditing] = useState(location.state?.justRegistered || false)
+  const isFirstTimeSetup = location.state?.justRegistered || false
 
   useEffect(() => {
     async function fetchGames() {
@@ -186,7 +189,7 @@ export function ProfilePage(){
   return (
     
     <div className="flex flex-col gap-8 items-center mx-auto p-6 md:p-10 text-white" style={TILE_BG}>
-      {editing && <EditProfileModal onClose={() => setEditing(false)} />}
+      {editing && <EditProfileModal onClose={() => setEditing(false)} forceUsername={isFirstTimeSetup} />}
       
       {/* Identity card */}
       <div className="flex flex-col min-w-6xl md:flex-row gap-8 border border-white/20 rounded-xl bg-black p-8">

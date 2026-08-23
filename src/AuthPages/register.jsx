@@ -54,7 +54,7 @@ export default function Register() {
         setMsg(data.msg)
         notify(data.msg)
         await refetch()
-        navigate("/profile")
+        navigate("/profile", {state : { justRegistered : true}})
       }  
       else{
         setMsg(data.msg)
