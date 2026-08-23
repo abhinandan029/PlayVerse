@@ -5,6 +5,13 @@ import {SquareUserRound} from 'lucide-react'
 import {useAuth} from '../contexts/authContext.jsx'
 import {ProfileMenu} from './profile.jsx'
 
+const avatars = import.meta.glob("../assets/avatars/*.svg", { eager: true, import: "default" })
+
+function getAvatar(avatarName) {
+  const filename = `../assets/avatars/${avatarName}.svg`
+  return avatars[filename]
+}
+
 const TILE_BG = {
   backgroundImage:
     "radial-gradient(circle, hsla(0, 100%, 100%, 0.2) 1px, transparent 1px)",
@@ -16,6 +23,7 @@ function Header() {
   const location = useLocation();
 
   const {user, loading, logout} = useAuth()
+  console.log(user)
 
   const [profile, setProfile] = useState(false)
   const profileRef = useRef(null)
@@ -69,9 +77,13 @@ function Header() {
           user && !loading ? 
           
           <div ref={profileRef}>
-            <button className="flex items-center text-white bg-green-400/15 cursor-pointer border px-3 py-1 rounded-md" 
+            <button className="flex items-center cursor-pointer" 
             onClick={() => setProfile(prev => !prev)}>
-              {user.email[0]}
+              <img
+              src={getAvatar(user.avatar || 'cat')}
+              className="size-10 rounded-full border border-green-400"
+              alt="avatar"
+              />
             </button>
             {profile && <ProfileMenu closeMenu={() => setProfile(false)} />}
           </div> : 

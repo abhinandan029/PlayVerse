@@ -1,10 +1,12 @@
-import {ArrowRightLeft, User, Users, Gamepad2, Heart, Activity, LogOut, Trophy, X} from 'lucide-react'
+import {ArrowRightLeft, User, Users, Gamepad2, Heart, Activity, LogOut, Trophy, X, UserPen} from 'lucide-react'
 import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {useDialog} from '../contexts/dialogContext.jsx'
 import {useWishlist} from "../contexts/wishlistContext.jsx"
+
+import {EditProfileModal} from './editProfileModal.jsx'
 
 const images = import.meta.glob("../assets/*.png", { eager: true, import: "default" })
 const avatars = import.meta.glob("../assets/avatars/*.svg", { eager: true, import: "default" })
@@ -203,25 +205,23 @@ export function ProfilePage(){
 
           <p className="text-white/70 text-lg mt-2 max-w-xl">{user.bio || "bio"}</p>
 
-          <div className="flex items-center gap-6 mt-4 text-white/50">
-            <button className="px-2 rounded-md border border-white/30 cursor-pointer"
-            onClick={() => setEditing(true)}>
-              Edit Profile
-            </button>
-          </div>
-
         </div>
 
         {/* Quick stats */}
-        <div className="flex gap-4 md:flex-col md:justify-center shrink-0">
+        <div className="flex gap-4 items-center md:justify-center shrink-0">
+          
           <div className="flex flex-col items-center border border-white/20 rounded-lg px-6 py-3 min-w-24">
             <span className="text-2xl font-bold text-green-400">{wishlistedGames.length}</span>
             <span className="text-xs text-white/40 uppercase tracking-wide">Wishlisted</span>
           </div>
-          <div className="flex flex-col items-center border border-white/20 rounded-lg px-6 py-3 min-w-24">
-            <Trophy className="size-5 text-red-500 mb-1" />
-            <span className="text-xs text-white/40 uppercase tracking-wide">Top Score</span>
+
+          <div className="flex items-center text-white/50">
+            <button className="p-2 rounded-md border border-white/30 cursor-pointer"
+            onClick={() => setEditing(true)}>
+              <UserPen className="text-green-400"/>
+            </button>
           </div>
+        
         </div>
 
       </div>
@@ -242,7 +242,7 @@ export function ProfilePage(){
                 <span
                   key={i}
                   className="absolute text-xs text-white/40"
-                  style={{ left: `${m.weekIndex * 18}px` }}>
+                  style={{ left: `${m.weekIndex * 16}px` }}>
                   {m.label}
                 </span>
               ))}
@@ -326,114 +326,6 @@ export function ProfilePage(){
         )}
       </div>
 
-    </div>
-  )
-}
-
-export async function EditProfileModal({ onClose }){
-
-  const { user, setUser } = useAuth()
-
-  const [username, setUsername] = useState(user.username || '')
-  const [bio, setBio] = useState(user.bio || '')
-  const [location, setLocation] = useState(user.location || '')
-  const [error, setError] = useState('')
-  const [saving, setSaving] = useState(false)
-
-  async function handleSave() {
-    setError('')
-    setSaving(true)
-
-    try {
-      const res = await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({ username, bio, location })
-      })
-
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.msg || "Failed to update profile")
-        return
-      }
-
-      setUser(prev => ({ ...prev, username, bio, location }))
-      onClose()
-    } catch (err) {
-      console.error(err)
-      setError("Something went wrong. Try again.")
-    } finally {
-      setSaving(false)
-    }
-  }
-
-  return (
-    <div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center z-200"
-      onClick={onClose}>
-
-      <div
-        className="flex flex-col gap-4 bg-black border border-white/30 rounded-xl p-8 w-full max-w-md text-white"
-        onClick={(e) => e.stopPropagation()}>
-
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">Edit Profile</h2>
-          <button onClick={onClose} className="cursor-pointer">
-            <X className="size-6 text-white/50 hover:text-white" />
-          </button>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm text-white/50">Username</label>
-          <input
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            maxLength={30}
-            className="bg-white/5 border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:border-green-400/60"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm text-white/50">Bio</label>
-          <textarea
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            maxLength={160}
-            rows={3}
-            className="bg-white/5 border border-white/20 rounded-md px-3 py-2 resize-none focus:outline-none focus:border-green-400/60"
-          />
-          <span className="text-xs text-white/30 self-end">{bio.length}/160</span>
-        </div>
-
-        <div className="flex flex-col gap-1">
-          <label className="text-sm text-white/50">Location</label>
-          <input
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            maxLength={100}
-            className="bg-white/5 border border-white/20 rounded-md px-3 py-2 focus:outline-none focus:border-green-400/60"
-          />
-        </div>
-
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-
-        <div className="flex gap-3 mt-2">
-          <button
-            onClick={onClose}
-            className="flex-1 px-4 py-2 rounded-md border border-white/30 cursor-pointer">
-            Cancel
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="flex-1 px-4 py-2 rounded-md border border-green-400/60 bg-green-400/20 cursor-pointer disabled:opacity-50">
-            {saving ? "Saving..." : "Save"}
-          </button>
-        </div>
-
-      </div>
     </div>
   )
 }
