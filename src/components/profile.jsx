@@ -345,7 +345,7 @@ export async function EditProfileModal({ onClose }){
     setSaving(true)
 
     try {
-      const res = await fetch('/api/auth/profile', {
+      const res = await fetch('/api/user/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

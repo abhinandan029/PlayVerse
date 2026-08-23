@@ -14,3 +14,9 @@ export async function findUserById(id){
   const [result] = await DB.query('SELECT * FROM users WHERE id = ?', [id])
   return result[0]
 }
+
+export async function updateProfile(userId, {username, usernameNormalized, bio,  }){
+  await DB.query('UPDATE users SET username = ?, username_normalized = ?, bio = ? WHERE id = ?',
+    [username, usernameNormalized, bio, userId]
+  )
+}
