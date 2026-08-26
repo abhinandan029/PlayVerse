@@ -1,18 +1,29 @@
 import {useNavigate} from 'react-router-dom'
-import {forwardRef} from 'react'
+import {forwardRef, useState, useEffect} from 'react'
 
 import {Play, Pause, RotateCcw, LogOut} from 'lucide-react'
 
+import DialogBox from "./DialogBox.jsx"
 import {useDialog} from '../../contexts/dialogContext.jsx'
 
-const GameBoard = forwardRef(function GameBoard({score,setPlaying, playing, gameOver, restart, focus, children}, ref){
+const GameBoard = forwardRef(function GameBoard({score,setPlaying, playing, gameOver, gameWon, restart, focus, children}, ref){
 
   const {openDialog} = useDialog()
   
   const navigate = useNavigate()
 
+  const [type, setType] = useState("")
+
+  useEffect(() => {
+    if (gameWon) setType("won")
+    else if (gameOver) setType("lost")
+    else setType(null)
+  }, [gameOver, gameWon])
+
+  
+
   return (
-    <div ref={ref} className="m-auto scroll-mt-24 my-25">
+    <div ref={ref} className="relative m-auto scroll-mt-24 my-25">
       <div className="flex justify-between">
 
         <p className="text-red-500 text-5xl px-4 py-2">Play Ground</p>
@@ -21,6 +32,15 @@ const GameBoard = forwardRef(function GameBoard({score,setPlaying, playing, game
       </div>
       
       {children}
+      
+      {type && (
+        <DialogBox
+          type={type}
+          score={score}
+          onRestart={() => { restart(); setType(null) }}
+          onExit={() => navigate("/home")}
+        />
+      )}
 
       <div className="flex">
 
