@@ -7,6 +7,7 @@ import LeaderBoard from "../UI/leaderBoard.jsx"
 
 const GAME_NAME = "Snake Game"
 const GAME_TYPE = "classic"
+const GAME_ID = 1
 const DESC = "It's the same game that's been stealing lunch breaks since the '90s — rebuilt here with buttery controls and a scoreboard that remembers your best runs. Just Guide your snake to eat the yellow balls and grow it and dont forget not to run into yourself🐍."
 
 const HTP = [
@@ -144,7 +145,7 @@ function SnakeGame(){
   return ( 
     <div className="flex flex-col" style={TILE_BG}>
 
-      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus}/>
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus} id={GAME_ID}/>
       <HowToPlay htp={HTP}/>
         
       <GameBoard  score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}  ref={gameRef} focus={focus}>

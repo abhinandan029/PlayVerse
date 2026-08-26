@@ -7,6 +7,7 @@ import LeaderBoard from "../UI/leaderBoard.jsx"
 
 const GAME_NAME = "Pac Man"
 const GAME_TYPE = "Action Maze Chase"
+const GAME_ID = 3
 const DESC = "Pac-Man is an action maze chase game, the player controls the circular green character called Pack-Man through an enclosed maze. The objective of the game is to eat all of the dots placed in the maze while avoiding four white ghosts. When Pac-Man eats all of the dots you win, If Pac-Man is caught by a ghost you lose. Inspired by Pac-Man 1980"
 
 const HTP = [
@@ -309,7 +310,7 @@ function PacMan(){
   return (
     <div className="flex flex-col" style={TILE_BG}>
       
-      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus}/>
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus} id={GAME_ID}/>
       <HowToPlay htp={HTP}/>
 
       <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} gameWon={gameWon} restart={restartGame} ref={gameRef} focus={focus}>

@@ -1,13 +1,17 @@
 import {Heart, MessageSquareCode} from 'lucide-react'
 
+import { useWishlist } from '../../contexts/wishlistContext.jsx'
+
 const images = import.meta.glob("../../assets/*.png", { eager: true, import: "default" })
 
-export default function GameDesc({gameName, gameType, description, focus}){
+export default function GameDesc({gameName, gameType, description, focus, id}){
 
   function getImage(game){
     const filename = `../../assets/${game.replaceAll(" ", "-")}.png`
     return images[filename] 
   }
+
+  const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
    
   return (
     <div className="flex justify-center m-15 p-15 gap-10">
@@ -23,9 +27,10 @@ export default function GameDesc({gameName, gameType, description, focus}){
         <div className="flex gap-10 text-white text-2xl py-4 mt-auto">
           
           <button 
-          className=" flex items-center gap-2 border border-red-500 bg-red-500/20 px-4 py-2 rounded-md cursor-pointer">
-            <Heart />
-            Wishlist
+          className=" flex items-center gap-2 border border-red-500 bg-red-500/20 px-4 py-2 rounded-md cursor-pointer"
+          onClick={() => toggleWishlist(id)}>
+            <Heart className={wishlistId.has(id) ? "fill-red-500 text-red-500" : "text-white"}/>
+            {wishlistId.has(id) ? "Wishlisted" : "Wishlist"}
           </button>
 
           <button 

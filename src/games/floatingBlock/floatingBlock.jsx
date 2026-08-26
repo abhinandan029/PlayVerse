@@ -7,6 +7,7 @@ import LeaderBoard from "../UI/leaderBoard.jsx"
 
 const GAME_NAME = "Floating Block"
 const GAME_TYPE = "Arcade"
+const GAME_ID = 2
 const DESC = "Floating Block is an arcade-style game inspired from Flappy Bird in which the player controls the block, which moves persistently to the right. They are tasked with navigating block through pillars with gaps that have equally sized gaps placed at random heights. Colliding with a pipe or the ground ends the gameplay. "
 
 const HTP = [
@@ -155,7 +156,7 @@ function FloatingBlock(){
   return(
     <div className="flex flex-col" style={TILE_BG}>
 
-      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus}/>
+      <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus} id={GAME_ID}/>
       <HowToPlay htp={HTP}/>
 
       <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} ref={gameRef} focus={focus} >
