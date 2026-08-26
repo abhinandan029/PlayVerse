@@ -50,7 +50,7 @@ function Wishlist() {
   return (
     <div className="flex flex-col text-white" style={TILE_BG}>
 
-      <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black">
+      <div className="flex items-center gap-4 px-10 pt-10">
         <Heart className="text-red-500 size-10 fill-red-500" />
         <h1 className="text-5xl">Your Wishlist</h1>
       </div>
@@ -58,7 +58,7 @@ function Wishlist() {
       {loading ? (
         <p className="text-center mt-20 text-white/50 text-xl">Loading your wishlist...</p>
       ) : wishlistedGames.length === 0 ? (
-        <div className="flex flex-col items-center justify-center mt-20 gap-4">
+        <div className="flex flex-col items-center justify-center m-20 gap-4">
           <Gamepad2 className="size-16 text-white/30" />
           <p className="text-white/50 text-xl">Your wishlist is empty.</p>
           <button
@@ -68,7 +68,7 @@ function Wishlist() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-5 gap-2 m-5">
+        <div className="grid grid-cols-5 gap-2 mx-20 my-5">
           {wishlistedGames.map((game) => (
             <div key={game.id} className="group m-4 mt-10 border border-white/30 rounded-xl bg-black">
               <div className="relative">

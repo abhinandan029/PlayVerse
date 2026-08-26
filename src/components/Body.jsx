@@ -83,8 +83,10 @@ function Body() {
   return (
     <div className="flex flex-col" style={TILE_BG}>
 
-      <div className="text-white m-15 p-20 border border-white/40 rounded-xl flex bg-black" style={TILE_BG}>
+      <div className="relative text-white m-15 p-20 border border-white/40 rounded-xl flex bg-black" style={TILE_BG}>
         
+        <a href="#games" className="absolute top-24 right-10 text-3xl bg-black border border-green-400 px-2 rounded-md text-red-500 self-center">Games</a>
+
         <div className="flex flex-col" >
           
           <h1 className="text-7xl flex">What is <span className="ml-10 text-green-400">Play<span className="text-red-500">Verse</span></span>?</h1>
@@ -106,9 +108,9 @@ function Body() {
        
       </div>
 
-      <div className="flex items-center gap-4 px-10 py-4 border-y border-white/30 bg-black">
+      <div className="flex items-center gap-4 px-10 py-4">
         <Gamepad2 className="text-red-500 size-15" />
-        <h1 className="text-white text-5xl">Games</h1>
+        <h1 id="games" className="text-white text-5xl">Games</h1>
       </div>
 
       
