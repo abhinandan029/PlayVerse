@@ -68,8 +68,9 @@ function Header() {
         }
 
         <button 
-        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer ${location.pathname === "/about-us" ? "border border-red-500/60 bg-red-500/20" : ""}`}>
-          About Us
+        className={`px-4 hover:bg-black/40 rounded-md cursor-pointer ${location.pathname === "/about" ? "border border-red-500/60 bg-red-500/10" : ""}`}
+        onClick={() => navigate("/about")}>
+          About
         </button>
 
         {

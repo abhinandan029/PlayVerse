@@ -4,6 +4,7 @@ import ScrollToTop from './components/ScrollToTop.jsx'
 import Header from "./components/Header.jsx"
 import Body from "./components/Body.jsx"
 import Footer from "./components/Footer.jsx"
+import About from "./components/About.jsx"
 import ProtectedRoute from "./components/protectedRoutes.jsx"
 import {ProfilePage} from "./components/profile.jsx"
 import Wishlist from './components/wishlist.jsx'
@@ -48,6 +49,7 @@ function App() {
           
               <Route path="/" element={<Body />} />
               <Route path="/home" element={<Body />}/>
+              <Route path="/about" element={<About />}/>
 
               <Route path="/snake-game" element={<SnakeGame />} />
               <Route path="/floating-block" element={<FloatingBlock />} />
