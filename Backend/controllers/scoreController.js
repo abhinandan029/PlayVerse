@@ -1,4 +1,5 @@
 import {insertScore, hasPlayedGame, getUserBestScore, getTopScores, getUserOverallBest} from '../models/scores.js'
+import {logActivity, bumpDailyActivity} from '../models/activity.js'
 
 export async function submitScore(req, res){
   const {gameId, score} = req.body
@@ -17,15 +18,15 @@ export async function submitScore(req, res){
 
     await insertScore(req.userId, gameId, score)
 
-    // await bumpDailyActivity(req.userId)
+    await bumpDailyActivity(req.userId)
     
-    // if( !alreadyPlayed ){
-    //   await logActivity(req.userId, 'new_game_Played', gameId)
-    // }
+    if( !alreadyPlayed ){
+      await logActivity(req.userId, 'new_game_Played', gameId)
+    }
 
-    // if( previousBest === null || score > previousBest) {
-    //   await logActivity(req.userId, 'high_score', gameId)
-    // }
+    if( previousBest === null || score > previousBest) {
+      await logActivity(req.userId, 'high_score', gameId)
+    }
 
     res.status(201).json({
       msg : 'Score Submitted',

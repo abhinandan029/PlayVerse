@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Trophy, Medal } from 'lucide-react'
 
+import { useAuth } from '../../contexts/authContext.jsx'
+
 const avatars = import.meta.glob("../../assets/avatars/*.svg", { eager: true, import: "default" })
 
 function getAvatar(name) {
@@ -10,6 +12,8 @@ function getAvatar(name) {
 export default function LeaderBoard({ gameId }) {
   const [scores, setScores] = useState([])
   const [loading, setLoading] = useState(true)
+
+  const { user } = useAuth()
 
   useEffect(() => {
     if (!gameId) return
@@ -55,13 +59,13 @@ export default function LeaderBoard({ gameId }) {
           scores.map((s, i) => (
             <div key={i} className="flex items-center justify-between px-10 py-2 text-2xl bg-black">
               <div className="flex items-center gap-3">
-                {i === 0 && <Medal className="text-yellow-400 size-6" />}
-                {i === 1 && <Medal className="text-white/60 size-6" />}
-                {i === 2 && <Medal className="text-orange-700 size-6" />}
-                {i > 2 && <span className="text-white/30 size-6 text-center">{i + 1}</span>}
+                {i === 0 && <Medal className="text-yellow-400 size-8" />}
+                {i === 1 && <Medal className="text-white/60 size-8" />}
+                {i === 2 && <Medal className="text-orange-700 size-8" />}
+                {i > 2 && <span className="text-white/50 size-8 text-center">{i + 1}</span>}
 
                 {s.avatar && (
-                  <img src={getAvatar(s.avatar)} className="size-8 rounded-full" alt={s.username} />
+                  <img src={getAvatar(s.avatar)} className="size-15 rounded-full" alt={s.username} />
                 )}
                 <p>{s.username || "Anonymous"}</p>
               </div>
@@ -70,6 +74,8 @@ export default function LeaderBoard({ gameId }) {
           ))
         )}
       </div>
+
+      { !user && <p className="text-red-500 ">Login to enter the leader board</p> }
     </div>
   )
 }

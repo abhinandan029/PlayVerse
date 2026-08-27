@@ -13,6 +13,7 @@ import userRouter from './routes/userRouter.js'
 import gamesRouter from './routes/gamesRouter.js'
 import wishlistRouter from './routes/wishlistRouter.js'
 import scoreRouter from './routes/scoreRouter.js'
+import activityRouter from './routes/activityRouter.js'
 
 const app = express()
 
@@ -29,7 +30,7 @@ app.use("/api/user", userRouter)
 app.use("/api/games", gamesRouter)
 app.use("/api/wishlist", wishlistRouter)
 app.use("/api/score", scoreRouter)
-
+app.use('/api/activity', activityRouter)
 
 const PORT = 3000
 app.listen(PORT, () => {
