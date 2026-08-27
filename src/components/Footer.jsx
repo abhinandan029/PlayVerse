@@ -6,11 +6,11 @@ const FOOTER_LINKS = {
     { label: "Wishlist", href: "/wishlist" },
     { label: "Leaderboards", href: "/leaderboards" },
   ],
-  Community: [
-    { label: "Friends", href: "/friends" },
-    { label: "Reviews", href: "/reviews" },
-    { label: "Discord", href: "#" },
-  ],
+  // Community: [
+  //   { label: "Friends", href: "/friends" },
+  //   { label: "Reviews", href: "/reviews" },
+  //   { label: "Discord", href: "#" },
+  // ],
   Resources: [
     { label: "About Us", href: "/about-us" },
     { label: "GitHub Repo", href: "https://github.com/yourname/playverse" },
@@ -50,7 +50,7 @@ function Footer() {
 
           {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
-            <div key={heading} className="flex flex-col gap-3">
+            <div key={heading} className="flex flex-col gap-3 ml-auto">
               <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wide">{heading}</h3>
               <ul className="flex flex-col gap-2">
                 {links.map((link) => (

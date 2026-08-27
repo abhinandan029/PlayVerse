@@ -5,6 +5,9 @@ import GameBoard from "../UI/GameBoard.jsx"
 import HowToPlay from '../UI/howToPlay.jsx'
 import LeaderBoard from "../UI/leaderBoard.jsx"
 
+import {useAuth} from '../../contexts/authContext.jsx'
+import {submitScore} from '../utils/score.jsx'
+
 const GAME_NAME = "Floating Block"
 const GAME_TYPE = "Arcade"
 const GAME_ID = 2
@@ -28,6 +31,8 @@ const GRID_HEIGHT = 35
 const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
 
 function FloatingBlock(){
+
+  const { user } = useAuth()
 
   const wall_height = 2
 
@@ -60,7 +65,14 @@ function FloatingBlock(){
 
   const gameRef = useRef(null)
 
-  
+  useEffect(() => {
+    if(!gameOver) return 
+    if(!user) return
+
+    submitScore(GAME_ID, score)
+  }, [gameOver])
+
+
   useEffect(() => {
     if(!playing || gameOver) return 
 
@@ -187,7 +199,7 @@ function FloatingBlock(){
         
       </GameBoard>
 
-      <LeaderBoard />
+      <LeaderBoard gameId={GAME_ID}/>
       
       
     </div>

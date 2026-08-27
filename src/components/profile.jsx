@@ -60,10 +60,10 @@ export function ProfileMenu({ closeMenu }){
           <User className="size-6 text-green-400"/>Profile
         </button>
 
-        <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
+        {/* <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/friends"); closeMenu()}}>
           <Users className="size-6 text-green-400"/>Friends
-        </button>
+        </button> */}
 
         <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/wishlist"); closeMenu()}}>

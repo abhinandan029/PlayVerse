@@ -1,40 +1,74 @@
-import {Trophy} from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Trophy, Medal } from 'lucide-react'
 
-export default function LeaderBoard() {
+const avatars = import.meta.glob("../../assets/avatars/*.svg", { eager: true, import: "default" })
 
-  const players = [
-    {
-      player : "player 1", score : "100" 
-    },
-    {
-      player : "player 2", score : "100" 
-    },
-    {
-      player : "player 3", score : "100" 
-    },
-    {
-      player : "player 4", score : "100" 
-    },
-    {
-      player : "player 5", score : "100" 
-    },
-  ]
+function getAvatar(name) {
+  return avatars[`../../assets/avatars/${name}.svg`]
+}
+
+export default function LeaderBoard({ gameId }) {
+  const [scores, setScores] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!gameId) return
+
+    async function fetchLeaderboard() {
+      try {
+        const res = await fetch(`/api/score/leader-board/${gameId}`, {
+          method: 'GET',
+          credentials: 'include'
+        })
+
+        if (res.ok) {
+          const data = await res.json()
+          setScores(data.scores)
+        } else {
+          console.error('Failed to fetch leaderboard')
+        }
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchLeaderboard()
+  }, [gameId])
 
   return (
     <div className="flex flex-col p-5 text-white items-center">
-      <h1 className="flex gap-2 items-center text-6xl"><Trophy className="text-red-500 size-15"/>Leadboard</h1>
-      
-      <div className="border border-white/50 divide-y divide-white/40 my-5 rounded-xl overflow-hidden">
-        {
-        players.map((p, i) => {
-          return (
-            <div key={i} className="flex justify-between min-w-2xl px-10 py-2 text-2xl bg-black">
-              <p>{p.player}</p>
-              <p className="text-green-400">{p.score}</p>
+      <h1 className="flex gap-2 items-center text-6xl">
+        <Trophy className="text-red-500 size-15" />
+        Leaderboard
+      </h1>
+
+      <div className="border border-white/50 divide-y divide-white/40 my-5 rounded-xl overflow-hidden min-w-2xl">
+        {loading ? (
+          <p className="px-10 py-6 text-xl text-white/50 bg-black text-center">Loading...</p>
+        ) : scores.length === 0 ? (
+          <p className="px-10 py-6 text-xl text-white/50 bg-black text-center">
+            No scores yet. Be the first to play!
+          </p>
+        ) : (
+          scores.map((s, i) => (
+            <div key={i} className="flex items-center justify-between px-10 py-2 text-2xl bg-black">
+              <div className="flex items-center gap-3">
+                {i === 0 && <Medal className="text-yellow-400 size-6" />}
+                {i === 1 && <Medal className="text-white/60 size-6" />}
+                {i === 2 && <Medal className="text-orange-700 size-6" />}
+                {i > 2 && <span className="text-white/30 size-6 text-center">{i + 1}</span>}
+
+                {s.avatar && (
+                  <img src={getAvatar(s.avatar)} className="size-8 rounded-full" alt={s.username} />
+                )}
+                <p>{s.username || "Anonymous"}</p>
+              </div>
+              <p className="text-green-400">{s.score}</p>
             </div>
-            )
-          })
-        }
+          ))
+        )}
       </div>
     </div>
   )

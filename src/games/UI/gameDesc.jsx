@@ -33,11 +33,11 @@ export default function GameDesc({gameName, gameType, description, focus, id}){
             {wishlistId.has(id) ? "Wishlisted" : "Wishlist"}
           </button>
 
-          <button 
+          {/* <button 
           className=" flex items-center gap-2 border border-yellow-500 bg-yellow-500/20 px-4 py-2 rounded-md cursor-pointer">
             <MessageSquareCode />
             Review
-          </button>
+          </button> */}
 
           <button
           className="border border-green-400 bg-green-400/20 px-4 py-2 ml-auto rounded-md cursor-pointer"
