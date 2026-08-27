@@ -5,6 +5,9 @@ import GameBoard from "../UI/GameBoard.jsx"
 import HowToPlay from '../UI/howToPlay.jsx'
 import LeaderBoard from "../UI/leaderBoard.jsx"
 
+import {useAuth} from '../../contexts/authContext.jsx'
+import {submitScore} from '../utils/score.jsx'
+
 const GAME_NAME = "Pac Man"
 const GAME_TYPE = "Action Maze Chase"
 const GAME_ID = 3
@@ -31,6 +34,8 @@ const GRID_SIZE = GRID_WIDTH * GRID_HEIGHT;
 const DIRS = {ArrowRight : 1, ArrowLeft : -1, ArrowUp: -GRID_WIDTH , ArrowDown : GRID_WIDTH}
 
 function PacMan(){
+
+  const { user } = useAuth()
 
   const gameRef = useRef(null)
 
@@ -213,6 +218,14 @@ function PacMan(){
   }
 
   useEffect(() => {
+    if(!gameOver && !gameWon) return
+    if(!user) return
+  
+    submitScore(GAME_ID, score)
+  }, [gameOver, gameWon])
+
+
+  useEffect(() => {
     if(!playing || gameOver) return
 
     const id = setInterval(() => {
@@ -291,7 +304,7 @@ function PacMan(){
   function restartGame(){
     playerRef.current = playerStart
     ghostsRef.current = ghostsStart
-    queuedDirRef.cureent = 1
+    queuedDirRef.current = 1
     currentDirRef.current = 1
 
     setPlaying(false)
@@ -334,7 +347,7 @@ function PacMan(){
         </div>
       </GameBoard>
 
-      <LeaderBoard />
+      <LeaderBoard gameId={GAME_ID} />
 
     </div>
   )

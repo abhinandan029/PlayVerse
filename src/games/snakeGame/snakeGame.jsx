@@ -5,6 +5,9 @@ import HowToPlay from '../UI/howToPlay.jsx'
 import GameBoard from "../UI/GameBoard.jsx"
 import LeaderBoard from "../UI/leaderBoard.jsx"
 
+import {useAuth} from '../../contexts/authContext.jsx'
+import {submitScore} from '../utils/score.jsx'
+
 const GAME_NAME = "Snake Game"
 const GAME_TYPE = "classic"
 const GAME_ID = 1
@@ -43,6 +46,8 @@ function randomEmptyCell(occupied){
 
 function SnakeGame(){
 
+  const { user } = useAuth()
+
   const [snake, setSnake] = useState(INITIAL_HEAD)
   const [food, setFood]= useState(INITIAL_FOOD)
   const directionRef = useRef(1)
@@ -51,6 +56,13 @@ function SnakeGame(){
   const [score, setScore] = useState(0)
 
   const gameRef = useRef(null)
+
+  useEffect(() => {
+      if(!gameOver) return 
+      if(!user) return
+  
+      submitScore(GAME_ID, score)
+    }, [gameOver])
 
   useEffect( () => {
     const handleKeyDown = (e) =>{
@@ -165,7 +177,7 @@ function SnakeGame(){
         </div>
       </GameBoard>
 
-      <LeaderBoard />
+      <LeaderBoard gameId={GAME_ID} />
 
     </div>
     
