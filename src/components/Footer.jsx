@@ -12,9 +12,9 @@ const FOOTER_LINKS = {
   //   { label: "Discord", href: "#" },
   // ],
   Resources: [
-    { label: "About Us", href: "/about-us" },
-    { label: "GitHub Repo", href: "https://github.com/yourname/playverse" },
-    { label: "Contribute", href: "https://github.com/yourname/playverse/blob/main/CONTRIBUTING.md" },
+    { label: "About Us", href: "/about" },
+    { label: "GitHub Repo", href: "https://github.com/abhinandan029/playverse" },
+    { label: "Contribute", href: "https://github.com/abhinandan029/playverse/blob/main/CONTRIBUTING.md" },
   ],
   Legal: [
     { label: "Privacy Policy", href: "/privacy" },
