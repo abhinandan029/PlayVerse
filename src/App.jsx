@@ -8,6 +8,7 @@ import About from "./components/About.jsx"
 import ProtectedRoute from "./components/protectedRoutes.jsx"
 import {ProfilePage} from "./components/profile.jsx"
 import Wishlist from './components/wishlist.jsx'
+import Activity from './components/activity.jsx'
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
@@ -57,6 +58,7 @@ function App() {
 
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/wishlist" element={<ProtectedRoute><Wishlist /></ProtectedRoute>} />
+              <Route path="/activity" element={<ProtectedRoute><Activity /></ProtectedRoute>} />
 
             </Routes>
         
