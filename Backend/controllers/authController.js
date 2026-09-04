@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt'
 
+import crypto from "crypto"
+
 import {createUser, findUserByEmail, findUserById} from '../models/users.js'
 import {generateToken} from '../utils/jwt.js'
 
@@ -70,6 +72,10 @@ export async function login(req, res){
     console.error(error)
     res.status(500).json({msg : "Login failed."})
   }
+}
+
+export async function verifyEmail(req, res){
+
 }
 
 export async function logout(req, res){
