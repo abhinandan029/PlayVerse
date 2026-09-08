@@ -318,7 +318,7 @@ export default function Register() {
         <div className="flex items-center gap-4 my-6">
           <div className="flex-1 h-px bg-white/20" />
           <span className="text-white/40 text-sm font-medium">Or continue with</span>
-          <div className="flex-1 h-px bg-white/20" /> ion
+          <div className="flex-1 h-px bg-white/20" />
         </div>
 
         {/* Social buttons — placeholders, functionality to be added later */}

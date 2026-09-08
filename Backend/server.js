@@ -4,9 +4,8 @@ import express from 'express'
 import cors from 'cors'
 
 import passport from 'passport'
-import cookieParser from 'cookie-parser'
 
-import {Strategy as GoogleStrategy} from 'passport-google-oauth20'
+import cookieParser from 'cookie-parser'
 
 import authRouter from './routes/authRouter.js'
 import userRouter from './routes/userRouter.js'
@@ -24,6 +23,8 @@ app.use(cors({
 
 app.use(express.json())
 app.use(cookieParser())
+
+app.use(passport.initialize())
 
 app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
