@@ -31,12 +31,12 @@ const TILE_BG = {
 function Footer() {
   return (
     <footer className="pt-10 text-white" style={TILE_BG}>
-      <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-8">
 
           {/* Logo + tagline column */}
-          <div className="col-span-2 md:col-span-1 flex flex-col gap-3">
+          <div className="sm:col-span-2 md:col-span-1 flex flex-col gap-3">
             <div className="flex items-center gap-2">
               <Gamepad2 className="text-red-500 size-7" />
               <span className="text-xl text-green-400 font-bold">
@@ -50,7 +50,7 @@ function Footer() {
 
           {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
-            <div key={heading} className="flex flex-col gap-3 ml-auto">
+            <div key={heading} className="flex flex-col gap-3 sm:ml-auto md:ml-auto">
               <h3 className="text-sm font-semibold text-white/70 uppercase tracking-wide">{heading}</h3>
               <ul className="flex flex-col gap-2">
                 {links.map((link) => (
@@ -70,7 +70,7 @@ function Footer() {
 
         {/* Bottom bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-10 pt-6 border-t border-white/10">
-          <p className="text-sm text-white/30">
+          <p className="text-sm text-white/30 text-center md:text-left">
             © {new Date().getFullYear()} PlayVerse. Built for fun, open for contributions.
           </p>
 

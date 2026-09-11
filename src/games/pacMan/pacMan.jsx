@@ -1,4 +1,5 @@
 import{ useState, useEffect, useRef } from 'react'
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from 'lucide-react'
 
 import GameDesc from '../UI/gameDesc.jsx'
 import GameBoard from "../UI/GameBoard.jsx"
@@ -292,14 +293,18 @@ function PacMan(){
       if( DIRS[e.key] !== undefined){
         e.preventDefault()
 
-        if(!gameOver && !playing) setPlaying(true)
-        queuedDirRef.current = DIRS[e.key]
+        changeDirection(DIRS[e.key])
       }
     }
 
     window.addEventListener("keydown", handleKey)
     return () => window.removeEventListener("keydown", handleKey)
   }, [playing, gameOver])
+
+  function changeDirection(direction) {
+    if(!gameOver && !playing) setPlaying(true)
+    queuedDirRef.current = direction
+  }
 
   function restartGame(){
     playerRef.current = playerStart
@@ -326,9 +331,19 @@ function PacMan(){
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus} id={GAME_ID}/>
       <HowToPlay htp={HTP}/>
 
-      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} gameWon={gameWon} restart={restartGame} ref={gameRef} focus={focus}>
+      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} gameWon={gameWon} restart={restartGame} ref={gameRef} focus={focus}
+        mobileControls={
+          <div className="grid grid-cols-3 gap-2">
+            <span />
+            <button aria-label="Move up" className="mobile-game-button" onClick={() => changeDirection(DIRS.ArrowUp)}><ArrowUp /></button>
+            <span />
+            <button aria-label="Move left" className="mobile-game-button" onClick={() => changeDirection(DIRS.ArrowLeft)}><ArrowLeft /></button>
+            <button aria-label="Move down" className="mobile-game-button" onClick={() => changeDirection(DIRS.ArrowDown)}><ArrowDown /></button>
+            <button aria-label="Move right" className="mobile-game-button" onClick={() => changeDirection(DIRS.ArrowRight)}><ArrowRight /></button>
+          </div>
+        }>
         <div 
-          className="grid grid-cols-45 gap-1 p-1 py-2 bg-black rounded-md border border-white/40"
+          className="game-grid grid gap-1 p-1 py-2 bg-black rounded-md border border-white/40"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
@@ -336,12 +351,12 @@ function PacMan(){
 
               const ghostIndex = ghosts.indexOf(index)
 
-              if(walls.has(index)) color = "bg-red-900 h-5 w-5"
-              else if(ghostIndex !== -1) color = `bg-white h-5 w-5 rounded-t-xl rounded-b-none`
-              else if(index === player) color = `bg-green-500 h-5 w-5 rounded-xl`
-              else if(pellets.has(index)) color = "bg-yellow-400 rounded-xl h-2 w-2 self-center justify-self-center"
+              if(walls.has(index)) color = "bg-red-900"
+              else if(ghostIndex !== -1) color = `bg-white rounded-t-xl rounded-b-none`
+              else if(index === player) color = `bg-green-500 rounded-xl`
+              else if(pellets.has(index)) color = "bg-yellow-400 rounded-xl scale-50 self-center justify-self-center"
 
-              return <div className={`rounded-md ${color}`} key={index}></div>
+              return <div className={`game-cell rounded-md ${color}`} key={index}></div>
             })
           }
         </div>

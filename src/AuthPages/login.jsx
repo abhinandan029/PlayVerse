@@ -78,7 +78,7 @@ export default function Login() {
       </h1>
 
       {/* Card */}
-      <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-8">
+      <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-5 sm:p-8">
         
         <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           

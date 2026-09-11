@@ -117,7 +117,7 @@ export function EditProfileModal({ onClose, forceUsername = false }){
       onClick={forceUsername ? undefined : onClose}>
 
       <div
-        className="flex flex-col gap-4 bg-black border border-white/30 rounded-xl p-8 w-full max-w-xl text-white"
+        className="flex flex-col gap-4 bg-black border border-white/30 rounded-xl p-5 sm:p-8 w-[calc(100%-2rem)] max-w-xl text-white"
         onClick={(e) => e.stopPropagation()}>
 
         {forceUsername && (
@@ -126,7 +126,7 @@ export function EditProfileModal({ onClose, forceUsername = false }){
 
         <div className="flex flex-col gap-2 mb-4">
           <label className="text-sm text-white/50">Avatar</label>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
             {AVATAR_LIST.map((name) => (
               <button
                 key={name}

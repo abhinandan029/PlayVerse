@@ -192,7 +192,7 @@ export function ProfilePage(){
       {editing && <EditProfileModal onClose={() => setEditing(false)} forceUsername={isFirstTimeSetup} />}
       
       {/* Identity card */}
-      <div className="flex flex-col min-w-6xl md:flex-row gap-8 border border-white/20 rounded-xl bg-black p-8">
+      <div className="flex w-full max-w-6xl flex-col md:flex-row gap-6 md:gap-8 border border-white/20 rounded-xl bg-black p-5 sm:p-8">
 
         <img
           src={getAvatar(user.avatar || 'cat')}
@@ -230,7 +230,7 @@ export function ProfilePage(){
       </div>
 
       {/* Activity graph — real data, full year GitHub-style */}
-      <div className="min-w-6xl border border-white/20 rounded-xl bg-black p-6">
+      <div className="w-full max-w-6xl border border-white/20 rounded-xl bg-black p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-5">
           <Activity className="text-green-400 size-6" />
           <h2 className="text-2xl font-bold">Activity</h2>

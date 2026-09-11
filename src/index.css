@@ -5,7 +5,9 @@
 }
 
 html, body {
-  margin : none;
+  margin : 0;
+  min-width: 320px;
+  overflow-x: hidden;
   font-family : monospace;
   scroll-behavior : smooth;
   scrollbar-width : none;
@@ -15,12 +17,45 @@ html, body {
 
 #root {
   min-height : 100dvh;
-  margin : none;
+  margin : 0;
   background-color : hsl(0, 0%, 0%);
 }
 
 @keyframes grow-progress {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
+}
+
+.mobile-game-button {
+  min-width: 3.25rem;
+  min-height: 3.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.75rem;
+  color: white;
+  background: hsl(0 0% 100% / 0.1);
+  border: 1px solid hsl(0 0% 100% / 0.35);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+.mobile-game-button:active {
+  background: hsl(142 70% 45% / 0.45);
+  border-color: hsl(142 70% 65% / 0.8);
+}
+
+.game-grid {
+  width: 100%;
+  max-width: 100%;
+}
+
+.game-cell {
+  width: 100%;
+  aspect-ratio: 1;
+  min-width: 0;
 }
 

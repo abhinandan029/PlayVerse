@@ -194,7 +194,7 @@ export default function Register() {
         ))}
       </div>
 
-      <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-8">
+      <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-5 sm:p-8">
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
 
@@ -234,7 +234,7 @@ export default function Register() {
                 Enter the 6-digit code
               </label>
 
-              <div className="flex gap-2 justify-center py-2" onPaste={handleCodePaste}>
+              <div className="flex gap-1 sm:gap-2 justify-center py-2" onPaste={handleCodePaste}>
                 {code.map((digit, i) => (
                   <input
                     key={i}
@@ -245,7 +245,7 @@ export default function Register() {
                     value={digit}
                     onChange={(e) => handleCodeChange(i, e.target.value)}
                     onKeyDown={(e) => handleCodeKeyDown(i, e)}
-                    className="size-12 text-center text-2xl font-bold bg-white/10 border border-white/20 rounded-lg text-green-400 focus:outline-none focus:border-green-400/60 transition-colors"
+                    className="size-10 sm:size-12 text-center text-xl sm:text-2xl font-bold bg-white/10 border border-white/20 rounded-lg text-green-400 focus:outline-none focus:border-green-400/60 transition-colors"
                   />
                 ))}
               </div>

@@ -30,11 +30,11 @@ return (
     { dialog && 
       createPortal(
         <div 
-        className="fixed inset-0 z-999 flex items-center justify-center bg-black/70 test-xl"
+        className="fixed inset-0 z-999 flex items-center justify-center p-4 bg-black/70"
         onClick={closeDialog}>
 
           <div 
-          className="flex flex-col gap-4 bg-black border border-white/50 rounded-xl w-150 text-white"
+          className="flex w-full max-w-lg flex-col gap-4 bg-black border border-white/50 rounded-xl text-white"
           onClick={(e) => e.stopPropagation()}>
 
             <div className="flex items-center gap-2 w-full p-4 bg-white/10">
@@ -42,7 +42,7 @@ return (
               <span className="font-semibold text-xl">{dialog.title}</span>
             </div>
 
-            <p className="text-white text-xl leading-relaxed px-4">
+            <p className="text-white text-base sm:text-xl leading-relaxed px-4">
               {dialog.description}
             </p>
 

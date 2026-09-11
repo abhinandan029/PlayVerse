@@ -1,4 +1,5 @@
 import {useEffect, useState, useRef} from "react"
+import { ChevronsUp } from "lucide-react"
 
 import GameDesc from '../UI/gameDesc.jsx'
 import GameBoard from "../UI/GameBoard.jsx"
@@ -139,7 +140,7 @@ function FloatingBlock(){
       if(e.key === " "){
         e.preventDefault()
         if(e.key === " "){
-          velocityRef.current = upwardMotion
+          jump()
         }
       }
       
@@ -161,6 +162,11 @@ function FloatingBlock(){
     setPlaying(false)
   }
 
+  function jump() {
+    velocityRef.current = upwardMotion
+    setPlaying(true)
+  }
+
   function focus(){
     gameRef.current.scrollIntoView({ behavior: "smooth", block: "start", inline: "center" })
   }
@@ -171,9 +177,15 @@ function FloatingBlock(){
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus} id={GAME_ID}/>
       <HowToPlay htp={HTP}/>
 
-      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} ref={gameRef} focus={focus} >
+      <GameBoard score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame} ref={gameRef} focus={focus}
+        mobileControls={
+          <button aria-label="Jump" className="mobile-game-button px-8" onClick={jump}>
+            <ChevronsUp />
+            <span>Jump</span>
+          </button>
+        }>
         <div 
-          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
+          className="game-grid grid gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
           style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
@@ -192,7 +204,7 @@ function FloatingBlock(){
               else if(isWall) color = "bg-red-900"
               else if(isPipe) color = "bg-orange-500"
 
-              return <div className={`h-5 w-5 rounded-md ${color}`} key={index}></div>
+              return <div className={`game-cell rounded-md ${color}`} key={index}></div>
             })
           }
         </div>

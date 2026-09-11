@@ -50,9 +50,9 @@ function Wishlist() {
   return (
     <div className="flex flex-col text-white" style={TILE_BG}>
 
-      <div className="flex items-center gap-4 px-10 pt-10">
-        <Heart className="text-red-500 size-10 fill-red-500" />
-        <h1 className="text-5xl">Your Wishlist</h1>
+      <div className="flex items-center gap-4 px-5 sm:px-10 pt-8 sm:pt-10">
+        <Heart className="text-red-500 size-8 sm:size-10 fill-red-500" />
+        <h1 className="text-4xl sm:text-5xl">Your Wishlist</h1>
       </div>
 
       {loading ? (
@@ -68,9 +68,9 @@ function Wishlist() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-5 gap-2 mx-20 my-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mx-3 sm:mx-10 lg:mx-20 my-5">
           {wishlistedGames.map((game) => (
-            <div key={game.id} className="group m-4 mt-10 border border-white/30 rounded-xl bg-black">
+            <div key={game.id} className="group m-2 sm:m-4 mt-6 sm:mt-10 border border-white/30 rounded-xl bg-black min-w-0">
               <div className="relative">
                 <img src={getImage(game.name)} className="rounded-t-xl group-hover:opacity-40" alt={game.name} />
                 <button

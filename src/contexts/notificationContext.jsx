@@ -44,11 +44,11 @@ export function NotificationProvider({ children }){
       { 
         message &&
           createPortal(<div 
-          className="fixed bottom-10 left-1/2 -translate-x-1/2 flex gap-5 items-center px-4 py-3 text-2xl rounded-lg text-white shadow-lg/20 shadow-white/80 bg-black border border-white/70"
+          className="fixed bottom-4 sm:bottom-10 left-1/2 -translate-x-1/2 flex w-[calc(100%-2rem)] max-w-xl gap-3 sm:gap-5 items-center px-3 sm:px-4 py-3 text-base sm:text-2xl rounded-lg text-white shadow-lg/20 shadow-white/80 bg-black border border-white/70"
            onClick={(e) => e.stopPropagation()}>
               
             <BellRing className="text-green-400"/>
-            <p className="mr-10">{message.body}</p>
+            <p className="flex-1 wrap-break-word">{message.body}</p>
               
             <button 
             className="text-red-500 cursor-pointer"

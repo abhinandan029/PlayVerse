@@ -111,7 +111,7 @@ export default function ActivityPage() {
       </div>
 
       {/* Heatmap */}
-      <div className=" min-w-6xl m-auto border border-white/20 rounded-xl bg-black p-6">
+      <div className="w-full max-w-6xl m-auto border border-white/20 rounded-xl bg-black p-4 sm:p-6">
         {loading ? (
           <p className="text-white/50 text-center py-10">Loading...</p>
         ) : (
@@ -154,7 +154,7 @@ export default function ActivityPage() {
       </div>
 
       {/* Recent activity feed */}
-      <div className="min-w-4xl m-auto border border-white/20 rounded-xl bg-black p-6">
+      <div className="w-full max-w-4xl m-auto border border-white/20 rounded-xl bg-black p-4 sm:p-6">
         <h2 className="text-2xl font-bold mb-5">Recent Activity</h2>
 
         {loading ? (
@@ -172,10 +172,10 @@ export default function ActivityPage() {
               const Icon = meta.icon
 
               return (
-                <div key={i} className="flex items-center gap-4 py-3">
+                <div key={i} className="flex items-start gap-3 sm:gap-4 py-3">
                   <Icon className={`size-5 shrink-0 ${meta.color}`} />
                   <p className="flex-1">{meta.label(item)}</p>
-                  <span className="text-sm text-white/30">{timeAgo(item.created_at)}</span>
+                  <span className="text-sm text-white/30 shrink-0">{timeAgo(item.created_at)}</span>
                 </div>
               )
             })}

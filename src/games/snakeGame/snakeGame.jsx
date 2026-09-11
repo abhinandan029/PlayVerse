@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react"
+import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from "lucide-react"
 
 import GameDesc from '../UI/gameDesc.jsx'
 import HowToPlay from '../UI/howToPlay.jsx'
@@ -57,6 +58,12 @@ function SnakeGame(){
 
   const gameRef = useRef(null)
 
+  function changeDirection(direction, shouldStart = false) {
+    if(directionRef.current === -direction) return
+    directionRef.current = direction
+    if(shouldStart) setPlaying(true)
+  }
+
   useEffect(() => {
       if(!gameOver) return 
       if(!user) return
@@ -69,19 +76,19 @@ function SnakeGame(){
       e.preventDefault()
       switch(e.key) {
         case "ArrowRight":
-          if(directionRef.current !== -1) directionRef.current = 1
+          changeDirection(1)
           break;
 
         case "ArrowLeft" :
-          if(directionRef.current !== 1) directionRef.current = -1
+          changeDirection(-1)
           break;
           
         case "ArrowDown" :
-          if(directionRef.current !== -GRID_WIDTH) directionRef.current = GRID_WIDTH
+          changeDirection(GRID_WIDTH)
           break;
 
         case "ArrowUp" : 
-          if(directionRef.current !== GRID_WIDTH) directionRef.current = -GRID_WIDTH
+          changeDirection(-GRID_WIDTH)
           break;
         default :
           break; 
@@ -160,18 +167,28 @@ function SnakeGame(){
       <GameDesc gameName={GAME_NAME} gameType={GAME_TYPE} description={DESC} focus={focus} id={GAME_ID}/>
       <HowToPlay htp={HTP}/>
         
-      <GameBoard  score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}  ref={gameRef} focus={focus}>
+      <GameBoard  score={score} setPlaying={setPlaying} playing={playing} gameOver={gameOver} restart={restartGame}  ref={gameRef} focus={focus}
+        mobileControls={
+          <div className="grid grid-cols-3 gap-2">
+            <span />
+            <button aria-label="Move up" className="mobile-game-button" onClick={() => changeDirection(-GRID_WIDTH, true)}><ArrowUp /></button>
+            <span />
+            <button aria-label="Move left" className="mobile-game-button" onClick={() => changeDirection(-1, true)}><ArrowLeft /></button>
+            <button aria-label="Move down" className="mobile-game-button" onClick={() => changeDirection(GRID_WIDTH, true)}><ArrowDown /></button>
+            <button aria-label="Move right" className="mobile-game-button" onClick={() => changeDirection(1, true)}><ArrowRight /></button>
+          </div>
+        }>
         <div
-          className="grid grid-cols-45 gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
-          style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, 0fr)` }}>
+          className="game-grid grid gap-0.5 p-1 py-2 bg-black border border-white/40 rounded-md"
+          style={{ gridTemplateColumns: `repeat(${GRID_WIDTH}, minmax(0, 1fr))` }}>
           {
             Array.from({ length : GRID_SIZE}).map((cell, index) => {
-              let color = "bg-black h-5 w-5 "
-              if( index === snake[0]) color = "bg-green-300 border h-5 w-5 "
-              else if(snake.includes(index)) color = "bg-green-700 h-5 w-5";
-              else if(index === food) color = "bg-yellow-200 rounded-xl h-4 w-4";
+              let color = "bg-black"
+              if( index === snake[0]) color = "bg-green-300 border"
+              else if(snake.includes(index)) color = "bg-green-700";
+              else if(index === food) color = "bg-yellow-200 rounded-xl scale-75";
 
-              return <div className={`rounded-md ${color}`} key={index}></div>
+              return <div className={`game-cell rounded-md ${color}`} key={index}></div>
             })
           }
         </div>
