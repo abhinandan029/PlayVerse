@@ -101,8 +101,9 @@ export function ProfilePage(){
   const [activityData, setActivityData] = useState([])
   const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
 
-  const [editing, setEditing] = useState(location.state?.justRegistered || false)
-  const isFirstTimeSetup = location.state?.justRegistered || false
+  const oauthSetupRequested = new URLSearchParams(location.search).get('setup') === '1'
+  const isFirstTimeSetup = location.state?.justRegistered || (oauthSetupRequested && user?.google_id && (!user?.username || !user?.password))
+  const [editing, setEditing] = useState(isFirstTimeSetup)
 
   useEffect(() => {
     async function fetchGames() {

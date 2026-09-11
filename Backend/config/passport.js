@@ -21,7 +21,7 @@ passport.use(new GoogleStratergy( {
         }
 
         const result = await createOAuthUser(email, profile.id)
-        return done(null, { id : result.insertId, email, google_id : profile.id})
+        return done(null, { id : result.insertId, email, google_id : profile.id, isNewOAuthUser: true})
       }
       catch(error){
         return done(error)

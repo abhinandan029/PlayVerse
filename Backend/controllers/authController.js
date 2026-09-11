@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 
-import {createUser, findUserByEmail, findUserById} from '../models/users.js'
+import {createUser, findUserByEmail, findUserById, updatePassword} from '../models/users.js'
 import { createVerificationCode, findVerificationByEmail, deleteVerification } from '../models/emailVerification.js'
 
 import { sendVerificationCode} from '../utils/email.js'
@@ -158,6 +158,50 @@ export async function logout(req, res){
 
   res.status(200).json({ msg : "Logged out successfully."})
 } 
+
+export async function setPassword(req, res){
+  const { password, confirmPassword } = req.body
+
+  if(!password || !confirmPassword){
+    return res.status(400).json({ msg : "Password and confirmation are required." })
+  }
+
+  if(password.length < 8){
+    return res.status(400).json({ msg : "Password must be at least 8 characters long." })
+  }
+
+  if(!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)){
+    return res.status(400).json({ msg : "Password must include uppercase, lowercase, number, and special character." })
+  }
+
+  if(password !== confirmPassword){
+    return res.status(400).json({ msg : "Passwords do not match." })
+  }
+
+  try{
+    const user = await findUserById(req.userId)
+    if(!user){
+      return res.status(404).json({ msg : "User not found." })
+    }
+
+    if(!user.google_id){
+      return res.status(403).json({ msg : "Password setup is only available for Google accounts." })
+    }
+
+    if(user.password){
+      return res.status(409).json({ msg : "A password is already set for this account." })
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
+    await updatePassword(req.userId, hashedPassword)
+
+    res.status(200).json({ msg : "Password set successfully." })
+  }
+  catch(error){
+    console.error(error)
+    res.status(500).json({ msg : "Failed to set password." })
+  }
+}
 
 export async function verifyToken(req, res){
 

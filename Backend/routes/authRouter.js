@@ -1,7 +1,7 @@
 import express from 'express'
 import passport from '../config/passport.js'
 
-import {register, login, logout, verifyToken, requestVerificationCode, checkVerificationCode} from '../controllers/authController.js'
+import {register, login, logout, setPassword, verifyToken, requestVerificationCode, checkVerificationCode} from '../controllers/authController.js'
 import { authenticate, generateToken } from '../utils/jwt.js'
 
 const authRouter = express.Router()
@@ -21,7 +21,8 @@ authRouter.get('/google/callback',
   (req, res) => {
     const token = generateToken(req.user.id)
     setTokenCookies(res, token)
-    res.redirect("http://localhost:5173/home")
+    const destination = req.user.isNewOAuthUser ? "/profile?setup=1" : "/home"
+    res.redirect(`http://localhost:5173${destination}`)
   }
 )
 
@@ -30,6 +31,7 @@ authRouter.post("/check-code", checkVerificationCode)
 authRouter.post("/complete-registration", register)
 authRouter.post("/login", login)
 authRouter.post("/logout", logout)
+authRouter.put("/password", authenticate, setPassword)
 
 authRouter.get("/verify", authenticate, verifyToken)
 

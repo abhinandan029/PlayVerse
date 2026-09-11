@@ -43,3 +43,7 @@ export async function createOAuthUser(email, googleId = null){
   )
   return result
 }
+
+export async function updatePassword(userId, password){
+  await DB.query('UPDATE users SET password = ? WHERE id = ?', [password, userId])
+}
