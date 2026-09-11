@@ -5,6 +5,7 @@ import {useAuth} from '../contexts/authContext.jsx'
 import {useWishlist} from '../contexts/wishlistContext.jsx'
 
 import {Zap, Code2, Gamepad2, Heart} from 'lucide-react'
+import { apiUrl } from '../utils/api.js'
 
 const TILE_BG = {
   backgroundImage:
@@ -27,7 +28,7 @@ function Body() {
     async function fetchGames(){
       
       try{
-        const res = await fetch('/api/games/fetch-games', {
+        const res = await fetch(apiUrl('/api/games/fetch-games'), {
           method : 'GET',
           credentials : 'include'
         })

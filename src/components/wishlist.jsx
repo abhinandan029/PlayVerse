@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Heart, Gamepad2 } from 'lucide-react'
 
 import { useWishlist } from '../contexts/wishlistContext.jsx'
+import { apiUrl } from '../utils/api.js'
 
 const images = import.meta.glob("../assets/*.png", { eager: true, import: "default" })
 
@@ -27,7 +28,7 @@ function Wishlist() {
   useEffect(() => {
     async function fetchGames() {
       try {
-        const res = await fetch('/api/games/fetch-games', {
+        const res = await fetch(apiUrl('/api/games/fetch-games'), {
           method: 'GET',
           credentials: 'include'
         })

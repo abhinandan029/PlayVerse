@@ -1,7 +1,7 @@
 import DB from '../utils/database.js'
 
 export async function insertScore(userId, gameId, score){
-  await DB.query('INSERT INTO scores( user_id, game_id, score) VALUES (?, ?, ?)', [userId, gameId, score])
+  await DB.query('INSERT INTO scores (user_id, game_id, score) VALUES (?, ?, ?)', [userId, gameId, score])
 }
 
 export async function getUserBestScore(userId, gameId){
@@ -11,7 +11,7 @@ export async function getUserBestScore(userId, gameId){
 
 export async function hasPlayedGame(userId, gameId){
   const [result] = await DB.query('SELECT id FROM scores WHERE user_id = ? AND game_id = ? LIMIT 1', [userId, gameId])
-  return result.length > 0 
+  return result.length > 0
 }
 
 export async function getTopScores(gameId, limit = 5){
@@ -20,10 +20,10 @@ export async function getTopScores(gameId, limit = 5){
     FROM scores s JOIN users u ON u.id = s.user_id
     WHERE s.game_id = ?
     ORDER BY s.score DESC
-    LIMIT ?`, 
+    LIMIT ?`,
     [gameId, limit]
   )
-  return result 
+  return result
 }
 
 export async function getUserOverallBest(userId){

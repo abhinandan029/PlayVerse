@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Trophy, Medal } from 'lucide-react'
 
 import { useAuth } from '../../contexts/authContext.jsx'
+import { apiUrl } from '../../utils/api.js'
 
 const avatars = import.meta.glob("../../assets/avatars/*.svg", { eager: true, import: "default" })
 
@@ -20,7 +21,7 @@ export default function LeaderBoard({ gameId }) {
 
     async function fetchLeaderboard() {
       try {
-        const res = await fetch(`/api/score/leader-board/${gameId}`, {
+        const res = await fetch(apiUrl(`/api/score/leader-board/${gameId}`), {
           method: 'GET',
           credentials: 'include'
         })

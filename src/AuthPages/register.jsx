@@ -5,6 +5,7 @@ import {Gamepad2, Mail, ShieldCheck, Lock, Check} from 'lucide-react'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {useNotification} from '../contexts/notificationContext.jsx'
+import { apiUrl } from '../utils/api.js'
 
 const TILE_BG = {
   backgroundImage:
@@ -72,7 +73,7 @@ export default function Register() {
 
     setVerify("sending")
     try {
-      const res = await fetch("/api/auth/request-verification", {
+      const res = await fetch(apiUrl("/api/auth/request-verification"), {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -102,7 +103,7 @@ export default function Register() {
 
     setCheckingCode(true)
     try {
-      const res = await fetch("/api/auth/check-code", {
+      const res = await fetch(apiUrl("/api/auth/check-code"), {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, code: fullCode })
@@ -140,7 +141,7 @@ export default function Register() {
 
     setStatus("Registering")
     try {
-      const res = await fetch('/api/auth/complete-registration', {
+      const res = await fetch(apiUrl('/api/auth/complete-registration'), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -326,7 +327,7 @@ export default function Register() {
           <button
             type="button"
             className="flex items-center justify-center gap-2 bg-white/10 border border-white/20 rounded-lg py-2.5 text-white font-semibold text-lg hover:bg-white/15 transition-colors cursor-pointer"
-            onClick={() => window.location.href = '/api/auth/google'}>
+            onClick={() => window.location.href = apiUrl('/api/auth/google')}>
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.63h6.46c-.28 1.5-1.13 2.77-2.4 3.62v3.01h3.88c2.27-2.09 3.58-5.17 3.58-8.81z"/>
               <path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.93-2.92l-3.88-3.01c-1.08.72-2.45 1.15-4.05 1.15-3.11 0-5.75-2.1-6.69-4.92H1.3v3.1C3.26 21.3 7.31 24 12 24z"/>

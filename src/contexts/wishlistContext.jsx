@@ -1,6 +1,7 @@
 import {createContext, useContext, useCallback, useMemo, useState, useEffect} from 'react'
 
 import {useAuth} from './authContext.jsx'
+import { apiUrl } from '../utils/api.js'
 
 const WishlistContext = createContext(null)
 
@@ -18,7 +19,7 @@ export function WishlistProvider({ children }){
     }
 
     try{
-      const res = await fetch("/api/wishlist/fetch", {
+      const res = await fetch(apiUrl("/api/wishlist/fetch"), {
         method : "GET",
         credentials : "include"
       })
@@ -54,7 +55,7 @@ export function WishlistProvider({ children }){
     })
 
     try {
-      const res = await fetch("/api/wishlist/toggle", {
+      const res = await fetch(apiUrl("/api/wishlist/toggle"), {
         method : "POST",
         credentials : "include",
         headers : {"Content-Type" : "application/json"},

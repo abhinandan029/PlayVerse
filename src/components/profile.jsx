@@ -7,6 +7,7 @@ import {useDialog} from '../contexts/dialogContext.jsx'
 import {useWishlist} from "../contexts/wishlistContext.jsx"
 
 import {EditProfileModal} from './editProfileModal.jsx'
+import { apiUrl } from '../utils/api.js'
 
 const images = import.meta.glob("../assets/*.png", { eager: true, import: "default" })
 const avatars = import.meta.glob("../assets/avatars/*.svg", { eager: true, import: "default" })
@@ -108,7 +109,7 @@ export function ProfilePage(){
   useEffect(() => {
     async function fetchGames() {
       try {
-        const res = await fetch('/api/games/fetch-games', { method: 'GET', credentials: 'include' })
+        const res = await fetch(apiUrl('/api/games/fetch-games'), { method: 'GET', credentials: 'include' })
         if (res.ok) {
           const data = await res.json()
           setAllGames(data.games)
@@ -125,7 +126,7 @@ export function ProfilePage(){
   useEffect(() => {
     async function fetchActivity() {
       try {
-        const res = await fetch('/api/activity/mine', { method: 'GET', credentials: 'include' })
+        const res = await fetch(apiUrl('/api/activity/mine'), { method: 'GET', credentials: 'include' })
         if (res.ok) {
           const data = await res.json()
           setActivityData(data.activity) // [{ activity_date, count }, ...]

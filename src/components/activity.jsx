@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Activity, Trophy, Sparkles, Heart, Users, Star } from 'lucide-react'
+import { apiUrl } from '../utils/api.js'
 
 const TILE_BG = {
   backgroundImage:
@@ -38,8 +39,8 @@ export default function ActivityPage() {
     async function fetchAll() {
       try {
         const [activityRes, feedRes] = await Promise.all([
-          fetch('/api/activity/mine', { credentials: 'include' }),
-          fetch('/api/activity/feed', { credentials: 'include' })
+          fetch(apiUrl('/api/activity/mine'), { credentials: 'include' }),
+          fetch(apiUrl('/api/activity/feed'), { credentials: 'include' })
         ])
 
         if (activityRes.ok) {

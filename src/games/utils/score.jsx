@@ -1,6 +1,8 @@
+import { apiUrl } from '../../utils/api.js'
+
 export async function submitScore(gameId, score) {
   try {
-    const res = await fetch('/api/score/submit', {
+    const res = await fetch(apiUrl('/api/score/submit'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

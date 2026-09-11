@@ -2,6 +2,7 @@ import {useState, useRef, useEffect} from 'react'
 import {Check, Loader2, X} from 'lucide-react'
 
 import {useAuth} from "../contexts/authContext.jsx"
+import { apiUrl } from '../utils/api.js'
 
 const AVATAR_LIST = ['fox', 'robot', 'cat', 'alien', 'ghost', 'ninja', 'astronaut', 'dragon', 'wizard', 'pixel-guy']
 const avatars = import.meta.glob("../assets/avatars/*.svg", { eager: true, import: "default" })
@@ -49,7 +50,7 @@ export function EditProfileModal({ onClose, forceUsername = false }){
 
     debounceRef.current = setTimeout(async () => {
       try{
-        const res = await fetch(`/api/user/check-username?username=${encodeURIComponent(username)}`,  { credentials : 'include' })
+        const res = await fetch(apiUrl(`/api/user/check-username?username=${encodeURIComponent(username)}`),  { credentials : 'include' })
 
         if(!res.ok) {
           console.error('username Check Failed', res.status)
@@ -105,7 +106,7 @@ export function EditProfileModal({ onClose, forceUsername = false }){
     setSaving(true)
 
     try {
-      const res = await fetch('/api/user/profile', {
+      const res = await fetch(apiUrl('/api/user/profile'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -146,7 +147,7 @@ export function EditProfileModal({ onClose, forceUsername = false }){
     setPasswordSaving(true)
 
     try{
-      const res = await fetch('/api/auth/password', {
+      const res = await fetch(apiUrl('/api/auth/password'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',

@@ -17,12 +17,12 @@ function setTokenCookies(res, token){
 authRouter.get('/google', passport.authenticate('google', {scope : ['profile', 'email'], session : false}))
 
 authRouter.get('/google/callback',
-  passport.authenticate('google', {session : false, failureRedirect : "http://localhost:5173/login?error=oauth_failed"}),
+  passport.authenticate('google', {session : false, failureRedirect : `${process.env.FRONTEND_URL || 'http://localhost:5173'}/login?error=oauth_failed`}),
   (req, res) => {
     const token = generateToken(req.user.id)
     setTokenCookies(res, token)
     const destination = req.user.isNewOAuthUser ? "/profile?setup=1" : "/home"
-    res.redirect(`http://localhost:5173${destination}`)
+    res.redirect(`${process.env.FRONTEND_URL || 'http://localhost:5173'}${destination}`)
   }
 )
 

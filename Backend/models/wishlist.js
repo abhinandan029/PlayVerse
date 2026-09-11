@@ -11,7 +11,7 @@ export async function isGameWishlisted(userId, gameId){
 }
 
 export async function addToWishlist(userId, gameId){
-  await DB.query('INSERT INTO wishlist(user_id, game_id) VALUES(?, ?)', [userId, gameId])
+  await DB.query('INSERT INTO wishlist (user_id, game_id) VALUES (?, ?)', [userId, gameId])
 }
 
 export async function removeFromWishlist(userId, gameId){

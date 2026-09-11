@@ -1,8 +1,8 @@
 import DB from '../utils/database.js'
 
 export async function createUser(email, password, isVerified){
-  const [result] = await DB.query('INSERT INTO users(email, password, is_verified) VALUES(?, ?, ?)', [email, password, isVerified])
-  return result
+  const [rows, meta] = await DB.query('INSERT INTO users (email, password, is_verified) VALUES (?, ?, ?)', [email, password, isVerified ? 1 : 0])
+  return { insertId: meta.last_row_id }
 }
 
 export async function findUserByEmail(email){
@@ -36,12 +36,12 @@ export async function linkGoogleAccount(userId, googleId){
 }
 
 export async function createOAuthUser(email, googleId = null){
-  const [result] = await DB.query(
+  const [rows, meta] = await DB.query(
     `INSERT INTO users (email, password, google_id, is_verified)
-    VALUES (?, NULL, ?, TRUE)`,
+    VALUES (?, NULL, ?, 1)`,
     [email, googleId]
   )
-  return result
+  return { insertId: meta.last_row_id }
 }
 
 export async function updatePassword(userId, password){
