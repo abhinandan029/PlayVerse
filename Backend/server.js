@@ -16,8 +16,19 @@ import activityRouter from './routes/activityRouter.js'
 
 const app = express()
 
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+  .split(',')
+  .map((origin) => origin.trim().replace(/\/$/, ''))
+  .filter(Boolean)
+
 app.use(cors({
-  origin : process.env.FRONTEND_URL || "http://localhost:5173",
+  origin : (origin, callback) => {
+    if(!origin || allowedOrigins.includes(origin.replace(/\/$/, ''))){
+      return callback(null, true)
+    }
+
+    return callback(new Error('Origin is not allowed by CORS'))
+  },
   credentials : true,
 }))
 
@@ -33,7 +44,7 @@ app.use("/api/wishlist", wishlistRouter)
 app.use("/api/score", scoreRouter)
 app.use('/api/activity', activityRouter)
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`server listening at port ${PORT}`)
 })
