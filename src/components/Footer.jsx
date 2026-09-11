@@ -4,7 +4,6 @@ const FOOTER_LINKS = {
   Product: [
     { label: "Games", href: "/home" },
     { label: "Wishlist", href: "/wishlist" },
-    { label: "Leaderboards", href: "/leaderboards" },
   ],
   // Community: [
   //   { label: "Friends", href: "/friends" },
@@ -13,12 +12,7 @@ const FOOTER_LINKS = {
   // ],
   Resources: [
     { label: "About Us", href: "/about" },
-    { label: "GitHub Repo", href: "https://github.com/abhinandan029/playverse" },
-    { label: "Contribute", href: "https://github.com/abhinandan029/playverse/blob/main/CONTRIBUTING.md" },
-  ],
-  Legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
+    { label: "GitHub", href: "https://github.com/abhinandan029/playverse" },
   ],
 }
 
