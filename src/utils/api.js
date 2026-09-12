@@ -1,5 +1,5 @@
 const backendUrl = (
-  'http://localhost:3000' || "https://playverse-mnx5.onrender.com"
+  import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'
 ).replace(/\/$/, '')
 
 export function apiUrl(path) {
