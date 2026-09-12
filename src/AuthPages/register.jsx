@@ -34,6 +34,17 @@ export default function Register() {
   const codeSent = verify === "sent" || verify === "sending"
   const fullCode = code.join("")
 
+  const passwordRules = [
+    { label: "At least 8 characters", valid: password.length >= 8 },
+    { label: "One uppercase letter", valid: /[A-Z]/.test(password) },
+    { label: "One lowercase letter", valid: /[a-z]/.test(password) },
+    { label: "One number", valid: /[0-9]/.test(password) },
+    { label: "One special character", valid: /[^A-Za-z0-9]/.test(password) },
+  ]
+  const passwordValid = passwordRules.every(rule => rule.valid)
+  const passwordsMatch = password.length > 0 && password === cnfPassword
+  const passwordsMismatch = cnfPassword.length > 0 && password !== cnfPassword
+
   // step tracker: 1 = email, 2 = code, 3 = password
   const step = isVerified ? 3 : codeSent ? 2 : 1
 
@@ -139,6 +150,11 @@ export default function Register() {
       return
     }
 
+    if (!passwordValid) {
+      notify("Password does not meet all requirements.")
+      return
+    }
+
     setStatus("Registering")
     try {
       const res = await fetch(apiUrl('/api/auth/complete-registration'), {
@@ -225,6 +241,7 @@ export default function Register() {
                 {verify === "sending" ? "Sending…" : isVerified ? "✓ Verified" : verify === "sent" ? "✓ Sent" : "Send Code"}
               </button>
             </div>
+            <p className="text-green-500">{verify === "sent" ? "Check your SPAM INBOX for the code." : ""}</p>
           </div>
 
           {/* Step 2 — Code entry */}
@@ -285,8 +302,16 @@ export default function Register() {
                 value={password}
                 disabled={!isVerified}
                 onChange={(e) => setPassword(e.target.value)}
+                aria-invalid={password.length > 0 && !passwordValid}
                 required
               />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                {passwordRules.map((rule) => (
+                  <span key={rule.label} className={rule.valid ? "text-green-400" : "text-white/45"}>
+                    {rule.valid ? "✓" : "○"} {rule.label}
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -296,19 +321,32 @@ export default function Register() {
               <input
                 type="password"
                 autoComplete="new-password"
-                className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-lg text-white placeholder-white/30 focus:outline-none focus:border-green-400/50 transition-colors"
                 placeholder="Type it again"
                 value={cnfPassword}
                 disabled={!isVerified}
                 onChange={(e) => setCnfPassword(e.target.value)}
+                aria-invalid={passwordsMismatch}
+                  className={`w-full bg-white/10 border border-white/10 rounded-lg px-4 py-3 text-lg text-white placeholder-white/30 focus:outline-none transition-colors ${
+                  passwordsMismatch
+                    ? "border-red-400/70 focus:border-red-400"
+                    : passwordsMatch
+                      ? "border-green-400/70 focus:border-green-400"
+                      : "border-white/10 focus:border-green-400/50"
+                }`}
                 required
               />
+              {passwordsMismatch && (
+                <span className="text-sm text-red-400">Passwords do not match.</span>
+              )}
+              {passwordsMatch && (
+                <span className="text-sm text-green-400">Passwords match.</span>
+              )}
             </div>
           </div>
 
           <button
             type="submit"
-            disabled={status === "Registering" || !isVerified}
+            disabled={status === "Registering" || !isVerified || !passwordValid || !passwordsMatch}
             className="w-full bg-green-400 hover:bg-green-300 disabled:bg-white/20 disabled:hover:bg-white/20 transition-colors text-xl text-black disabled:text-white font-bold rounded-lg py-3.5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-70">
             {status === "Registering" ? "Creating account…" : "Create Account"}
           </button>

@@ -111,7 +111,7 @@ export async function register(req, res){
     const authToken = generateToken(result.insertId)
     setTokenCookie(res, authToken)
 
-    res.status(201).json({ msg : "Email registered successfully.", user : { id : result.inserId, email : email}})
+    res.status(201).json({ msg : "Email registered successfully.", user : { id : result.insertId, email : email}})
   }
   catch(error){
     console.log(error)
