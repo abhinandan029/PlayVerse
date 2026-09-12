@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 import {createUser, findUserByEmail, findUserById, updatePassword} from '../models/users.js'
 import { createVerificationCode, findVerificationByEmail, deleteVerification } from '../models/emailVerification.js'
 
-import { sendVerificationCode} from '../utils/email.js'
+import { sendVerificationCode, sendResetCode} from '../utils/email.js'
 import {generateToken} from '../utils/jwt.js'
 
 export async function requestVerificationCode(req, res){
@@ -34,6 +34,83 @@ export async function requestVerificationCode(req, res){
   catch(error){
     console.error(error)
     res.status(500).json({ msg : "Failed to request verification."})
+  }
+}
+
+export async function requestResetCode(req, res){
+  const { email } = req.body
+
+  if(!email){
+    return res.status(400).json({ msg : "Email is required."})
+  }
+
+  try{
+    const existingUser = await findUserByEmail(email)
+    if(!existingUser){
+      return res.status(409).json({ msg : "An account with this email doesn't exists."})
+    }
+
+    const code = await createVerificationCode(email)
+
+    try{
+      await sendResetCode(email, code)
+    }
+    catch(emailError){
+      console.error("Failed to send password reset email : ", emailError)
+      return res.status(500).json({ msg : "Failed to send password reset email." })
+    }
+
+    res.status(200).json({ msg : "Verification code sent." })
+  }
+  catch(error){
+    console.error(error)
+    res.status(500).json({ msg : "Failed to request verification."})
+  }
+}
+
+export async function resetPassword(req, res){
+  const { email, code, password } = req.body
+
+  if(!email || !code || !password){
+    return res.status(400).json({ msg : "Email, code and password are required." })
+  }
+
+  if(password.length < 8){
+    return res.status(400).json({ msg : "Password must be at least 8 characters long." })
+  }
+
+  if(!/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/[0-9]/.test(password) || !/[^A-Za-z0-9]/.test(password)){
+    return res.status(400).json({ msg : "Password must include uppercase, lowercase, number, and special character." })
+  }
+
+  try{
+    const user = await findUserByEmail(email)
+    if(!user){
+      return res.status(404).json({ msg : "User not found." })
+    }
+
+    const record = await findVerificationByEmail(email)
+    if(!record){
+      return res.status(400).json({ msg : "No reset code pending for this email." })
+    }
+
+    if(new Date(record.expires_at) < new Date()){
+      return res.status(400).json({ msg : "Reset code expired. Please request a new one." })
+    }
+
+    if(record.code !== code){
+      return res.status(400).json({ msg : "Incorrect reset code." })
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
+    await updatePassword(user.id, hashedPassword)
+    await deleteVerification(record.id)
+
+    res.status(200).json({ msg : "Password reset successfully." })
+  }
+  catch(error){
+    console.error(error)
+    res.status(500).json({ msg : "Failed to reset password." })
   }
 }
 

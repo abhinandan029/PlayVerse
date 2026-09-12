@@ -1,7 +1,7 @@
 import express from 'express'
 import passport from '../config/passport.js'
 
-import {register, login, logout, setPassword, verifyToken, requestVerificationCode, checkVerificationCode} from '../controllers/authController.js'
+import {register, login, logout, setPassword, verifyToken, requestVerificationCode, requestResetCode, resetPassword, checkVerificationCode} from '../controllers/authController.js'
 import { authenticate, generateToken } from '../utils/jwt.js'
 
 const authRouter = express.Router()
@@ -34,8 +34,14 @@ authRouter.get('/google/callback',
 )
 
 authRouter.post("/request-verification", requestVerificationCode)
-authRouter.post("/check-code", checkVerificationCode)
 authRouter.post("/complete-registration", register)
+
+authRouter.post("/request-reset-code", requestResetCode)
+authRouter.post("/reset-password", resetPassword)
+
+
+authRouter.post("/check-code", checkVerificationCode)
+
 authRouter.post("/login", login)
 authRouter.post("/logout", logout)
 authRouter.put("/password", authenticate, setPassword)

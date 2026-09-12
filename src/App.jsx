@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/protectedRoutes.jsx"
 import {ProfilePage} from "./components/profile.jsx"
 import Wishlist from './components/wishlist.jsx'
 import Activity from './components/activity.jsx'
+import ForgotPassword from "./components/forgotPassword.jsx"
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
@@ -26,11 +27,12 @@ function App() {
   return (
     <AuthProvider>
       <WishlistProvider>
-        { location.pathname === "/login" || location.pathname === "/register" ?
+        { location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/forgot-password" ?
           <> 
             <Routes >
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
           </> :
           <>
