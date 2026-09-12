@@ -134,7 +134,7 @@ function SnakeGame(){
 
         if(newHead === food ){
           setFood(randomEmptyCell(newSnake));
-          setScore((prev) => prev + 1/2);
+          setScore((prev) => prev + 1);
         }
         else {
           newSnake.pop();

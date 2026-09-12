@@ -27,8 +27,8 @@ html, body {
 }
 
 .mobile-game-button {
-  min-width: 3.25rem;
-  min-height: 3.25rem;
+  min-width: 4rem;
+  min-height: 4rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
