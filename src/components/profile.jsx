@@ -38,7 +38,7 @@ export function ProfileMenu({ closeMenu }){
   if (!user) return null
 
   return (
-    <div className="flex flex-col fixed top-18 right-10 bg-black border border-white/60 rounded-xl z-100" onClick={(e) => e.stopPropagation()}>
+    <div className="flex flex-col fixed bottom-20 right-2 bg-black border border-white/60 rounded-xl z-900 sm:top-20 sm:right-10 sm:bottom-auto sm:left-auto" onClick={(e) => e.stopPropagation()}>
       <div className="flex gap-4 p-5 items-center">
         <img
           src={getAvatar(user.avatar || 'cat')}

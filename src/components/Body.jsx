@@ -85,8 +85,6 @@ function Body() {
     <div className="flex flex-col" style={TILE_BG}>
 
       <div className="relative text-white m-4 sm:m-8 lg:m-15 p-5 sm:p-10 lg:p-20 border border-white/40 rounded-xl flex bg-black" style={TILE_BG}>
-        
-        <a href="#games" className="absolute top-5 right-4 sm:top-10 sm:right-8 text-xl sm:text-3xl bg-black border border-green-400 px-2 rounded-md text-red-500 self-center">Games</a>
 
         <div className="flex flex-col" >
           
@@ -124,7 +122,14 @@ function Body() {
           return(
             <div key={index} className="group m-2 sm:m-4 mt-6 sm:mt-10 border border-white/30 rounded-xl bg-black min-w-0">
               <div className="relative">
-                <img src={getImage(game.name)} className="rounded-t-xl group-hover:opacity-30" alt={game.name} />
+                <img
+                  src={getImage(game.name)}
+                  className="rounded-t-xl group-hover:opacity-30"
+                  alt={game.name}
+                  fetchPriority={index === 0 ? "high" : "low"}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
                 <button
                   aria-label={`${wishlistId.has(game.id) ? "Remove" : "Add"} ${game.name} ${"from wishlist"}`}
                   title={wishlistId.has(game.id) ? "Remove from wishlist" : "Add to wishlist"}

@@ -1,4 +1,17 @@
-# React + Vite
+# PlayVerse
+
+## Development and production
+
+The frontend uses separate Vite modes for local development and production:
+
+- `npm run dev` uses `VITE_DEV_BACKEND_URL`, defaulting to the local backend at `http://localhost:3000` through the Vite `/api` proxy.
+- `npm run build` uses `VITE_PROD_BACKEND_URL` for the deployed backend.
+
+Copy `.env.example` to `.env` and set the production URL before building a deployment. Environment files containing real values are ignored by Git.
+
+The backend should use its own `Backend/.env` file. Set `NODE_ENV=development` locally and `NODE_ENV=production` in deployment; this also controls production cookie settings.
+
+## React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
 

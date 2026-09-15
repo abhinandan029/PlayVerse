@@ -48,6 +48,7 @@ function App() {
 
             <Header />
         
+            <div className="pb-16 sm:pb-0">
             <Routes>
           
               <Route path="/" element={<Body />} />
@@ -65,6 +66,7 @@ function App() {
             </Routes>
         
             <Footer />
+            </div>
         
           </>
         }
