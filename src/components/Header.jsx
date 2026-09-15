@@ -44,7 +44,7 @@ function Header() {
 
   return (
     <div className="h-18 sm:h-20">
-      <div className="fixed top-0 left-0 right-0 min-h-18 sm:min-h-20 flex gap-2 py-4 px-4 sm:px-5 justify-between items-center bg-black border border-b-white/40 z-888">
+      <div className="sticky top-0 left-0 right-0 min-h-18 sm:min-h-20 flex gap-2 py-4 px-4 sm:px-5 justify-between items-center bg-black border border-b-white/40 z-888">
       
       <span 
       className="text-3xl sm:text-5xl ml-1 sm:ml-5 font-bold text-green-400 cursor-pointer"

@@ -46,7 +46,7 @@ export function ProfileMenu({ closeMenu }){
           alt="avatar"
         />
         <div className="flex flex-col">
-          <p className="font-semibold">{user.username || user.email.split('@')[0]}</p>
+          <p className="font-semibold text-xl">{user.username || user.email.split('@')[0]}</p>
           <p className="text-sm text-white/50">{user.email}</p>
         </div>
         {/* <button className="ml-10 cursor-pointer"><ArrowRightLeft className="text-green-400 size-5"/></button> */}
@@ -56,7 +56,7 @@ export function ProfileMenu({ closeMenu }){
 
       <div className="flex flex-col p-2 items-start gap-1">
 
-        <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
+        <button className="flex w-full gap-2 items-center text-xl sm:text-md hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() =>{navigate("/profile"); closeMenu()}}>
           <User className="size-6 text-green-400"/>Profile
         </button>
@@ -66,12 +66,12 @@ export function ProfileMenu({ closeMenu }){
           <Users className="size-6 text-green-400"/>Friends
         </button> */}
 
-        <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
+        <button className="flex w-full gap-2 items-center text-xl sm:text-md hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/wishlist"); closeMenu()}}>
           <Heart className="size-6 text-green-400"/>Wishlist
         </button>
       
-        <button className="flex w-full gap-2 items-center hover:bg-white/15 rounded-md px-2 cursor-pointer"
+        <button className="flex w-full gap-2 items-center text-xl sm:text-md hover:bg-white/15 rounded-md px-2 cursor-pointer"
           onClick={() => {navigate("/activity"); closeMenu()}}>
           <Activity className="size-6 text-green-400"/>Activity
         </button>
@@ -80,7 +80,7 @@ export function ProfileMenu({ closeMenu }){
       <div className="flex-1 h-px border-white/30 border" />
 
       <div className="flex flex-col p-2 items-start gap-1">
-        <button className="flex w-full gap-2 items-center hover:bg-red-500/20 rounded-md px-2 cursor-pointer"
+        <button className="flex w-full gap-2 items-center text-xl sm:text-md hover:bg-red-500/20 rounded-md px-2 cursor-pointer"
           onClick={() => { openDialog("Confirm", "Do you want to Logout?", logout); closeMenu() }}>
           <LogOut className="text-red-500 size-6"/>Logout
         </button>
