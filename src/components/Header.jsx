@@ -1,7 +1,7 @@
 import {useNavigate, useLocation} from 'react-router-dom'
 import{ useState, useRef, useEffect} from 'react'
 
-import { House, Heart, Info, Users } from 'lucide-react'
+import { House, Heart, Info, Users, Compass } from 'lucide-react'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {ProfileMenu} from './profile.jsx'
@@ -58,6 +58,12 @@ function Header() {
         className={`px-4 py-2 text-left rounded-md hover:bg-black/40 cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60 bg-red-500/10" : ""}`}
         onClick={() => navigate("/home")}>
           <House className=""/>
+        </button>
+
+        <button 
+        className={`px-4 py-2 text-left rounded-md hover:bg-black/40 cursor-pointer ${location.pathname === "/explore" ? "border border-red-500/60 bg-red-500/10" : ""}`}
+        onClick={() => navigate("/explore")}>
+          <Compass />
         </button>
 
         { user && 
