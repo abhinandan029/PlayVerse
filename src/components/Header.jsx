@@ -1,7 +1,7 @@
 import {useNavigate, useLocation} from 'react-router-dom'
 import{ useState, useRef, useEffect} from 'react'
 
-import { House, Heart, Info } from 'lucide-react'
+import { House, Heart, Info, Users } from 'lucide-react'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {ProfileMenu} from './profile.jsx'
@@ -68,11 +68,21 @@ function Header() {
           </button> 
         }
 
+        {
+          user && 
+          <button 
+          className={`px-4 py-2 text-left hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/friends" ? "border border-red-500/60 bg-red-500/10" : ""}`}
+          onClick={() => navigate("/friends")}>
+            <Users />
+          </button> 
+        }
+
         <button 
         className={`px-4 py-2 text-left hover:bg-black/40 rounded-md cursor-pointer ${location.pathname === "/about" ? "border border-red-500/60 bg-red-500/10" : ""}`}
         onClick={() => navigate("/about")}>
           <Info />
         </button>
+
 
         {
           user && !loading ? 
