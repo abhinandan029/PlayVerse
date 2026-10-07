@@ -24,14 +24,15 @@ async function igdbQuery(endpoint, apicalypseQuery){
   )
 
   if(!res.ok){
-    throw new Error(`Failed to fetch data from IGDB : ${res.status} - ${res.text()}`)
+    const errorText = await res.text()
+    throw new Error(`Failed to fetch data from IGDB : ${res.status} - ${errorText}`)
   }
 
   return res.json()
 }
 
 function buildPlatformClause(webOnly){
-  return webOnly ? `platform = (${WEB_BROWSER_PLATFORM_ID}) &` : ''
+  return webOnly ? `platforms = (${WEB_BROWSER_PLATFORM_ID}) &` : ''
 }
 
 export async function searchGames(query, limit = 20, webOnly = false){
@@ -47,7 +48,7 @@ export async function searchGames(query, limit = 20, webOnly = false){
 export async function getGameById(igdbId){
   const apicalypse = `
     fields name, summary, cover.url, genres.name, first_release_date, rating, platforms.name, screenshots.url, websites.url, websites.category;
-    where id = ${igdbId}
+    where id = ${igdbId};
   `
   const results =  await igdbQuery('games', apicalypse)
   return results[0] || null
@@ -56,7 +57,7 @@ export async function getGameById(igdbId){
 export async function getTrendingGames(limit = 20, webOnly = false){
   const apicalypse = `
     fields name, summary, cover.url, genres.name, first_release_date, rating, platforms.name;
-    where ${buildPlatformClause(webOnly)} rating != null & cover 1= null;
+    where ${buildPlatformClause(webOnly)} rating != null & cover != null;
     sort rating desc;
     limit ${limit};
   `

@@ -3,7 +3,7 @@ import DB from '../utils/database.js'
 const CACHE_TTL_DAYS = 7
 
 export async function getCachedGames(igdbId){
-  const [result] = await DB.query('SELECT * FROM igbd_games where igdb_id = ?', [igdbId])
+  const [result] = await DB.query('SELECT * FROM igdb_games where igdb_id = ?', [igdbId])
   return result[0]
 }
 
@@ -29,7 +29,7 @@ export async function upsertCachedGame(gameData){
       summary = excluded.summary,
       cover_url = excluded.cover_url,
       genres = excluded.genres,
-      platform = excluded.platforms,
+      platforms = excluded.platforms,
       release_date = excluded.release_date,
       rating = excluded.rating,
       play_link_url = excluded.play_link_url,

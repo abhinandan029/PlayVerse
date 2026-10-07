@@ -1,5 +1,5 @@
 import { searchGames, getGameById, getTrendingGames, normalizeGame} from '../utils/igdb.js'
-import { getCachedGames, isCacheStale, upsertCachedGame, mapCachedRowToGame} from '../models/idgbGames.js'
+import { getCachedGames, isCacheStale, upsertCachedGame, mapCachedRowToGame} from '../models/igdbGames.js'
 
 export async function search(req, res){
   const {q, webOnly} = req.query
