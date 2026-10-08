@@ -28,7 +28,7 @@ export async function trending(req, res){
 
     normalized.forEach(game => upsertCachedGame(game).catch(console.error))
 
-    res.status(200).json({ games : normalized})
+    res.status(200).json({ games : normalized })
   }
   catch(error){
     console.error(error)
