@@ -12,6 +12,7 @@ import Activity from './components/activity.jsx'
 import ForgotPassword from "./components/forgotPassword.jsx"
 
 import Friends from "./components/friends.jsx"
+import Discover from "./components/discover.jsx"
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
@@ -56,6 +57,8 @@ function App() {
               <Route path="/" element={<Body />} />
               <Route path="/home" element={<Body />}/>
               <Route path="/about" element={<About />}/>
+
+              <Route path="/discover" element={<Discover />} />
 
               <Route path="/snake-game" element={<SnakeGame />} />
               <Route path="/floating-block" element={<FloatingBlock />} />
