@@ -1,7 +1,7 @@
 import {useNavigate, useLocation} from 'react-router-dom'
 import{ useState, useRef, useEffect} from 'react'
 
-import { House, Heart, Info, Users, Compass } from 'lucide-react'
+import { House, Heart, Users, Compass } from 'lucide-react'
 
 import {useAuth} from '../contexts/authContext.jsx'
 import {ProfileMenu} from './profile.jsx'
@@ -42,6 +42,14 @@ function Header() {
     return () => document.removeEventListener('click', handleOutsideClick)
   }, [profile])
 
+  const isActive = (path) => location.pathname === path || (path === "/home" && location.pathname === "/")
+  const navigationItems = [
+    { path: "/home", label: "Home", icon: House },
+    { path: "/discover", label: "Discover", icon: Compass },
+    ...(user ? [{ path: "/wishlist", label: "Wishlist", icon: Heart }] : []),
+    ...(user ? [{ path: "/friends", label: "Friends", icon: Users }] : []),
+  ]
+
   return (
     <div className="sticky top-0 z-888">
       <div className="min-h-18 sm:min-h-20 flex gap-2 py-3 px-4 sm:px-5 justify-between items-center bg-black border border-b-white/40">
@@ -54,41 +62,22 @@ function Header() {
         
         <div className="fixed bottom-3 left-10 right-10 z-888 flex items-center justify-around gap-1 p-2 bg-black/50 border border-white/40 rounded-xl backdrop-blur-sm  text-white text-sm sm:static sm:flex-row sm:gap-10 sm:p-0 sm:border-0 sm:mr-5 sm:text-[18px]">
           
-          <button 
-          className={`px-4 py-2 text-left rounded-md hover:bg-black/40 cursor-pointer ${location.pathname === "/home" || location.pathname === "/" ? "border border-red-500/60 bg-red-500/10" : ""}`}
-          onClick={() => navigate("/home")}>
-            <House className=""/>
-          </button>
-
-          <button 
-          className={`px-4 py-2 text-left rounded-md hover:bg-black/40 cursor-pointer ${location.pathname === "/discover" ? "border border-red-500/60 bg-red-500/10" : ""}`}
-          onClick={() => navigate("/discover")}>
-            <Compass />
-          </button>
-
-          { user && 
-            <button 
-            className={`px-4 py-2 text-left hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/wishlist" ? "border border-red-500/60 bg-red-500/10" : ""}`}
-            onClick={() => navigate("/wishlist")}>
-              <Heart />
-            </button> 
-          }
-
-          {
-            user && 
-            <button 
-            className={`px-4 py-2 text-left hover:bg-black/40 rounded-md cursor-pointer  ${location.pathname === "/friends" ? "border border-red-500/60 bg-red-500/10" : ""}`}
-            onClick={() => navigate("/friends")}>
-              <Users />
-            </button> 
-          }
-
-          <button 
-          className={`px-4 py-2 text-left hover:bg-black/40 rounded-md cursor-pointer ${location.pathname === "/about" ? "border border-red-500/60 bg-red-500/10" : ""}`}
-          onClick={() => navigate("/about")}>
-            <Info />
-          </button>
-
+          {navigationItems.map(({ path, label, icon: Icon }) => (
+            <button
+              className={`group flex h-12 min-w-14 cursor-pointer items-center justify-center gap-2 rounded-xl px-3 text-left transition-colors duration-200 sm:min-w-0 sm:px-5 ${isActive(path) ? "border border-red-500/60 bg-red-500/10 text-white" : "border border-transparent text-white/60 hover:bg-white/10 hover:text-white"}`}
+              key={path}
+              onClick={() => navigate(path)}
+              aria-label={label}
+              title={label}
+            >
+              <Icon className="size-6 sm:transition-transform sm:duration-200 sm:group-hover:scale-110" />
+              <span
+                className={`hidden overflow-hidden whitespace-nowrap text-lg font-semibold leading-none sm:block ${isActive(path) ? "pv-nav-label-in max-w-32 opacity-100" : "pv-nav-label-out max-w-0 opacity-0"}`}
+              >
+                {label}
+              </span>
+            </button>
+          ))}
 
           {
             user && !loading ? 

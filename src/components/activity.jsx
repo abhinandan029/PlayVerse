@@ -104,7 +104,7 @@ export default function ActivityPage() {
   const game = {1 : "floating block", 2 : "pac-man", 3 : "snake game"}
 
   return (
-    <div className="flex flex-col gap-8 mx-auto p-6 md:p-10 text-white" style={TILE_BG}>
+    <div className="pv-page flex flex-col gap-8 mx-auto p-4 text-white md:p-10" style={TILE_BG}>
 
       <div className="flex m-auto items-center gap-3">
         <Activity className="text-green-400 size-8" />
@@ -112,7 +112,7 @@ export default function ActivityPage() {
       </div>
 
       {/* Heatmap */}
-      <div className="w-full max-w-6xl m-auto border border-white/20 rounded-xl bg-black p-4 sm:p-6">
+      <div className="pv-card m-auto w-full max-w-6xl p-4 sm:p-6">
         {loading ? (
           <p className="text-white/50 text-center py-10">Loading...</p>
         ) : (
@@ -155,7 +155,7 @@ export default function ActivityPage() {
       </div>
 
       {/* Recent activity feed */}
-      <div className="w-full max-w-4xl m-auto border border-white/20 rounded-xl bg-black p-4 sm:p-6">
+      <div className="pv-card m-auto w-full max-w-4xl p-4 sm:p-6">
         <h2 className="text-2xl font-bold mb-5">Recent Activity</h2>
 
         {loading ? (

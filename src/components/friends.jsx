@@ -9,17 +9,17 @@ const TILE_BG = {
 function Friends(){
 
   return (
-    <div className="text-white" style={TILE_BG}>
+    <div className="pv-page text-white" style={TILE_BG}>
 
       <div className="flex items-center gap-4 px-5 sm:px-10 pt-8 sm:pt-10">
         <Users className="text-red-500 size-8 sm:size-10 fill-red-500" />
         <h1 className="text-4xl sm:text-5xl">Your Friends List</h1>
       </div>
 
-      <div className="flex flex-col items-center justify-center p-20 gap-4">
+      <div className="pv-card mx-4 mt-8 flex flex-col items-center justify-center gap-4 p-12 text-center sm:mx-auto sm:max-w-xl sm:p-20">
         <Users className="size-16 text-white/30" />
         <p className="text-white/50 text-xl">You dont have any friends...</p>
-        <button className="border px-4 py-2 rounded-md border-green-400 bg-green-400/10 cursor-pointer">
+        <button className="pv-button pv-button-accent">
           Add Friends
         </button>
       </div>
