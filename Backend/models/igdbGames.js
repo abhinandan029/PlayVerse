@@ -7,6 +7,31 @@ export async function getCachedGames(igdbId){
   return result[0]
 }
 
+export async function getCachedGamesByIds(gameIds){
+  if(gameIds.length === 0) return []
+  const placeholders = gameIds.map(() => '?').join(', ')
+  const [result] = await DB.query(
+    `SELECT * FROM igdb_games WHERE igdb_id IN (${placeholders})`,
+    gameIds
+  )
+  return result.map(mapCachedRowToGame)
+}
+
+export async function getCachedGameList(limit = 100, orderBy = 'cached_at DESC'){
+  const allowedOrderings = new Set([
+    'cached_at DESC',
+    'rating DESC',
+    'release_date DESC',
+    'name ASC',
+  ])
+  const ordering = allowedOrderings.has(orderBy) ? orderBy : 'cached_at DESC'
+  const [result] = await DB.query(
+    `SELECT * FROM igdb_games WHERE cover_url IS NOT NULL ORDER BY ${ordering} LIMIT ?`,
+    [limit]
+  )
+  return result.map(mapCachedRowToGame)
+}
+
 export function isCacheStale(cachedAt){
   const cachedDate = new Date(cachedAt)
   const ageInDays = (Date.now() - cachedDate.getTime()) / ( 1000 * 60 * 60 * 24)
@@ -44,6 +69,7 @@ export async function upsertCachedGame(gameData){
 }
 
 export function mapCachedRowToGame(row){
+  const rawJson = JSON.parse(row.raw_json || '{}')
   return {
     igdbId : row.igdb_id,
     name : row.name, 
@@ -53,6 +79,7 @@ export function mapCachedRowToGame(row){
     platforms : JSON.parse(row.platforms || '[]'),
     releaseDate : row.release_date,
     rating : row.rating,
+    screenshots : rawJson.screenshots?.map((screenshot) => `https:${screenshot.url.replace('t_thumb', 't_screenshot_med')}`) || [],
     playLink : row.play_link_url ? { url : row.play_link_url, source : row.play_link_source} : null
   }
 }
