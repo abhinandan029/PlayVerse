@@ -13,6 +13,7 @@ import ForgotPassword from "./components/forgotPassword.jsx"
 
 import Friends from "./components/friends.jsx"
 import Discover from "./components/discover.jsx"
+import GameDetails from "./components/GameDetails.jsx"
 
 import Login from './AuthPages/login.jsx'
 import Register from './AuthPages/register.jsx'
@@ -59,6 +60,7 @@ function App() {
               <Route path="/about" element={<About />}/>
 
               <Route path="/discover" element={<Discover />} />
+              <Route path="/discover/:igdbId" element={<GameDetails />} />
 
               <Route path="/snake-game" element={<SnakeGame />} />
               <Route path="/floating-block" element={<FloatingBlock />} />
