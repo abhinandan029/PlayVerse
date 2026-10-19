@@ -1,5 +1,6 @@
 import 'dotenv/config'
 
+import dns from 'node:dns'
 import express from 'express'
 import cors from 'cors'
 
@@ -13,6 +14,9 @@ import gamesRouter from './routes/gamesRouter.js'
 import wishlistRouter from './routes/wishlistRouter.js'
 import scoreRouter from './routes/scoreRouter.js'
 import activityRouter from './routes/activityRouter.js'
+import discoverRouter from './routes/discoverRouter.js'
+
+dns.setDefaultResultOrder('ipv4first')
 
 const app = express()
 
@@ -42,7 +46,8 @@ app.use("/api/user", userRouter)
 app.use("/api/games", gamesRouter)
 app.use("/api/wishlist", wishlistRouter)
 app.use("/api/score", scoreRouter)
-app.use('/api/activity', activityRouter)
+app.use("/api/activity", activityRouter)
+app.use("/api/discover", discoverRouter)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {

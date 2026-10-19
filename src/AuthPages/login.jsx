@@ -64,7 +64,7 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4" style={TILE_BG}>
+    <div className="pv-page flex min-h-screen flex-col items-center justify-center px-4" style={TILE_BG}>
 
       <button className="fixed top-5 left-5 p-1 rounded-md border border-red-500 cursor-pointer"
       onClick={() => navigate("/home")}>
@@ -79,7 +79,7 @@ export default function Login() {
       </h1>
 
       {/* Card */}
-      <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-5 sm:p-8">
+      <div className="pv-card w-full max-w-xl p-5 sm:p-8">
         
         <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
           
@@ -91,7 +91,7 @@ export default function Login() {
             <input 
               type="email"
               autoComplete="new-email"
-              className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
+              className="pv-input w-full px-4 py-2.5 text-xl placeholder-white/30"
               placeholder="exmaple@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -107,7 +107,7 @@ export default function Login() {
             <input 
               type="password"
               autoComplete="new-password"
-              className="w-full bg-white/10 border border-white/10 rounded-lg px-4 py-2.5 text-xl text-white placeholder-white/30 focus:outline-none"
+              className="pv-input w-full px-4 py-2.5 text-xl placeholder-white/30"
               placeholder="*********"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -127,7 +127,7 @@ export default function Login() {
             type="submit"
             value={status === "loggingIn" ? "Logging In" : "Login"}
             disabled={status === "loggingIn"}
-            className="w-full bg-white/20 hover:bg-white/30 transition-colors text-2xl text-white font-semibold rounded-lg py-3 mt-2 cursor-pointer"
+            className="pv-button w-full bg-white/15 text-2xl font-semibold"
           >
             Login
           </button>
@@ -145,7 +145,7 @@ export default function Login() {
         <div className="grid grid-cols-1 gap-3">
           <button
           type="button" 
-          className="flex items-center justify-center gap-3 bg-white/10 border border-white/20 rounded-lg py-2.5 text-white font-semibold text-xl cursor-pointer"
+          className="pv-button flex w-full gap-3 py-2.5 text-xl font-semibold"
           onClick={() => window.location.href = apiUrl('/api/auth/google')}>
             <svg className="w-6 h-6" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.63h6.46c-.28 1.5-1.13 2.77-2.4 3.62v3.01h3.88c2.27-2.09 3.58-5.17 3.58-8.81z"/>

@@ -38,7 +38,7 @@ export function ProfileMenu({ closeMenu }){
   if (!user) return null
 
   return (
-    <div className="flex flex-col fixed bottom-20 right-2 bg-black border border-white/60 rounded-xl z-900 sm:top-20 sm:right-10 sm:bottom-auto sm:left-auto" onClick={(e) => e.stopPropagation()}>
+    <div className="pv-card absolute bottom-[calc(100%+0.75rem)] right-0 z-[900] flex max-h-[calc(100dvh-8rem)] w-[min(21rem,calc(100vw-1.5rem))] flex-col overflow-y-auto sm:top-[calc(100%+0.75rem)] sm:right-0 sm:bottom-auto sm:max-h-[calc(100dvh-6rem)]" onClick={(e) => e.stopPropagation()}>
       <div className="flex gap-4 p-5 items-center">
         <img
           src={getAvatar(user.avatar || 'cat')}
@@ -98,6 +98,7 @@ export function ProfilePage(){
 
   const {user} = useAuth()
   const [allGames, setAllGames] = useState([])
+  const [discoverGames, setDiscoverGames] = useState([])
   const [loadingGames, setLoadingGames] = useState(true)
   const [activityData, setActivityData] = useState([])
   const { wishlistId, toggleWishlist, loading: wishlistLoading } = useWishlist()
@@ -121,6 +122,19 @@ export function ProfilePage(){
       }
     }
     fetchGames()
+
+    async function fetchDiscoverGames() {
+      try {
+        const res = await fetch(apiUrl('/api/wishlist/discover-games'), { credentials: 'include' })
+        if (res.ok) {
+          const data = await res.json()
+          setDiscoverGames(data.games)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchDiscoverGames()
   }, [])
 
   useEffect(() => {
@@ -194,7 +208,7 @@ export function ProfilePage(){
       {editing && <EditProfileModal onClose={() => setEditing(false)} forceUsername={isFirstTimeSetup} />}
       
       {/* Identity card */}
-      <div className="flex w-full max-w-6xl flex-col md:flex-row gap-6 md:gap-8 border border-white/20 rounded-xl bg-black p-5 sm:p-8">
+      <div className="pv-card flex w-full max-w-6xl flex-col gap-6 p-5 sm:p-8 md:flex-row md:gap-8">
 
         <img
           src={getAvatar(user.avatar || 'cat')}
@@ -215,7 +229,7 @@ export function ProfilePage(){
         {/* Quick stats */}
         <div className="flex gap-4 items-center md:justify-center shrink-0">
           
-          <div className="flex flex-col items-center border border-white/20 rounded-lg px-6 py-3 min-w-24">
+          <div className="pv-card flex min-w-24 flex-col items-center rounded-lg px-6 py-3">
             <span className="text-2xl font-bold text-green-400">{wishlistedGames.length}</span>
             <span className="text-xs text-white/40 uppercase tracking-wide">Wishlisted</span>
           </div>
@@ -232,7 +246,7 @@ export function ProfilePage(){
       </div>
 
       {/* Activity graph — real data, full year GitHub-style */}
-      <div className="w-full max-w-6xl border border-white/20 rounded-xl bg-black p-4 sm:p-6">
+      <div className="pv-card w-full max-w-6xl p-4 sm:p-6">
         <div className="flex items-center gap-3 mb-5">
           <Activity className="text-green-400 size-6" />
           <h2 className="text-2xl font-bold">Activity</h2>
@@ -284,7 +298,7 @@ export function ProfilePage(){
       </div>
 
       {/* Wishlist */}
-      <div className="max-w-6xl border border-white/20 rounded-xl bg-black p-6">
+      <div className="pv-card max-w-6xl p-6">
         <div className="flex items-center gap-3 mb-5">
           <Heart className="text-red-500 size-6 fill-red-500" />
           <h2 className="text-2xl font-bold">Wishlist</h2>
@@ -292,7 +306,7 @@ export function ProfilePage(){
 
         {loading ? (
           <p className="text-white/50 text-lg py-10 text-center">Loading...</p>
-        ) : wishlistedGames.length === 0 ? (
+        ) : wishlistedGames.length === 0 && discoverGames.length === 0 ? (
           <div className="flex flex-col items-center gap-4 py-14">
             <Gamepad2 className="size-14 text-white/30" />
             <p className="text-white/50">Nothing here yet. Add a few games you're eyeing.</p>
@@ -303,9 +317,41 @@ export function ProfilePage(){
             </button>
           </div>
         ) : (
+          <>
+          {discoverGames.length > 0 && (
+            <section className="mb-8">
+              <div className="mb-5 flex items-center gap-3">
+                <Gamepad2 className="size-6 text-green-400" />
+                <div>
+                  <h3 className="text-xl font-bold">Discover Wishlist</h3>
+                  <p className="text-sm text-white/45">Games saved from Discover.</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {discoverGames.map((game) => (
+                  <div className="pv-card pv-card-hover group relative overflow-hidden" key={game.igdbId}>
+                    <img className="aspect-video w-full bg-[#090909] object-contain p-2" src={game.coverUrl} alt={`${game.name} cover`} />
+                    <button className="absolute right-2 top-2 rounded-full bg-black/70 p-2 text-red-500" onClick={() => toggleWishlist(game.igdbId, "igdb")} type="button" aria-label={`Remove ${game.name} from wishlist`}>
+                      <Heart className="size-5 fill-current" />
+                    </button>
+                    <div className="flex items-center justify-between border-t border-white/20 px-4 py-3">
+                      <p className="line-clamp-2 text-lg font-semibold">{game.name}</p>
+                      <button className="pv-button px-3 py-1 text-sm" onClick={() => navigate(`/discover/${game.igdbId}`)} type="button">View</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+          {wishlistedGames.length > 0 && (
+          <section>
+          <div className="mb-5 flex items-center gap-3">
+            <Heart className="size-6 fill-red-500 text-red-500" />
+            <h3 className="text-xl font-bold">Classic Games</h3>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {wishlistedGames.map((game) => (
-              <div key={game.id} className="group relative border border-white/20 rounded-xl bg-black overflow-hidden">
+              <div key={game.id} className="pv-card pv-card-hover group relative overflow-hidden">
                 <img src={getImage(game.name)} className="w-full aspect-video object-cover group-hover:opacity-40 transition-opacity" alt={game.name} />
 
                 <button
@@ -320,7 +366,7 @@ export function ProfilePage(){
                     <p className="text-sm text-white/30">classic</p>
                   </div>
                   <button
-                    className="px-3 py-1 text-sm bg-white/10 rounded-md border border-white/40 cursor-pointer"
+                    className="pv-button px-3 py-1 text-sm"
                     onClick={() => navigate(`/${game.name.toLowerCase().replaceAll(" ", "-")}`)}>
                     Play
                   </button>
@@ -328,6 +374,9 @@ export function ProfilePage(){
               </div>
             ))}
           </div>
+          </section>
+          )}
+          </>
         )}
       </div>
 

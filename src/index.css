@@ -7,7 +7,7 @@
 html, body {
   margin : 0;
   min-width: 320px;
-  overflow-x: hidden;
+  overflow-x: clip;
   font-family : monospace;
   scroll-behavior : smooth;
   scrollbar-width : none;
@@ -21,9 +21,132 @@ html, body {
   background-color : hsl(0, 0%, 0%);
 }
 
+.pv-page {
+  min-height: calc(100dvh - 5rem);
+  color: white;
+  background-color: #000;
+}
+
+.pv-card {
+  background: #050505;
+  border: 1px solid hsl(0 0% 100% / 0.18);
+  border-radius: 1rem;
+  box-shadow: 0 1rem 2.5rem hsl(0 0% 0% / 0.28);
+}
+
+.pv-card-hover {
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.pv-card-hover:hover {
+  transform: translateY(-0.2rem);
+  border-color: hsl(0 85% 60% / 0.65);
+  background-color: hsl(0 0% 100% / 0.04);
+}
+
+.pv-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  border: 1px solid hsl(0 0% 100% / 0.3);
+  border-radius: 0.6rem;
+  padding: 0.55rem 1rem;
+  background: hsl(0 0% 100% / 0.08);
+  color: white;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease;
+}
+
+.pv-button:hover {
+  background: hsl(0 0% 100% / 0.16);
+  border-color: hsl(0 0% 100% / 0.55);
+}
+
+.pv-button-accent {
+  border-color: hsl(142 70% 55% / 0.65);
+  background: hsl(142 70% 45% / 0.16);
+}
+
+.pv-button-accent:hover {
+  background: hsl(142 70% 45% / 0.28);
+}
+
+.pv-input {
+  border: 1px solid hsl(0 0% 100% / 0.18);
+  border-radius: 0.6rem;
+  background: hsl(0 0% 100% / 0.08);
+  color: white;
+  outline: none;
+}
+
+.pv-input:focus {
+  border-color: hsl(142 70% 55% / 0.7);
+  box-shadow: 0 0 0 3px hsl(142 70% 45% / 0.12);
+}
+
+.pv-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid hsl(0 0% 100% / 0.2);
+  padding: 1.25rem 1rem;
+}
+
+.pv-section-heading-icon {
+  flex: 0 0 auto;
+  border: 1px solid hsl(0 85% 60% / 0.5);
+  border-radius: 0.75rem;
+  padding: 0.55rem;
+  background: hsl(0 85% 55% / 0.1);
+  color: #f87171;
+}
+
+.pv-section-heading-title {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.pv-section-heading-copy {
+  margin-top: 0.45rem;
+  color: hsl(0 0% 100% / 0.55);
+  font-size: 0.875rem;
+}
+
 @keyframes grow-progress {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
+}
+
+@keyframes nav-label-in {
+  from {
+    max-width: 0;
+    opacity: 0;
+  }
+  to {
+    max-width: 8rem;
+    opacity: 1;
+  }
+}
+
+@keyframes nav-label-out {
+  from {
+    max-width: 8rem;
+    opacity: 1;
+  }
+  to {
+    max-width: 0;
+    opacity: 0;
+  }
+}
+
+.pv-nav-label-in {
+  animation: nav-label-in 220ms ease-out both;
+}
+
+.pv-nav-label-out {
+  animation: nav-label-out 160ms ease-in both;
 }
 
 .mobile-game-button {
@@ -58,4 +181,3 @@ html, body {
   aspect-ratio: 1;
   min-width: 0;
 }
-

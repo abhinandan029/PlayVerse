@@ -29,7 +29,7 @@ export default function About() {
   const navigate = useNavigate()
 
   return (
-    <div className="flex flex-col text-white" style={TILE_BG}>
+    <div className="pv-page flex flex-col text-white" style={TILE_BG}>
 
       {/* Hero — framed like an arcade cabinet's instruction plaque */}
       <div className="max-w-4xl mx-auto w-full px-6 pt-24 pb-16 text-center">
@@ -52,7 +52,7 @@ export default function About() {
 
       {/* Instruction-card panel — the signature element */}
       <div className="max-w-4xl mx-auto w-full px-6 pb-16">
-        <div className="border-2 border-white/20 rounded-2xl bg-black overflow-hidden">
+        <div className="pv-card overflow-hidden">
 
           <div className="flex items-center gap-3 px-6 py-4 border-b-2 border-white/20 bg-white/5">
             <Sparkles className="text-red-500 size-5" />
@@ -81,7 +81,7 @@ export default function About() {
 
         <div className="grid grid-cols-3 gap-4">
           {["Snake Game", "Pac Man", "Floating Block"].map((game) => (
-            <div key={game} className="border border-white/20 rounded-lg px-4 py-3 text-center hover:border-green-400/50 transition-colors">
+            <div key={game} className="pv-card pv-card-hover rounded-lg px-4 py-3 text-center">
               <p className="font-semibold">{game}</p>
               <p className="text-xs text-white/30 mt-1">classic</p>
             </div>

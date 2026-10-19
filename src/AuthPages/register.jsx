@@ -181,7 +181,7 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4 py-16" style={TILE_BG}>
+    <div className="pv-page flex min-h-screen flex-col items-center justify-center px-4 py-16" style={TILE_BG}>
 
       <button className="fixed top-5 left-5 p-1 rounded-md border border-red-500 cursor-pointer"
         onClick={() => navigate("/home")}>
@@ -211,7 +211,7 @@ export default function Register() {
         ))}
       </div>
 
-      <div className="w-full max-w-xl bg-black border border-white/40 rounded-2xl p-5 sm:p-8">
+      <div className="pv-card w-full max-w-xl p-5 sm:p-8">
 
         <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
 

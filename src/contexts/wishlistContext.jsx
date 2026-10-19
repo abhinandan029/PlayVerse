@@ -43,7 +43,7 @@ export function WishlistProvider({ children }){
     fetchWishlist()
   }, [fetchWishlist])
 
-  async function toggleWishlist(gameId){
+  async function toggleWishlist(gameId, source = "classic"){
     if(!user) return false
 
     const wasWishlisted = wishlistId.has(gameId)
@@ -59,7 +59,7 @@ export function WishlistProvider({ children }){
         method : "POST",
         credentials : "include",
         headers : {"Content-Type" : "application/json"},
-        body : JSON.stringify({ gameId })
+        body : JSON.stringify({ gameId, source })
       })
 
       if(!res.ok){
