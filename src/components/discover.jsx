@@ -194,7 +194,7 @@ function Discover(){
       <div className="pointer-events-none absolute right-0 top-0 h-72 w-72 rounded-full bg-red-500/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-72 w-72 rounded-full bg-green-400/10 blur-3xl" />
 
-      <section className="relative z-10 mx-auto mb-16 w-full max-w-[96rem]">
+      <section className="relative z-10 mx-auto mb-16 w-full max-w-380">
         <div className="pv-section-heading">
           <Search className="pv-section-heading-icon size-11 sm:size-14" />
           <div>
@@ -247,7 +247,7 @@ function Discover(){
                 role="link"
                 tabIndex={0}
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#090909]">
+                <div className="relative aspect-4/3 w-full overflow-hidden bg-[#090909]">
                   <img
                     className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-105"
                     src={game.coverUrl}
@@ -291,7 +291,7 @@ function Discover(){
         )}
       </section>
 
-      <section className="relative z-10 mx-auto w-full max-w-[96rem]">
+      <section className="relative z-10 mx-auto w-full max-w-380">
         <div className="pv-section-heading mb-6">
           <ActiveIcon className="pv-section-heading-icon size-11 sm:size-14" />
           <div className="min-w-0 flex-1">
@@ -344,7 +344,7 @@ function Discover(){
               </button>
             </div>
             <div className="space-y-4 p-4">
-              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <div className="rounded-xl border border-white/10 bg-white/3 p-3">
                 <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-white/55">
                   <Gamepad2 className="size-4 text-red-300" />
                   More lists
@@ -363,7 +363,7 @@ function Discover(){
                   ))}
                 </div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <div className="rounded-xl border border-white/10 bg-white/3 p-3">
                 <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-white/55">
                   <Tags className="size-4 text-green-300" />
                   Genre
@@ -388,7 +388,7 @@ function Discover(){
                   ))}
                 </div>
               </div>
-              <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <div className="rounded-xl border border-white/10 bg-white/3 p-3">
                 <div className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-white/55">
                   <Star className="size-4 text-amber-300" />
                   Minimum rating
@@ -430,7 +430,7 @@ function Discover(){
               className="animate-pulse overflow-hidden rounded-2xl border border-white/15 bg-white/8"
               key={index}
             >
-              <div className="aspect-[4/3] w-full bg-white/15" />
+              <div className="aspect-4/3 w-full bg-white/15" />
               <div className="flex flex-col gap-4 p-5">
                 <div className="h-6 w-2/3 rounded bg-white/15" />
                 <div className="h-4 w-full rounded bg-white/15" />
@@ -462,7 +462,7 @@ function Discover(){
                 role="link"
                 tabIndex={0}
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#090909]">
+                <div className="relative aspect-4/3 w-full overflow-hidden bg-[#090909]">
                   <img
                     src={game.coverUrl}
                     alt={`${game.name} cover`}

@@ -47,7 +47,7 @@ function Header() {
     { path: "/home", label: "Home", icon: House },
     { path: "/discover", label: "Discover", icon: Compass },
     ...(user ? [{ path: "/wishlist", label: "Wishlist", icon: Heart }] : []),
-    ...(user ? [{ path: "/friends", label: "Friends", icon: Users }] : []),
+    // ...(user ? [{ path: "/friends", label: "Friends", icon: Users }] : []),
   ]
 
   return (

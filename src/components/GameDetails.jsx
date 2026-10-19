@@ -71,7 +71,7 @@ function GameDetails(){
     <main className="pv-page relative overflow-hidden p-4 sm:p-8" style={TILE_BG}>
       <div className="pointer-events-none absolute right-0 top-0 h-96 w-96 rounded-full bg-red-500/10 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-96 w-96 rounded-full bg-green-400/10 blur-3xl" />
-      <div className="relative z-10 mx-auto max-w-[96rem]">
+      <div className="relative z-10 mx-auto max-w-380">
         <button className="pv-button mb-8 gap-2" onClick={() => navigate(-1)} type="button">
           <ArrowLeft className="size-4" />
           Back
@@ -80,7 +80,7 @@ function GameDetails(){
         <section className="pv-card grid gap-8 overflow-hidden p-5 sm:p-8 lg:grid-cols-[minmax(18rem,28rem)_1fr]">
           <div className="flex items-start justify-center">
             <img
-              className="aspect-[4/3] w-full rounded-2xl border border-white/15 bg-[#090909] object-contain p-3"
+              className="aspect-4/3 w-full rounded-2xl border border-white/15 bg-[#090909] object-contain p-3"
               src={game.coverUrl}
               alt={`${game.name} cover`}
             />
